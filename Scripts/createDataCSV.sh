@@ -1,9 +1,9 @@
 #!/bin/bash
 
 pantheria="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/PanTHERIA.tsv"
-species="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data-selfmade/speciesList.txt"
-panHeader="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data-selfmade/headers.txt"
-traitCSV="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data-selfmade/ungulatesTraits.csv"
+species="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/speciesList.txt"
+panHeader="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/headers.txt"
+traitCSV="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/ungulatesTraits.csv"
 
 # Extract headers from Pantheria file, remove Binomial column
 header=$(head -n 1 ${pantheria} | sed -e 's/\<MSW05_Binomial\>//g'| awk '{for(i=0;i<=35;++i)print $i}' | tail -n 35 | tr '\n' ',' | sed -e 's/\<References\>//g' | sed '$ s/.$//' |  sed '$ s/.$//')
