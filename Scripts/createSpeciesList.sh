@@ -5,7 +5,7 @@ ungulatesTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/ungula
 numTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/S21191.tree"
 pantheria="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/PanTHERIA.tsv"
 idfile="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/id.csv"
-speciesTXT="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data-selfmade/speciesList.txt"
+speciesTXT="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/speciesList.txt"
 
 binomArray=()
 orderArray=()
