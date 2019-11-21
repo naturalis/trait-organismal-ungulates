@@ -4,8 +4,8 @@
 ungulatesTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/ungulates.tree"
 numTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/S21191.tree"
 pantheria="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/PanTHERIA.tsv"
-idfile="/home/zoe/Documents/GitHub/pages.csv"
 speciesTXT="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/speciesList.txt"
+idEOL="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/eolID.csv"
 
 binomArray=()
 orderArray=()
@@ -60,8 +60,8 @@ do
 		pant=$(grep "${grepname}" ${pantheria} | cut -f6-35 | tr "\t" "," | tr -d "\n")
 		pantArray1+=(${pant})
 
-		# Get ID from EoL file
-		eol=$(grep "${grepname}" ${idfile} | head -n 1 | tr ',' ' ' | awk '{printf $1}')
+		# Get ID from EoL-ID file
+		eol=$(grep "${grepname}" ${idEOL} | tr ',' ' ' | awk '{printf $3}')
 		eolIDarray+=(${eol})
 	fi
 done
