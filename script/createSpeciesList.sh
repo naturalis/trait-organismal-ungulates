@@ -55,14 +55,19 @@ do
 		species=$(grep "${grepname}" ${pantheria} | awk '{printf $4}')
 		speciesArray+=(${species})
 		
+		# Get domestication level
 		domArray+=("X")
 
+		# Get PanTHERIA columns
 		pant=$(grep "${grepname}" ${pantheria} | cut -f6-35 | tr "\t" "," | tr -d "\n")
 		pantArray1+=(${pant})
 
 		# Get ID from EoL-ID file
 		eol=$(grep "${grepname}" ${idEOL} | tr ',' ' ' | awk '{printf $3}')
 		eolIDarray+=(${eol})
+
+		
+		
 	fi
 done
 
