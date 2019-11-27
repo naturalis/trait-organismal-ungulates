@@ -35,13 +35,13 @@ rm ungulateSpecies.txt S21191Species.txt
 
 
 # Loop through speciesList and look up the orders from PanTHERIA
-# Needed orders: Artiodactyla (even-toed), Perissodactyla (uneven-toed) and Proboscidea (elephants)
+# Needed orders: Artiodactyla (even-toed), Perissodactyla (uneven-toed)
 for species in ${speciesList}
 do	
 	grepname=$(echo ${species} | sed 's/_/ /g')
 	order=$(grep "${grepname}" ${pantheria} | awk '{printf $1}')
 
-	if [[ ${order} == "Artiodactyla" ]]  || [[ ${order} == "Perissodactyla" ]] ||  [[ ${order} == "Proboscidea" ]]
+	if [[ ${order} == "Artiodactyla" ]]  || [[ ${order} == "Perissodactyla" ]]
 	then
 		binomArray+=(${species})
 		orderArray+=(${order})

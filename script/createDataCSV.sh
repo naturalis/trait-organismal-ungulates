@@ -18,7 +18,7 @@ header=$(head -n 1 ${pantheria} | sed -e 's/\<MSW05_Binomial\>//g'| awk '{for(i=
 headerTaxonomy=$(echo ${header} | cut -d ',' -f -4 | tr ',' ' ' | sed 's/\MSW05_//g' | tr ' ' ',')
 headerID=$(echo 'ID_EoL')
 headerTraits1=$(echo ${header} | cut -d ',' -f 5-)
-headerTraits2=$(echo 'Diet,AVGFoodConsumption,Sociality,SocialHierarchy,NumMales,GestationPeriod,MaturityReach,MatingSystem,NumOffspring,BreedingInterval,YearRoundBreeding,AVGWeight,DevelopmentStrategy,Horns/Antler,Topspeed,Lifespan,ActiveHours,NaturalPredators')
+headerTraits2=$(echo 'Diet,AVGFoodConsumption,Sociality,SocialHierarchy,NumMales,GestationPeriod,MaturityReach,MatingSystem,NumOffspring,BreedingInterval,YearRoundBreeding,AVGWeight,DevelopmentStrategy,Horns/Antler,Topspeed,Lifespan,ActiveHours,NaturalPredators,Motility')
 headerTraits3=$(echo 'CarryWeight,PullStrength,AVGMovingSpeed,AVGTravelDistance')
 
 
