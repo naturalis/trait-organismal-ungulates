@@ -1,0 +1,8 @@
+Term:
+	NaturalPredators
+
+Definition:
+	The number of natural predators the species has (not counting humans).
+
+Units:
+	Count

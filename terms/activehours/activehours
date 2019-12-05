@@ -1,0 +1,8 @@
+Term:
+	ActiveHours
+
+Definition:
+	The average number of hours the species is active during a day (24 hours).
+
+Units:
+	Hours

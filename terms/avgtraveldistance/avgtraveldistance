@@ -1,0 +1,8 @@
+Term:
+	AVGTravelDistance
+
+Definition:
+	The amount of meters a mature species can walk/run per day.
+
+Units:
+	Meters
