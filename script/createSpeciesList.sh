@@ -17,6 +17,7 @@ pantArray1=()
 pantArray2=()
 pantArrayfinal=()
 eolIDarray=()
+dietArray=()
 echo "" > "${speciesTXT}"
 
 
@@ -45,15 +46,20 @@ do
 	then
 		binomArray+=(${species})
 		orderArray+=(${order})
-
+	
+		# Get ID from EoL-ID file
+		eol=$(grep "${grepname}" ${idEOL} | tr ',' ' ' | awk '{printf $3}')
+		eolIDarray+=(${eol})
+		
+		# Get taxonomy
 		fam=$(grep "${grepname}" ${pantheria} | awk '{printf $2}')
 		famArray+=(${fam})
 
 		genus=$(grep "${grepname}" ${pantheria} | awk '{printf $3}')
 		genusArray+=(${genus})
 
-		species=$(grep "${grepname}" ${pantheria} | awk '{printf $4}')
-		speciesArray+=(${species})
+		speciesTax=$(grep "${grepname}" ${pantheria} | awk '{printf $4}')
+		speciesArray+=(${speciesTax})
 		
 		# Get domestication level
 		domArray+=("X")
@@ -62,11 +68,14 @@ do
 		pant=$(grep "${grepname}" ${pantheria} | cut -f6-35 | tr "\t" "," | tr -d "\n")
 		pantArray1+=(${pant})
 
-		# Get ID from EoL-ID file
-		eol=$(grep "${grepname}" ${idEOL} | tr ',' ' ' | awk '{printf $3}')
-		eolIDarray+=(${eol})
-
-		
+		# Get Diet
+		diet=$(curl -s https://animaldiversity.org/accounts/${species}/ | grep -A 5 Primary | tail -n1 | sed 's/.*">//' | cut -f1 -d "<")
+		if [[ ${diet} == "" ]]
+		then
+			dietArray+=("NA")
+		else
+			dietArray+=($diet)
+		fi		
 		
 	fi
 done
@@ -76,13 +85,12 @@ done
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s," "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" >> ${speciesTXT}
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" >> ${speciesTXT}
 
-	pantArray2=$(echo ${pantArray1[${i}]})
-	for (( y=0; y<=35; y++ ))
-	do
-		printf "%s," ${pantArray2[${y}]} >> ${speciesTXT}
-	done
+	#pantArray2=$(echo ${pantArray1[${i}]})
+	#printf "%s," ${pantArray2[${y}]} >> ${speciesTXT}
+	
+	#printf "%s" "${dietArray[${i}]}" >> ${speciesTXT}
 	printf "\n" >> ${speciesTXT}
 
 done
