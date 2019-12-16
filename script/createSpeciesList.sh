@@ -18,6 +18,7 @@ pantArray2=()
 pantArrayfinal=()
 eolIDarray=()
 dietArray=()
+gestArray=()
 echo "" > "${speciesTXT}"
 
 
@@ -68,15 +69,66 @@ do
 		pant=$(grep "${grepname}" ${pantheria} | cut -f6-35 | tr "\t" "," | tr -d "\n")
 		pantArray1+=(${pant})
 
-		# Get Diet
-		diet=$(curl -s https://animaldiversity.org/accounts/${species}/ | grep -A 5 Primary | tail -n1 | sed 's/.*">//' | cut -f1 -d "<")
-		if [[ ${diet} == "" ]]
+		# Get index.html for species
+		curl -o index.html https://animaldiversity.org/accounts/${species}/
+		url=$(curl -Ls url_effective} https://animaldiversity.org/accounts/${species}/ | tail -n1 | sed 's/<.*>//g' | awk '{$1=$1};1')
+
+		if [[ ${url} == "https://animaldiversity.org/accounts/${species}/classification/" ]]
 		then
 			dietArray+=("NA")
+			gestArray+=("NA")
+			
 		else
-			dietArray+=($diet)
-		fi		
-		
+			# Get Diet
+			# When there are multiple kinds of food the species eat, add category 6
+			# Else: add other category (1 - 5)
+			dietCount=$(cat index.html | grep -A 10 "herbivore</a>" | grep .*vore | wc -l)
+			if [[ ${dietCount} -gt "2" ]]
+			then 
+				dietArray+=("6")
+			else
+				
+				diet=$(cat index.html | grep -A 3 "herbivore</a>" | tail -n1 | sed 's/.*">//' | cut -f1 -d "<" | tr -s " ")
+
+				if [[ ${diet} == "" ]] ||  [[ ${diet} == " " ]]
+				then
+					dietArray+=("NA")
+				elif [[ ${diet} == "frugivore" ]]
+				then
+					dietArray+=("1")
+				elif [[ ${diet} == "granivore" ]]
+				then
+					dietArray+=("2")
+				elif [[ ${diet} == "nectivore" ]]
+				then
+					dietArray+=("3")
+				elif [[ ${diet} == "folivore" ]]
+				then
+					dietArray+=("4")
+				elif [[ ${diet} == "lignivore" ]]
+				then
+					dietArray+=("5")
+				fi
+			fi
+			
+			# Get GestationPeriod
+
+#curl -s h//animaldiversity.org/accounts/Addax_nasomaculatus/ | grep -A 1 "gestation" | tail -n 1 | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1' | sed 's/[^0-9. ]*//g'| awk '{printf (($1+$2)/2)}'
+	
+			gestPeriod=$(grep -A 1 "Range gestation period" index.html  | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1' | sed 's/[^0-9. ]*//g')
+
+			if [[ ${gestPeriod} == "" ]]
+			then
+				gestArray+=("NA")		
+			elif [[ $(echo ${gestPeriod} | awk '{printf $2}') == "" ]]
+			then
+				gestArray+=($gestPeriod)
+			else
+				gestArray+=($(echo ${gestPeriod} | awk '{printf (($1+$2)/2)}'))
+			fi
+			
+			rm index.html
+		fi
 	fi
 done
 
@@ -85,12 +137,8 @@ done
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" >> ${speciesTXT}
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" >> ${speciesTXT}
 
-	#pantArray2=$(echo ${pantArray1[${i}]})
-	#printf "%s," ${pantArray2[${y}]} >> ${speciesTXT}
-	
-	#printf "%s" "${dietArray[${i}]}" >> ${speciesTXT}
 	printf "\n" >> ${speciesTXT}
 
 done
