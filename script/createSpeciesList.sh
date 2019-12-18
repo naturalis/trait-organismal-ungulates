@@ -115,16 +115,30 @@ do
 
 #curl -s h//animaldiversity.org/accounts/Addax_nasomaculatus/ | grep -A 1 "gestation" | tail -n 1 | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1' | sed 's/[^0-9. ]*//g'| awk '{printf (($1+$2)/2)}'
 	
-			gestPeriod=$(grep -A 1 "Range gestation period" index.html  | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1' | sed 's/[^0-9. ]*//g')
-
-			if [[ ${gestPeriod} == "" ]]
+			gestPeriod=$(grep -A 1 "Range gestation period" index.html  | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
+		
+			if [[ $(echo ${gestPeriod} |  grep "to" | wc -l) == 0 ]]
 			then
-				gestArray+=("NA")		
-			elif [[ $(echo ${gestPeriod} | awk '{printf $2}') == "" ]]
+				if [[  $(echo ${gesPeriod} | grep "days" | wc -l) == 1 ]]
+				then
+					gestArray+=($(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g'))
+				elif [[  $(echo ${gesPeriod} | grep "months" | wc -l) == 1 ]]
+				then
+					months=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g')
+					gestArray+=(${months}*30.4167)
+				fi
+			elif [[ $(echo ${gestPeriod} |  grep "to" | wc -l) == 1 ]]
 			then
-				gestArray+=($gestPeriod)
+				if [[  $(echo ${gesPeriod} | grep "days" | wc -l) == 1 ]]
+				then
+					gestArray+=($(echo ${gesPeriod} | sed 's/[^0-9. ]*//g' | awk '{printf (($1+$2)/2)}'))
+				elif [[  $(echo ${gesPeriod} | grep "months" | wc -l) == 1 ]]
+				then
+					monthsRange=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g' | awk '{printf (($1+$2)/2)}')
+					gestArray+=(${monthsRange}*30.4167)
+				fi
 			else
-				gestArray+=($(echo ${gestPeriod} | awk '{printf (($1+$2)/2)}'))
+				gestArray+=("NA")
 			fi
 			
 			rm index.html
