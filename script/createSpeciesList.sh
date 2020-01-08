@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# DOCUMENTATION ABOUT CHANGING PATHS TO OWN DIRECTORIES
+
 # Declaring variables
 ungulatesTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/ungulates.tree"
 numTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/S21191.tree"
@@ -19,6 +21,27 @@ pantArrayfinal=()
 eolIDarray=()
 dietArray=()
 gestArray=()
+avgfoodArray=()		#NOGNIET
+socArray=()
+hierArray=()
+maleArray=()		#NOGNIET
+matureArray=()		#NOGNIET
+matingArray=()		#NOGNIET
+offspringArray=()	#NOGNIET
+breedintArray=()	#NOGNIET
+yearbreedArray=()	#NOGNIET
+weightArray=()		#NOGNIET
+devstratArray=()	#NOGNIET
+hornsArray=()		#NOGNIET
+speedArray=()		#NOGNIET
+spanArray=()		#NOGNIET
+activeArray=()		#NOGNIET
+predArray=()		#NOGNIET
+motilArray=()		#NOGNIET
+carryArray=()		#NOGNIET
+pullArray=()		#NOGNIET
+movespeedArray=()	#NOGNIET
+travdistArray=()	#NOGNIET
 echo "" > "${speciesTXT}"
 
 
@@ -79,8 +102,8 @@ do
 			gestArray+=("NA")
 			
 		else
-			# Get Diet
-			# When there are multiple kinds of food the species eat, add category 6
+			## Get Diet
+			# When there are multiple kinds of food the species eats, add category 6
 			# Else: add other category (1 - 5)
 			dietCount=$(cat index.html | grep -A 10 "herbivore</a>" | grep .*vore | wc -l)
 			if [[ ${dietCount} -gt "2" ]]
@@ -111,49 +134,89 @@ do
 				fi
 			fi
 			
-			# Get GestationPeriod
+			## Get GestationPeriod
+			# Check if the gestPeriod contains a range, by checking if it contains 'to'
+			# If not, check if the unit is Days or Months 
+			# If days: add number of days to the Array. If months: multiply by 30.4167 and add the outcome to the Array.
+			#
+			# If the gestPeriod contains a range, calculate the mean. After that, check if the unit is Days or Months
+			# If Days: add number of days to the Array. If months: multiply by 30.4167 and add the outcome to the Array.
+			
+			gestPeriod=$(grep -A 1 "gestation period<" index.html | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
 
-#curl -s h//animaldiversity.org/accounts/Addax_nasomaculatus/ | grep -A 1 "gestation" | tail -n 1 | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1' | sed 's/[^0-9. ]*//g'| awk '{printf (($1+$2)/2)}'
-	
-			gestPeriod=$(grep -A 1 "Range gestation period" index.html  | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
-		
 			if [[ $(echo ${gestPeriod} |  grep "to" | wc -l) == 0 ]]
 			then
-				if [[  $(echo ${gesPeriod} | grep "days" | wc -l) == 1 ]]
+				if [[  $(echo ${gestPeriod} | grep "days" | wc -l) == 1 ]]
 				then
-					gestArray+=($(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g'))
-				elif [[  $(echo ${gesPeriod} | grep "months" | wc -l) == 1 ]]
+					gestDay=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g')
+					gestArray+=("${gestDay}")
+				elif [[  $(echo ${gestPeriod} | grep "months" | wc -l) == 1 ]]
 				then
 					months=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g')
-					gestArray+=(${months}*30.4167)
+					gestDays=$(echo "${months}*30.4167" | bc)
+					gestArray+=("${gestDays}")
+				else
+					gestArray+=("NA")
 				fi
+
 			elif [[ $(echo ${gestPeriod} |  grep "to" | wc -l) == 1 ]]
 			then
-				if [[  $(echo ${gesPeriod} | grep "days" | wc -l) == 1 ]]
+				if [[  $(echo ${gestPeriod} | grep "days" | wc -l) == 1 ]]
 				then
-					gestArray+=($(echo ${gesPeriod} | sed 's/[^0-9. ]*//g' | awk '{printf (($1+$2)/2)}'))
-				elif [[  $(echo ${gesPeriod} | grep "months" | wc -l) == 1 ]]
+					gestDay2=$(echo ${gestPeriod} | sed 's/[^0-9. ]*//g' | awk '{printf (($1+$2)/2)}')
+					gestArray+=("${gestDay2}")
+				elif [[  $(echo ${gestPeriod} | grep "months" | wc -l) == 1 ]]
 				then
 					monthsRange=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g' | awk '{printf (($1+$2)/2)}')
-					gestArray+=(${monthsRange}*30.4167)
+					gestDays2=$(echo "${monthsRange}*30.4167" | bc)
+					gestArray+=("${gestDays2}")
+				else
+					gestArray+=("NA")
 				fi
+
 			else
 				gestArray+=("NA")
 			fi
 			
-			rm index.html
+			## Get Sociality
+			# Code for Solitary on ADW database: 	#20020904145381
+			# Code for Groups on ADW database: 	#20020904145492
+			# Grep the index.html for the different codes per species. 
+			# Add 1 to Array if the species is solitary, add 2 if they live in groups.
+			# Add NA if the data isn't available for the species.
+
+			if [[ $(grep "#20020904145381" index.html | wc -l) == 1  ]]
+			then
+				socArray+=("1")
+			elif [[ $(grep "#20020904145492" index.html | wc -l) == 1 ]]
+			then
+				socArray+=("2")
+			else
+				socArray+=("NA")
+			fi
+			
+			## Get Social Hierarchy
+			# Code for Dominance Hierarchy:		#20020904145738
+			
+			if [[ $(grep "#20020904145738" index.html | wc -l) == 1  ]]
+			then
+				hierArray+=("1")
+			else
+				hierArray+=("2")
+			fi
 		fi
+		rm index.html
 	fi
 done
 
-
+##printf '%s\n' "${gestArray[0]}"
 
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" >> ${speciesTXT}
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" >> ${speciesTXT}
 
-	printf "\n" >> ${speciesTXT}
+	printf "\n"  >> ${speciesTXT}
 
 done
 
