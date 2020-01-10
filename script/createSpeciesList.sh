@@ -25,7 +25,8 @@ avgfoodArray=()		#NOGNIET
 socArray=()
 hierArray=()
 maleArray=()		#NOGNIET
-matureArray=()		#NOGNIET
+maturemArray=()
+maturefArray=()
 matingArray=()		#NOGNIET
 offspringArray=()	#NOGNIET
 breedintArray=()	#NOGNIET
@@ -100,6 +101,10 @@ do
 		then
 			dietArray+=("NA")
 			gestArray+=("NA")
+			socArray+=("NA")
+			hierArray+=("NA")
+			maturemArray+=("NA")
+			maturefArray+=("NA")
 			
 		else
 			## Get Diet
@@ -204,17 +209,127 @@ do
 			else
 				hierArray+=("2")
 			fi
+			
+			## Get MaturityReach (Male and Female)
+			if [[ $(grep "reproductive maturity (female)" index.html | wc -l) == 1 ]] || [[ $(grep "reproductive maturity (female)" index.html | wc -l) == 2 ]]
+			then
+				matf=$(grep -A 1 "reproductive maturity (female)" index.html | grep "</dd>" | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
+				if [[ $(echo ${matf} | grep "to"  | wc -l) == 1 ]] || [[ $(echo ${matf} | grep "-" | wc -l) == 1 ]]
+				then
+					if [[ $(echo ${matf} | grep "years" | wc -l) == 1 ]]
+					then
+						matf=$(echo ${matf} | sed 's/-/ to /g')
+						matfmean=$(echo ${matf} | awk '{printf (($1+$3)/2)}')
+						matfmonths=$(echo "${matfmean}*12" | bc)
+					elif [[ $(echo ${matf} | grep "months" | wc -l) == 1 ]]
+					then
+						matf=$(echo ${matf} | sed 's/-/ to /g')
+						matfmean=$(echo ${matf} | awk '{printf (($1+$3)/2)}')
+						matfmonths=${matfmean}
+					elif [[ $(echo ${matf} | grep "days" | wc -l) == 1 ]]
+					then
+						matf=$(echo ${matf} | sed 's/-/ to /g' | tr -d ",")
+						matfmean=$(echo ${matf} | awk '{printf (($1+$3)/2)}')
+						matfmonths=$(echo "print ${matfmean}/30.4167" | python2)
+					else
+						matfmonths=("NA")
+					fi
+				elif [[ $(echo ${matf} | grep "to" | wc -l) == 0 ]]
+				then
+					if [[ $(echo ${matf} | grep "years" | wc -l) == 1 ]]
+					then
+						matfyear=$(echo ${matf} | awk '{printf $1}')
+						matfmonths=$(echo "${matfyear}*12" | bc)
+					elif [[ $(echo ${matf} | grep "months" | wc -l) == 1 ]]
+					then
+						matfmonths=$(echo ${matf} | awk '{printf $1}')
+					elif [[ $(echo ${matf} | grep "days" | wc -l) == 1 ]]
+					then
+						matfdays=$(echo ${matf} | awk '{printf $1}' | tr -d ",")
+						matfmonths=$(echo "print ${matfdays}/30.4167" | python2)
+					else
+						matfmonths=$("NA")
+					fi
+				fi
+				maturefArray+=("${matfmonths}")
+			else
+				maturefArray+=("NA")
+			fi
+
+			if [[ $(grep "reproductive maturity (male)" index.html | wc -l) == 1 ]] || [[ $(grep "reproductive maturity (male)" index.html | wc -l) == 2 ]]
+			then
+				matm=$(grep -A 1 "reproductive maturity (male)" index.html| grep "</dd>" | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
+				if [[ $(echo ${matm} | grep "to" | wc -l) == 1 ]] || [[ $(echo ${matm} | grep "-" | wc -l) == 1 ]]
+				then
+					if [[ $(echo ${matm} | grep "years" | wc -l) == 1 ]]
+					then
+						matm=$(echo ${matm} | sed 's/-/ to /g')
+						matmmean=$(echo ${matm} | awk '{printf (($1+$3)/2)}')
+						matmmonths=$(echo "${matmmean}*12" | bc)
+					elif [[ $(echo ${matm} | grep "months" | wc -l) == 1 ]]
+					then
+						matm=$(echo ${matm} | sed 's/-/ to /g')
+						matmmean=$(echo ${matm} | awk '{printf (($1+$3)/2)}')
+						matmmonths=${matmmean}
+					elif [[ $(echo ${matm} | grep "days" | wc -l) == 1 ]]
+					then
+						matm=$(echo ${matm} | sed 's/-/ to /g' | tr -d ",")
+						matmmean=$(echo ${matm} | awk '{printf (($1+$3)/2)}')
+						matmmonths=$(echo "print ${matmmean}/30.4167" | python2)
+					else
+						matmmonths=("NA")
+					fi
+				elif [[ $(echo ${matm} | grep "to" | wc -l) == 0 ]]
+				then
+					if [[ $(echo ${matm} | grep "years" | wc -l) == 1 ]]
+					then
+						matmyear=$(echo ${matm} | awk '{printf $1}')
+						matmmonths=$(echo "${matmyear}*12" | bc)
+					elif [[ $(echo ${matm} | grep "months" | wc -l) == 1 ]]
+					then
+						matmmonths=$(echo ${matm} | awk '{printf $1}')
+					elif [[ $(echo ${matm} | grep "days" | wc -l) == 1 ]]
+					then
+						matmdays=$(echo ${matm} | awk '{printf $1}' | tr -d ",")
+						matmmonths=$(echo "print ${matmdays}/30.4167" | python2)
+					else
+						matmmonths=$("NA")
+					fi
+				fi
+				maturemArray+=("${matmmonths}")
+			else
+				maturemArray+=("NA")
+			fi
+			
+			## Get MatingSystem
+			# Monogamy (1), polyandry (2), polygyny (3) and polygynandry (4)
+			if [[ $(grep "#20020904145332" index.html | wc -l) == 1 ]]
+			then
+				matingArray+=("1")
+			elif [[ $(grep "#20020904145372" index.html | wc -l) == 1 ]]
+			then
+				matingArray+=("2")
+			elif [[ $(grep "#20020904145840" index.html | wc -l) == 1 ]]
+			then
+				matingArray+=("3")
+			elif [[ $(grep "#20020904145483" index.html | wc -l) == 1 ]]
+			then
+				matingArray+=("4")
+
+			else
+				matingArray+=("NA")
+			fi
+
+			
 		fi
 		rm index.html
 	fi
 done
 
-##printf '%s\n' "${gestArray[0]}"
-
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" >> ${speciesTXT}
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" >> ${speciesTXT}
 
 	printf "\n"  >> ${speciesTXT}
 
