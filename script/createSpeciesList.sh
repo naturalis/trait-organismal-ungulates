@@ -27,8 +27,8 @@ hierArray=()
 maleArray=()		#NOGNIET
 maturemArray=()
 maturefArray=()
-matingArray=()		#NOGNIET
-offspringArray=()	#NOGNIET
+matingArray=()
+litterArray=()
 breedintArray=()	#NOGNIET
 yearbreedArray=()	#NOGNIET
 weightArray=()		#NOGNIET
@@ -94,8 +94,9 @@ do
 		pantArray1+=(${pant})
 
 		# Get index.html for species
-		curl -o index.html https://animaldiversity.org/accounts/${species}/
-		url=$(curl -Ls url_effective} https://animaldiversity.org/accounts/${species}/ | tail -n1 | sed 's/<.*>//g' | awk '{$1=$1};1')
+		curl -o indexADW.html https://animaldiversity.org/accounts/${species}/
+		curl -o indexEOL.html https://eol.org/pages/${eol}/data
+		url=$(curl -Ls -w %{url_effective} https://animaldiversity.org/accounts/${species}/ | tail -n1 | sed 's/<.*>//g' | awk '{$1=$1};1')
 
 		if [[ ${url} == "https://animaldiversity.org/accounts/${species}/classification/" ]]
 		then
@@ -110,13 +111,13 @@ do
 			## Get Diet
 			# When there are multiple kinds of food the species eats, add category 6
 			# Else: add other category (1 - 5)
-			dietCount=$(cat index.html | grep -A 10 "herbivore</a>" | grep .*vore | wc -l)
+			dietCount=$(cat indexADW.html | grep -A 10 "herbivore</a>" | grep .*vore | wc -l)
 			if [[ ${dietCount} -gt "2" ]]
 			then 
 				dietArray+=("6")
 			else
 				
-				diet=$(cat index.html | grep -A 3 "herbivore</a>" | tail -n1 | sed 's/.*">//' | cut -f1 -d "<" | tr -s " ")
+				diet=$(cat indexADW.html | grep -A 3 "herbivore</a>" | tail -n1 | sed 's/.*">//' | cut -f1 -d "<" | tr -s " ")
 
 				if [[ ${diet} == "" ]] ||  [[ ${diet} == " " ]]
 				then
@@ -147,7 +148,7 @@ do
 			# If the gestPeriod contains a range, calculate the mean. After that, check if the unit is Days or Months
 			# If Days: add number of days to the Array. If months: multiply by 30.4167 and add the outcome to the Array.
 			
-			gestPeriod=$(grep -A 1 "gestation period<" index.html | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
+			gestPeriod=$(grep -A 1 "gestation period<" indexADW.html | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
 
 			if [[ $(echo ${gestPeriod} |  grep "to" | wc -l) == 0 ]]
 			then
@@ -186,14 +187,14 @@ do
 			## Get Sociality
 			# Code for Solitary on ADW database: 	#20020904145381
 			# Code for Groups on ADW database: 	#20020904145492
-			# Grep the index.html for the different codes per species. 
+			# Grep the indexADW.html for the different codes per species. 
 			# Add 1 to Array if the species is solitary, add 2 if they live in groups.
 			# Add NA if the data isn't available for the species.
 
-			if [[ $(grep "#20020904145381" index.html | wc -l) == 1  ]]
+			if [[ $(grep "#20020904145381" indexADW.html| wc -l) == 1  ]]
 			then
 				socArray+=("1")
-			elif [[ $(grep "#20020904145492" index.html | wc -l) == 1 ]]
+			elif [[ $(grep "#20020904145492" indexADW.html | wc -l) == 1 ]]
 			then
 				socArray+=("2")
 			else
@@ -203,7 +204,7 @@ do
 			## Get Social Hierarchy
 			# Code for Dominance Hierarchy:		#20020904145738
 			
-			if [[ $(grep "#20020904145738" index.html | wc -l) == 1  ]]
+			if [[ $(grep "#20020904145738" indexADW.html | wc -l) == 1  ]]
 			then
 				hierArray+=("1")
 			else
@@ -211,9 +212,9 @@ do
 			fi
 			
 			## Get MaturityReach (Male and Female)
-			if [[ $(grep "reproductive maturity (female)" index.html | wc -l) == 1 ]] || [[ $(grep "reproductive maturity (female)" index.html | wc -l) == 2 ]]
+			if [[ $(grep "reproductive maturity (female)" indexADW.html | wc -l) == 1 ]] || [[ $(grep "reproductive maturity (female)" indexADW.html | wc -l) == 2 ]]
 			then
-				matf=$(grep -A 1 "reproductive maturity (female)" index.html | grep "</dd>" | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
+				matf=$(grep -A 1 "reproductive maturity (female)" indexADW.html | grep "</dd>" | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
 				if [[ $(echo ${matf} | grep "to"  | wc -l) == 1 ]] || [[ $(echo ${matf} | grep "-" | wc -l) == 1 ]]
 				then
 					if [[ $(echo ${matf} | grep "years" | wc -l) == 1 ]]
@@ -256,9 +257,9 @@ do
 				maturefArray+=("NA")
 			fi
 
-			if [[ $(grep "reproductive maturity (male)" index.html | wc -l) == 1 ]] || [[ $(grep "reproductive maturity (male)" index.html | wc -l) == 2 ]]
+			if [[ $(grep "reproductive maturity (male)" indexADW.html | wc -l) == 1 ]] || [[ $(grep "reproductive maturity (male)" indexADW.html | wc -l) == 2 ]]
 			then
-				matm=$(grep -A 1 "reproductive maturity (male)" index.html| grep "</dd>" | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
+				matm=$(grep -A 1 "reproductive maturity (male)" indexADW.html| grep "</dd>" | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
 				if [[ $(echo ${matm} | grep "to" | wc -l) == 1 ]] || [[ $(echo ${matm} | grep "-" | wc -l) == 1 ]]
 				then
 					if [[ $(echo ${matm} | grep "years" | wc -l) == 1 ]]
@@ -303,33 +304,80 @@ do
 			
 			## Get MatingSystem
 			# Monogamy (1), polyandry (2), polygyny (3) and polygynandry (4)
-			if [[ $(grep "#20020904145332" index.html | wc -l) == 1 ]]
+			if [[ $(grep "#20020904145332" indexADW.html | wc -l) == 1 ]]
 			then
 				matingArray+=("1")
-			elif [[ $(grep "#20020904145372" index.html | wc -l) == 1 ]]
+			elif [[ $(grep "#20020904145372" indexADW.html | wc -l) == 1 ]]
 			then
 				matingArray+=("2")
-			elif [[ $(grep "#20020904145840" index.html | wc -l) == 1 ]]
+			elif [[ $(grep "#20020904145840" indexADW.html | wc -l) == 1 ]]
 			then
 				matingArray+=("3")
-			elif [[ $(grep "#20020904145483" index.html | wc -l) == 1 ]]
+			elif [[ $(grep "#20020904145483" indexADW.html | wc -l) == 1 ]]
 			then
 				matingArray+=("4")
 
 			else
 				matingArray+=("NA")
 			fi
-
 			
+			## Get Litter size
+			# Amount of litter per pregnancy from the EoL database
+			if [[ $(grep -m 1 "clutch/brood/litter size</div>" indexEOL.html | wc -l) == 1 ]]
+			then
+				littersize=$(grep -m 1 -A 15 "clutch/brood/litter size</div>" indexEOL.html | grep -A 1 "trait-val" | tail -n 1)
+			else
+				littersize=("NA")
+			fi
+	
+			litterArray+=$(echo ${littersize} | tr "," ".")
+			
+			## Get Breeding Interval	WERKTNOGNIETGEENIDEE
+			# From EoL
+			if [[ $(grep "inter-birth interval</div>" indexEOL.html | wc -l) -ge 1 ]]
+			then
+				
+				if [[ $(grep -B 3  "inter-birth interval</div>" indexEOL.html | grep "AnAge" | wc -l) == 1 ]]
+				then
+					birthInt=$(grep -B 3 -A 11 "inter-birth interval</div>" indexEOL.html | grep -A 14 "AnAge" | tail -n 1)
+				else
+					birthInt=$(grep -m 1 -A 11 "inter-birth interval</div>" indexEOL.html | tail -n 1)
+				fi
+				
+#				if [[ $(echo ${birthInt} | grep "months" | wc -l) == 1 ]]
+#				then
+#					birthInt=$(echo ${birthInt} | sed 's/[^0-9]*//g')
+#					avgBirthint=$(echo "${birthInt}*30.4167" | bc)
+#				elif [[ $(echo ${birthInt} | grep "years" | wc -l) == 1 ]]
+#				then
+#					birthInt=$(echo ${birthInt} | sed 's/[^0-9]*//g')
+#					avgBirthint=$(echo "${birthInt}*365" | bc)
+#				else
+#					avgBirthint=$(echo ${birthInt} | sed 's/[^0-9]*//g')
+#				fi
+				avgBirthint=$(echo ${birthInt} | sed 's/[^0-9]*//g')
+				breedintArray+=("${avgBirthint}")
+			else
+				breedintArray+=("NA")
+			fi
+			
+			
+
 		fi
-		rm index.html
+		rm indexADW.html
+		rm indexEOL.html
 	fi
+done
+
+for (( i=0; i<=${#breedintArray[@]}; i++ ))
+do
+	printf "%s\t\t%s\n" "${binomArray[${i}]}" "${breedintArray[${i}]}"
 done
 
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" >> ${speciesTXT}
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" >> ${speciesTXT}
 
 	printf "\n"  >> ${speciesTXT}
 
