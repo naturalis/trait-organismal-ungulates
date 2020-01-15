@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # DOCUMENTATION ABOUT CHANGING PATHS TO OWN DIRECTORIES
+## Need Python2
 
 # Declaring variables
 ungulatesTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/ungulates.tree"
@@ -29,16 +30,17 @@ maturemArray=()
 maturefArray=()
 matingArray=()
 litterArray=()
-breedintArray=()	#NOGNIET
-yearbreedArray=()	#NOGNIET
-weightArray=()		#NOGNIET
-devstratArray=()	#NOGNIET
+breedintArray=()
+yearbreedArray=()
+weightArray=()
+parcareArray=()
+devstratArray=()
 hornsArray=()		#NOGNIET
 speedArray=()		#NOGNIET
-spanArray=()		#NOGNIET
+lifeArray=()
 activeArray=()		#NOGNIET
 predArray=()		#NOGNIET
-motilArray=()		#NOGNIET
+motilArray=()
 carryArray=()		#NOGNIET
 pullArray=()		#NOGNIET
 movespeedArray=()	#NOGNIET
@@ -329,10 +331,10 @@ do
 			else
 				littersize=("NA")
 			fi
-	
-			litterArray+=$(echo ${littersize} | tr "," ".")
+
+			litterArray+=("${littersize}")
 			
-			## Get Breeding Interval	WERKTNOGNIETGEENIDEE
+			## Get Breeding Interval
 			# From EoL
 			if [[ $(grep "inter-birth interval</div>" indexEOL.html | wc -l) -ge 1 ]]
 			then
@@ -344,40 +346,122 @@ do
 					birthInt=$(grep -m 1 -A 11 "inter-birth interval</div>" indexEOL.html | tail -n 1)
 				fi
 				
-#				if [[ $(echo ${birthInt} | grep "months" | wc -l) == 1 ]]
-#				then
-#					birthInt=$(echo ${birthInt} | sed 's/[^0-9]*//g')
-#					avgBirthint=$(echo "${birthInt}*30.4167" | bc)
-#				elif [[ $(echo ${birthInt} | grep "years" | wc -l) == 1 ]]
-#				then
-#					birthInt=$(echo ${birthInt} | sed 's/[^0-9]*//g')
-#					avgBirthint=$(echo "${birthInt}*365" | bc)
-#				else
-#					avgBirthint=$(echo ${birthInt} | sed 's/[^0-9]*//g')
-#				fi
 				avgBirthint=$(echo ${birthInt} | sed 's/[^0-9]*//g')
-				breedintArray+=("${avgBirthint}")
+				breedintArray+=("${avgBirthint}")		
 			else
 				breedintArray+=("NA")
 			fi
-			
-			
+		
+			## Get Year Round Breeding
+			# Code for year round on ADW database: 	#20020904145698
+			# Code for seasonal on ADW database: 	#20020904145584
+			# Grep the indexADW.html for the different codes per species. 
+			# Add 1 to Array if the species breeds all year, add 2 if they only breed seasonal.
+			# Add NA if the data isn't available for the species.
+			if [[ $(grep "#20020904145698" indexADW.html | wc -l) == 1 ]]
+			then
+				yearbreedArray+=("1")
 
+			elif [[ $(grep "#20020904145584" indexADW.html | wc -l) == 1 ]]
+			then
+				yearbreedArray+=("2")
+			
+			else
+				yearbreedArray+=("NA")
+			fi
+
+			## Get Mature Weight
+			# The amount of grams a mature animal of the species weighs from the EoL database.
+			if [[ $(grep -A 16 "weight</div" indexEOL.html | grep "(adult)" | wc -l) == 1 ]]
+			then
+				weightGrams=$(grep -A 16 "weight</div" indexEOL.html | grep -B 2 "(adult)" | head -n 1 | sed 's/[^0-9]*//g')
+				weightArray+=("${weightGrams}")
+			else
+				weightArray+=("NA")
+			fi
+
+			## Get Parental Care
+			# Whether the parents of the offspring care for their litter from the EoL database.
+			# Add 1 to Array if the species care for their offspring, add 2 if they don't.
+			# Add NA if the data isn't available for the species. 
+			if [[ $(grep "parental care</div>" indexEOL.html | wc -l) == 1 ]]
+			then
+				if [[ $(grep -A 13 "parental care</div>" indexEOL.html | grep "No Paternal Care" | wc -l) == 1 ]]
+				then
+					parcareArray+=("2")
+				else
+					test=$(grep -A 13 "parental care</div>" indexEOL.html | tail -n 1)
+					parcareArray+=("${test}")
+				fi
+			else
+				parcareArray+=("NA")
+			fi
+			
+			## Get Development Strategy
+			# Code for altricial in the AWD database:	#20020904145328
+			# Code for precocial in the AWD database: 	#20020904145398
+			# Grep the indexADW.html for the different codes per species. 
+			# Add 1 to Array if the species is considered precocial, add 2 if it's altricial.
+			# Add NA if the data isn't available for the species.
+			if [[ $(grep "#20020904145398" indexADW.html  | wc -l) == 1 ]]
+			then
+				devstratArray+=("1")
+			elif [[ $(grep "#20020904145328" indexADW.html  | wc -l) == 1 ]]
+			then
+				devstratArray+=("2")
+			else
+				devstratArray+=("NA")
+			fi
+
+			## Get lifespan in years
+			# From the EoL database
+			if [[ $(grep -m 1 "life span</div>" indexEOL.html | wc -l) == 1 ]]
+			then
+				if [[ $(grep -m 1 -A 14 "life span</div>" indexEOL.html | tail -n 1 | grep "months" | wc -l) == 1 ]]
+				then
+					lifeMonths=$(grep -m 1 -A 14 "life span</div>" indexEOL.html | tail -n 1 | sed 's/[^0-9]*//g')
+					lifeYears=$(echo "print ${lifeMonths}/12" | python2)
+				elif [[ $(grep -m 1 -A 14  "life span</div>" indexEOL.html | tail -n 1 | grep "years" | wc -l) == 1 ]]
+				then
+					lifeYears=$(grep -m 1 -A 14 "life span</div>" indexEOL.html | tail -n 1 | sed 's/[^0-9]*//g')
+				elif [[ $(grep -m 1 -A 14  "life span</div>" indexEOL.html | tail -n 1 | grep "days" | wc -l) == 1 ]]
+				then
+					lifeDays=$(grep -m 1 -A 14 "life span</div>" indexEOL.html | tail -n 1 | sed 's/[^0-9]*//g')
+					lifeYears=$(echo "print ${lifeDays}/365" | python2)
+				fi
+				lifeArray+=("${lifeYears}")			
+			else
+				lifeArray+=("NA")
+			fi
+
+			## Get Motility
+			# From EoL
+			if [[ $(grep -m 1 "motility</div>" indexEOL.html | wc -l) == 1 ]]
+			then
+				motility=$(grep -m 1 -A 12 "motility</div>" indexEOL.html | tail -n 1 | awk '{$1=$1};1')
+				if [[ ${motility} == "actively mobile" ]]
+				then
+					motilArray+=("1")
+				elif [[ ${motility} == "facultatively mobile" ]]
+				then
+					motilArray+=("2")
+				elif [[ ${motility} == "fast moving" ]]
+				then
+					motilArray+=("3")
+				fi
+			else
+				motilArray+=("NA")
+			fi
 		fi
 		rm indexADW.html
 		rm indexEOL.html
 	fi
 done
 
-for (( i=0; i<=${#breedintArray[@]}; i++ ))
-do
-	printf "%s\t\t%s\n" "${binomArray[${i}]}" "${breedintArray[${i}]}"
-done
-
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" >> ${speciesTXT}
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" "${yearbreedArray[${i}]}" "${weightArray[${i}]}" "${parcareArray[${i}]}" "${devstratArray[${i}]}" "${hornsArray[${i}]}" "${speedArray[${i}]}" "${lifeArray[${i}]}" "${activeArray[${i}]}" "${predArray[${i}]}" "${motilArray[${i}]}" >> ${speciesTXT} 
 
 	printf "\n"  >> ${speciesTXT}
 
