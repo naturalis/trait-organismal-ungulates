@@ -458,6 +458,8 @@ do
 	fi
 done
 
+## maturefArray en maturemArray nog nakijken, kommas werken opeens niet meer
+
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
