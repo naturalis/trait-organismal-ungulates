@@ -2,7 +2,7 @@ Term:
 	Horns/Antlers
 
 Definition:
-	Whether the mature species has (1) horns, antlers or (2) none.
+	Whether (1) only the male mature species has horns/antlers, (2) only the female mature species has horns/antlers (3) both male and female mature species have horns/antlers or (4) both male and female species don't have horns/antlers.
 
 Units:
 	-
