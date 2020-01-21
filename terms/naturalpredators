@@ -2,7 +2,7 @@ Term:
 	NaturalPredators
 
 Definition:
-	The number of natural predators the species has (not counting humans).
+	Whether the species has natural predatos in their natural habitat (not counting humans). They were defined as (1) having natural predators or (2) not having natural predators.
 
 Units:
-	Count
+	-
