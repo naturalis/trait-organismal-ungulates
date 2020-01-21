@@ -2,7 +2,7 @@ Term:
 	NumMales
 
 Definition:
-	The number of mature males in a group of species.
+	The number of mature males in a group of species. They were defined as (1) multiple males or (2) one male per social group.
 
 Units:
-	Count
+	-
