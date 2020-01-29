@@ -1,223 +1,258 @@
-BinomialName,ID_EoL
-Addax nasomaculatus,331074
-Aepyceros melampus,308540
-Alcelaphus buselaphus,308529
-Alcelaphus lichtensteinii,308535
-Alces alces,328654
-Ammodorcas clarkei,308536
-Ammotragus lervia,328662
-Antidorcas marsupialis,308537
-Antilocapra americana,328661
-Antilope cervicapra,311909
-Axis axis,313989
-Axis calamianensis,308522
-Axis kuhlii,308520
-Axis porcinus,308521
-Babyrousa babyrussa,328330
-Beatragus hunteri,308533
-Bison bison,328109
-Bison bonasus,328110
-Blastocerus dichotomus,308478
-Boselaphus tragocamelus,311908
-Bos grunniens,328700
-Bos javanicus,1037711
-Bos sauveli,328706
-Bubalus depressicornis,328727
-Bubalus mindorensis,328729
-Bubalus quarlesi,328730
-Budorcas taxicolor,1038793
-Camelus bactrianus,344581
-Camelus dromedarius,309019
-Capra caucasica,328690
-Capra falconeri,328691
-Capra hircus,328660
-Capra ibex,328692
-Capra nubiana,328693
-Capra pyrenaica,328694
-Capra sibirica,328695
-Capra walie,328696
-Capreolus capreolus,308479
-Capreolus pygargus,129573
-Capricornis crispus,1038800
-Capricornis milneedwardsii,7216318
-Capricornis sumatraensis,1038801
-Capricornis swinhoei,1038802
-Catagonus wagneri,328336
-Cephalophus adersi,328701
-Cephalophus callipygus,328702
-Cephalophus dorsalis,328703
-Cephalophus jentinki,328713
-Cephalophus leucogaster,328714
-Cephalophus natalensis,328704
-Cephalophus niger,328709
-Cephalophus nigrifrons,328720
-Cephalophus ogilbyi,328719
-Cephalophus rufilatus,328721
-Cephalophus silvicultor,328708
-Cephalophus spadix,328722
-Cephalophus weynsi,328723
-Cephalophus zebra,328710
-Ceratotherium simum,311503
-Cervus elaphus,328649
-Cervus nippon,328650
-Connochaetes gnou,308530
-Connochaetes taurinus,308531
-Dama dama,308402
-Damaliscus lunatus,308534
-Damaliscus pygargus,308532
-Dicerorhinus sumatrensis,311504
-Diceros bicornis,311501
-Dorcatragus megalotis,308538
-Elaphodus cephalophus,308480
-Elaphurus davidianus,308403
-Equus asinus,328647
-Equus burchellii,47186326
-Equus grevyi,129473
-Equus hemionus,311505
-Equus kiang,311506
-Equus zebra,129474
-Eudorcas rufifrons,129515
-Eudorcas thomsonii,129521
-Gazella bennettii,308550
-Gazella cuvieri,311406
-Gazella dorcas,129511
-Gazella gazella,129512
-Gazella leptoceros,129514
-Gazella saudiya,129517
-Gazella spekei,129519
-Gazella subgutturosa,129520
-Giraffa camelopardalis,308378
-Hemitragus hylocrius,1038794
-Hemitragus jayakari,1038795
-Hemitragus jemlahicus,1038796
-Hexaprotodon liberiensis,317313
-Hippocamelus antisensis,129566
-Hippocamelus bisulcus,310354
-Hippopotamus amphibius,47360174
-Hippotragus equinus,331075
-Hippotragus niger,331077
-Hydropotes inermis,308404
-Hyemoschus aquaticus,328337
-Hylochoerus meinertzhageni,328333
-Kobus ellipsiprymnus,328724
-Kobus kob,328731
-Kobus leche,328712
-Kobus megaceros,328725
-Kobus vardonii,328726
-Litocranius walleri,129522
-Madoqua guentheri,311497
-Madoqua kirkii,311498
-Madoqua piacentinii,311495
-Madoqua saltiana,311494
-Mazama americana,129605
-Mazama bricenii,129581
-Mazama chunyi,129582
-Mazama gouazoubira,129579
-Mazama nana,129580
-Mazama rufina,129577
-Moschiola meminna,328338
-Moschus berezovskii,328123
-Moschus chrysogaster,328122
-Moschus fuscus,311508
-Moschus moschiferus,328320
-Muntiacus atherodes,308400
-Muntiacus crinifrons,308401
-Muntiacus feae,308384
-Muntiacus gongshanensis,308393
-Muntiacus muntjak,308397
-Muntiacus reevesi,308477
-Muntiacus vuquangensis,2924686
-Naemorhedus baileyi,1038797
-Naemorhedus caudatus,1038798
-Naemorhedus goral,1038799
-Nanger dama,129508
-Nanger granti,129513
-Nanger soemmerringii,129518
-Neotragus batesi,311492
-Neotragus moschatus,311493
-Neotragus pygmaeus,311538
-Odocoileus hemionus,328651
-Odocoileus virginianus,328652
-Okapia johnstoni,308387
-Oreamnos americanus,328659
-Oreotragus oreotragus,331065
-Oryx beisa,4447253
-Oryx dammah,331078
-Oryx gazella,331079
-Oryx leucoryx,331080
-Ourebia ourebi,344589
-Ovibos moschatus,328656
-Ovis ammon,328677
-Ovis aries,328679
-Ovis canadensis,328658
-Ovis dalli,328657
-Ovis nivicola,328678
-Ozotoceros bezoarticus,129578
-Pantholops hodgsonii,344584
-Pecari tajacu,1037712
-Pelea capreolus,331081
-Phacochoerus aethiopicus,328331
-Phacochoerus africanus,328332
-Philantomba maxwelli,328715
-Philantomba maxwellii,328715
-Philantomba monticola,328716
-Potamochoerus larvatus,328334
-Potamochoerus porcus,328335
-Procapra gutturosa,344585
-Procapra picticaudata,1038777
-Procapra przewalskii,1038778
-Przewalskium albirostris,49410484
-Pseudois nayaur,1038776
-Pseudois schaeferi,344583
-Pseudoryx nghetinhensis,2925803
-Pudu mephistophiles,129576
-Pudu puda,129574
-Rangifer tarandus,328653
-Raphicerus campestris,1038779
-Raphicerus melanotis,1038780
-Raphicerus sharpei,1038781
-Redunca arundinum,331082
-Redunca fulvorufula,331083
-Redunca redunca,331084
-Rhinoceros sondaicus,328342
-Rhinoceros unicornis,129475
-Rucervus duvauceli,308523
-Rucervus duvaucelii,308523
-Rucervus eldi,308524
-Rucervus eldii,308524
-Rupicapra pyrenaica,344582
-Rupicapra rupicapra,331073
-Rusa alfredi,308507
-Rusa marianna,313990
-Rusa timorensis,999298
-Rusa unicolor,290025
-Saiga tatarica,1038782
-Sus barbatus,328321
-Sus bucculentus,328322
-Sus cebifrons,328323
-Sus celebensis,328325
-Sus philippensis,328326
-Sus salvanius,328327
-Sus scrofa,328663
-Sus verrucosus,328329
-Sylvicapra grimmia,328711
-Syncerus caffer,328707
-Tapirus bairdii,47187256
-Tapirus indicus,49149276
-Tapirus pinchaque,129472
-Tapirus terrestris,328009
-Taurotragus derbianus,1038783
-Taurotragus oryx,1038784
-Tayassu pecari,357663
-Tetracerus quadricornis,1038785
-Tragelaphus angasii,1038786
-Tragelaphus buxtoni,1038787
-Tragelaphus eurycerus,1038788
-Tragelaphus imberbis,1038789
-Tragelaphus scriptus,1038790
-Tragelaphus spekii,1038791
-Tragelaphus strepsiceros,1038792
-Tragulus javanicus,328339
-Tragulus kanchil,32137235
-Tragulus napu,328340
-Vicugna vicugna,309016
+eolID,BinomialName
+331074,Addax_nasomaculatus
+308540,Aepyceros_melampus
+308529,Alcelaphus_buselaphus
+4447799,Alcelaphus_caama
+308535,Alcelaphus_lichtensteinii
+328654,Alces_alces
+2921075,Alces_americanus
+308536,Ammodorcas_clarkei
+328662,Ammotragus_lervia
+308537,Antidorcas_marsupialis
+328661,Antilocapra_americana
+311909,Antilope_cervicapra
+313989,Axis_axis
+308522,Axis_calamianensis
+308520,Axis_kuhlii
+308521,Axis_porcinus
+328330,Babyrousa_babyrussa
+37069574,Babyrousa_bolabatuensis
+4445606,Babyrousa_celebensis
+4472391,Babyrousa_togeanensis
+308533,Beatragus_hunteri
+328109,Bison_bison
+328110,Bison_bonasus
+308478,Blastocerus_dichotomus
+311908,Boselaphus_tragocamelus
+328705,Bos_frontalis
+328700,Bos_grunniens
+1037711,Bos_javanicus
+328706,Bos_sauveli
+328699,Bos_taurus
+311907,Bubalus_bubalis
+328727,Bubalus_depressicornis
+328729,Bubalus_mindorensis
+328730,Bubalus_quarlesi
+1038793,Budorcas_taxicolor
+344581,Camelus_bactrianus
+309019,Camelus_dromedarius
+328689,Capra_caucasica
+328691,Capra_falconeri
+328660,Capra_hircus
+328692,Capra_ibex
+328693,Capra_nubiana
+328694,Capra_pyrenaica
+328695,Capra_sibirica
+328696,Capra_walie
+308479,Capreolus_capreolus
+129573,Capreolus_pygargus
+1038800,Capricornis_crispus
+7216318,Capricornis_milneedwardsii
+7216319,Capricornis_rubidus
+1038801,Capricornis_sumatraensis
+1038802,Capricornis_swinhoei
+7216320,Capricornis_thar
+328336,Catagonus_wagneri
+328701,Cephalophus_adersi
+4447179,Cephalophus_brookei
+328702,Cephalophus_callipygus
+328703,Cephalophus_dorsalis
+328713,Cephalophus_jentinki
+328714,Cephalophus_leucogaster
+328717,Cephalophus_natalensis
+328709,Cephalophus_niger
+328718,Cephalophus_nigrifrons
+328719,Cephalophus_ogilbyi
+328721,Cephalophus_rufilatus
+328708,Cephalophus_silvicultor
+328722,Cephalophus_spadix
+328723,Cephalophus_weynsi
+328710,Cephalophus_zebra
+311503,Ceratotherium_simum
+328649,Cervus_elaphus
+328650,Cervus_nippon
+308530,Connochaetes_gnou
+308531,Connochaetes_taurinus
+313992,Dama_dama
+4447088,Damaliscus_korrigum
+308534,Damaliscus_lunatus
+308532,Damaliscus_pygargus
+18752659,Damaliscus_superstes
+311504,Dicerorhinus_sumatrensis
+311501,Diceros_bicornis
+308538,Dorcatragus_megalotis
+308480,Elaphodus_cephalophus
+308403,Elaphurus_davidianus
+328647,Equus_asinus
+47186326,Equus_burchellii
+328648,Equus_caballus
+129473,Equus_grevyi
+311507,Equus_hemionus
+311506,Equus_kiang
+311502,Equus_quagga
+129474,Equus_zebra
+129515,Eudorcas_rufifrons
+129516,Eudorcas_rufina
+129521,Eudorcas_thomsonii
+308548,Gazella_arabica
+308550,Gazella_bennettii
+311406,Gazella_cuvieri
+129511,Gazella_dorcas
+24183270,Gazella_erlangeri
+129512,Gazella_gazella
+129514,Gazella_leptoceros
+129517,Gazella_saudiya
+129519,Gazella_spekei
+129520,Gazella_subgutturosa
+308378,Giraffa_camelopardalis
+1038794,Hemitragus_hylocrius
+1038795,Hemitragus_jayakari
+1038796,Hemitragus_jemlahicus
+317313,Hexaprotodon_liberiensis
+129566,Hippocamelus_antisensis
+310354,Hippocamelus_bisulcus
+47360174,Hippopotamus_amphibius
+331075,Hippotragus_equinus
+331076,Hippotragus_leucophaeus
+331077,Hippotragus_niger
+308404,Hydropotes_inermis
+328337,Hyemoschus_aquaticus
+328333,Hylochoerus_meinertzhageni
+328724,Kobus_ellipsiprymnus
+328731,Kobus_kob
+328712,Kobus_leche
+328725,Kobus_megaceros
+328726,Kobus_vardonii
+309018,Lama_glama
+129522,Litocranius_walleri
+311497,Madoqua_guentheri
+311498,Madoqua_kirkii
+311495,Madoqua_piacentinii
+311494,Madoqua_saltiana
+129605,Mazama_americana
+7238006,Mazama_bororo
+129581,Mazama_bricenii
+129582,Mazama_chunyi
+129579,Mazama_gouazoubira
+129580,Mazama_nana
+4446121,Mazama_pandora
+129577,Mazama_rufina
+4446125,Mazama_temama
+328338,Moschiola_meminna
+7240172,Moschus_anhuiensis
+328123,Moschus_berezovskii
+328122,Moschus_chrysogaster
+4445879,Moschus_cupreus
+311508,Moschus_fuscus
+7240240,Moschus_leucogaster
+328320,Moschus_moschiferus
+308400,Muntiacus_atherodes
+308401,Muntiacus_crinifrons
+308384,Muntiacus_feae
+308393,Muntiacus_gongshanensis
+308397,Muntiacus_muntjak
+7240299,Muntiacus_puhoatensis
+7240302,Muntiacus_putaoensis
+308477,Muntiacus_reevesi
+4446188,Muntiacus_rooseveltorum
+7240356,Muntiacus_truongsonensis
+2924686,Muntiacus_vuquangensis
+1038797,Naemorhedus_baileyi
+1038798,Naemorhedus_caudatus
+1038799,Naemorhedus_goral
+4447278,Naemorhedus_griseus
+129508,Nanger_dama
+129513,Nanger_granti
+129518,Nanger_soemmerringii
+311492,Neotragus_batesi
+311493,Neotragus_moschatus
+311538,Neotragus_pygmaeus
+328651,Odocoileus_hemionus
+328652,Odocoileus_virginianus
+308387,Okapia_johnstoni
+328659,Oreamnos_americanus
+331065,Oreotragus_oreotragus
+4447253,Oryx_beisa
+331078,Oryx_dammah
+331079,Oryx_gazella
+331080,Oryx_leucoryx
+344589,Ourebia_ourebi
+328656,Ovibos_moschatus
+328677,Ovis_ammon
+311906,Ovis_aries
+328658,Ovis_canadensis
+328657,Ovis_dalli
+328678,Ovis_nivicola
+129578,Ozotoceros_bezoarticus
+344584,Pantholops_hodgsonii
+1037712,Pecari_tajacu
+331081,Pelea_capreolus
+328331,Phacochoerus_aethiopicus
+328332,Phacochoerus_africanus
+328715,Philantomba_maxwellii
+328716,Philantomba_monticola
+328334,Potamochoerus_larvatus
+328335,Potamochoerus_porcus
+344585,Procapra_gutturosa
+1038777,Procapra_picticaudata
+1038778,Procapra_przewalskii
+49410484,Przewalskium_albirostris
+1038776,Pseudois_nayaur
+344583,Pseudois_schaeferi
+2925803,Pseudoryx_nghetinhensis
+129576,Pudu_mephistophiles
+129574,Pudu_puda
+328653,Rangifer_tarandus
+1038779,Raphicerus_campestris
+1038780,Raphicerus_melanotis
+1038781,Raphicerus_sharpei
+331082,Redunca_arundinum
+331083,Redunca_fulvorufula
+331084,Redunca_redunca
+328342,Rhinoceros_sondaicus
+129475,Rhinoceros_unicornis
+308523,Rucervus_duvaucelii
+308524,Rucervus_eldii
+999297,Rucervus_schomburgki
+344582,Rupicapra_pyrenaica
+331073,Rupicapra_rupicapra
+308507,Rusa_alfredi
+313990,Rusa_marianna
+999298,Rusa_timorensis
+290025,Rusa_unicolor
+24183214,Saiga_borealis
+1038782,Saiga_tatarica
+7258047,Sus_ahoenobarbus
+328321,Sus_barbatus
+328322,Sus_bucculentus
+328323,Sus_cebifrons
+328324,Sus_celebensis
+7258032,Sus_oliveri
+328326,Sus_philippensis
+328327,Sus_salvanius
+328663,Sus_scrofa
+328329,Sus_verrucosus
+328711,Sylvicapra_grimmia
+328707,Syncerus_caffer
+47187256,Tapirus_bairdii
+49149276,Tapirus_indicus
+129472,Tapirus_pinchaque
+328009,Tapirus_terrestris
+1038783,Taurotragus_derbianus
+1038784,Taurotragus_oryx
+357663,Tayassu_pecari
+1038785,Tetracerus_quadricornis
+1038786,Tragelaphus_angasii
+1038787,Tragelaphus_buxtoni
+1038788,Tragelaphus_eurycerus
+1038789,Tragelaphus_imberbis
+1038790,Tragelaphus_scriptus
+1038791,Tragelaphus_spekii
+1038792,Tragelaphus_strepsiceros
+328339,Tragulus_javanicus
+32137235,Tragulus_kanchil
+328340,Tragulus_napu
+4445338,Tragulus_nigricans
+7260319,Tragulus_versicolor
+4445340,Tragulus_williamsoni
+309016,Vicugna_vicugna
