@@ -4,8 +4,6 @@
 ## Need Python2
 
 # Declaring variables
-ungulatesTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/ungulates.tree"
-numTree="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/S21191.tree"
 pantheria="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/PanTHERIA.tsv"
 speciesTXT="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/speciesList.txt"
 idEOL="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/eolID.csv"
@@ -22,10 +20,10 @@ pantArrayfinal=()
 eolIDarray=()
 dietArray=()
 gestArray=()
-avgfoodArray=()		#NOGNIET
+avgfoodArray=()
 socArray=()
 hierArray=()
-maleArray=()		#NOGNIET
+maleArray=()
 maturemArray=()
 maturefArray=()
 matingArray=()
@@ -35,32 +33,19 @@ yearbreedArray=()
 weightArray=()
 parcareArray=()
 devstratArray=()
-hornsArray=()		#NOGNIET
-speedArray=()		#NOGNIET
+hornsArray=()
+speedArray=()
 lifeArray=()
-activeArray=()		#NOGNIET
-predArray=()		#NOGNIET
+activeArray=()
+predArray=()
 motilArray=()
-carryArray=()		#NOGNIET
-pullArray=()		#NOGNIET
-movespeedArray=()	#NOGNIET
-travdistArray=()	#NOGNIET
+carryArray=()
+pullArray=()
+movespeedArray=()
+travdistArray=()
 echo "" > "${speciesTXT}"
 
-
-# Get species names
-# Make a list of the species names from the ungulates.tree file
-sed 's/[0-9]*//g' ${ungulatesTree} | tr -d "():;." | tr "," "\n" > ungulateSpecies.txt
-
-# Make a list of the species names from the S21191.tree file
-cat ${numTree} | sed 's/[0-9]*//g' | tr -d "():;." | tr "," "\n" > S21191Species.txt
-
-# Combine the two lists and remove duplicates
-speciesList=$(cat ungulateSpecies.txt S21191Species.txt | sort -u | sort)
-
-# Delete obsolete files
-rm ungulateSpecies.txt S21191Species.txt
-
+speciesList=$(cat ${pantheria} | tr "\t" "," | tr " " "_" | tr "," "\t" | awk '{printf $5 "\n"}' | sort -u | sort)
 
 # Loop through speciesList and look up the orders from PanTHERIA
 # Needed orders: Artiodactyla (even-toed), Perissodactyla (uneven-toed)
@@ -75,7 +60,7 @@ do
 		orderArray+=(${order})
 	
 		# Get ID from EoL-ID file
-		eol=$(grep "${grepname}" ${idEOL} | tr ',' ' ' | awk '{printf $3}')
+		eol=$(grep "${species}" ${idEOL} | tr ',' ' ' | awk '{printf $1}')
 		eolIDarray+=(${eol})
 		
 		# Get taxonomy
@@ -88,9 +73,6 @@ do
 		speciesTax=$(grep "${grepname}" ${pantheria} | awk '{printf $4}')
 		speciesArray+=(${speciesTax})
 		
-		# Get domestication level
-		domArray+=("X")
-
 		# Get PanTHERIA columns
 		pant=$(grep "${grepname}" ${pantheria} | cut -f6-35 | tr "\t" "," | tr -d "\n")
 		pantArray1+=(${pant})
@@ -102,12 +84,41 @@ do
 
 		if [[ ${url} == "https://animaldiversity.org/accounts/${species}/classification/" ]]
 		then
-			dietArray+=("NA")
-			gestArray+=("NA")
-			socArray+=("NA")
-			hierArray+=("NA")
-			maturemArray+=("NA")
-			maturefArray+=("NA")
+			binomArray=("NA")
+			orderArray=("NA")
+			famArray=("NA")
+			genusArray=("NA")
+			speciesArray=("NA")
+			domArray=("NA")
+			pantArray1=("NA")
+			pantArray2=("NA")
+			pantArrayfinal=("NA")
+			eolIDarray=("NA")
+			dietArray=("NA")
+			gestArray=("NA")
+			avgfoodArray=("NA")
+			socArray=("NA")
+			hierArray=("NA")
+			maleArray=("NA")
+			maturemArray=("NA")
+			maturefArray=("NA")
+			matingArray=("NA")
+			litterArray=("NA")
+			breedintArray=("NA")
+			yearbreedArray=("NA")
+			weightArray=("NA")
+			parcareArray=("NA")
+			devstratArray=("NA")
+			hornsArray=("NA")
+			speedArray=("NA")
+			lifeArray=("NA")
+			activeArray=("NA")
+			predArray=("NA")
+			motilArray=("NA")
+			carryArray=("NA")
+			pullArray=("NA")
+			movespeedArray=("NA")
+			travdistArray=("NA")
 			
 		else
 			## Get Diet
@@ -463,7 +474,7 @@ done
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" "${yearbreedArray[${i}]}" "${weightArray[${i}]}" "${parcareArray[${i}]}" "${devstratArray[${i}]}" "${hornsArray[${i}]}" "${speedArray[${i}]}" "${lifeArray[${i}]}" "${activeArray[${i}]}" "${predArray[${i}]}" "${motilArray[${i}]}" >> ${speciesTXT} 
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" "${yearbreedArray[${i}]}" "${weightArray[${i}]}" "${parcareArray[${i}]}" "${devstratArray[${i}]}" "${hornsArray[${i}]}" "${speedArray[${i}]}" "${lifeArray[${i}]}" "${activeArray[${i}]}" "${predArray[${i}]}" "${motilArray[${i}]}" "${carryArray[${i}]}" "${pullArray[${i}]}" "${movespeedArray[${i}]}" "${travdistArray[${i}]}" >> ${speciesTXT} 
 
 	printf "\n"  >> ${speciesTXT}
 
