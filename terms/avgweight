@@ -2,7 +2,7 @@ Term:
 	AVGWeight
 
 Definition:
-	The amount of grams the mature species weighs on average.
+	The amount of kilograms the mature species weighs on average.
 
 Units:
-	Grams
+	Kilograms
