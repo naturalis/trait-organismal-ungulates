@@ -265,11 +265,14 @@ do
 						matfmonths=$("NA")
 					fi
 				fi
+				matfmonths=$(echo "${matfmonths}" | tr "." ",")
+				matfmonths=$(printf "%.4f" ${matfmonths})
+				matfmonths=$(echo "${matfmonths}" | tr "," ".")
 				maturefArray+=("${matfmonths}")
 			else
 				maturefArray+=("NA")
 			fi
-
+				
 			if [[ $(grep "reproductive maturity (male)" indexADW.html | wc -l) == 1 ]] || [[ $(grep "reproductive maturity (male)" indexADW.html | wc -l) == 2 ]]
 			then
 				matm=$(grep -A 1 "reproductive maturity (male)" indexADW.html| grep "</dd>" | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
@@ -310,11 +313,14 @@ do
 						matmmonths=$("NA")
 					fi
 				fi
+				matmmonths=$(echo ${matmmonths} | tr "." ",")
+				matmmonths=$(printf "%.4f" "${matmmonths}")
+				matmmonths=$(echo "${matmmonths}" | tr "," ".")
 				maturemArray+=("${matmmonths}")
 			else
 				maturemArray+=("NA")
 			fi
-			
+		
 			## Get MatingSystem
 			# Monogamy (1), polyandry (2), polygyny (3) and polygynandry (4)
 			if [[ $(grep "#20020904145332" indexADW.html | wc -l) == 1 ]]
@@ -386,7 +392,8 @@ do
 			if [[ $(grep -A 16 "weight</div" indexEOL.html | grep "(adult)" | wc -l) == 1 ]]
 			then
 				weightGrams=$(grep -A 16 "weight</div" indexEOL.html | grep -B 2 "(adult)" | head -n 1 | sed 's/[^0-9]*//g')
-				weightArray+=("${weightGrams}")
+				weightKG=$(echo "print ${weightGrams}/1000" | python2)
+				weightArray+=("${weightKG}")
 			else
 				weightArray+=("NA")
 			fi
@@ -468,8 +475,6 @@ do
 		rm indexEOL.html
 	fi
 done
-
-## maturefArray en maturemArray nog nakijken, kommas werken opeens niet meer
 
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
