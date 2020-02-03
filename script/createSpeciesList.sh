@@ -36,7 +36,6 @@ devstratArray=()
 hornsArray=()
 speedArray=()
 lifeArray=()
-activeArray=()
 predArray=()
 motilArray=()
 carryArray=()
@@ -112,7 +111,6 @@ do
 			hornsArray=("NA")
 			speedArray=("NA")
 			lifeArray=("NA")
-			activeArray=("NA")
 			predArray=("NA")
 			motilArray=("NA")
 			carryArray=("NA")
@@ -479,7 +477,7 @@ done
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" "${yearbreedArray[${i}]}" "${weightArray[${i}]}" "${parcareArray[${i}]}" "${devstratArray[${i}]}" "${hornsArray[${i}]}" "${speedArray[${i}]}" "${lifeArray[${i}]}" "${activeArray[${i}]}" "${predArray[${i}]}" "${motilArray[${i}]}" "${carryArray[${i}]}" "${pullArray[${i}]}" "${movespeedArray[${i}]}" "${travdistArray[${i}]}" >> ${speciesTXT} 
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" "${yearbreedArray[${i}]}" "${weightArray[${i}]}" "${parcareArray[${i}]}" "${devstratArray[${i}]}" "${hornsArray[${i}]}" "${speedArray[${i}]}" "${lifeArray[${i}]}" "${predArray[${i}]}" "${motilArray[${i}]}" "${carryArray[${i}]}" "${pullArray[${i}]}" "${movespeedArray[${i}]}" "${travdistArray[${i}]}" >> ${speciesTXT} 
 
 	printf "\n"  >> ${speciesTXT}
 
