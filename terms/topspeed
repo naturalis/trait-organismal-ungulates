@@ -2,7 +2,7 @@ Term:
 	Topspeed
 
 Definition:
-	The maximum amount of meters per second the species can run.
+	The maximum amount of kilometers per hour the species can run.
 
 Units:
-	Meters per second
+	Kilometers per hour

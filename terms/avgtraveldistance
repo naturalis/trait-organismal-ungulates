@@ -2,7 +2,7 @@ Term:
 	AVGTravelDistance
 
 Definition:
-	The amount of meters a mature species can walk/run per day.
+	The average amount of kilometers a mature species walks/runs per day.
 
 Units:
-	Meters
+	Kilometers
