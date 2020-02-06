@@ -2,7 +2,7 @@ Term:
 	Domestication
 
 Definition:
-	Whether the animal is domesticated or the wild ancestor of a domesticated species or not. Species were defined as (1) domesticated (2) semi-domesticated or (3) wild.
+	Whether the animal is domesticated or the wild ancestor of a domesticated species or not. Species were defined as (1) domesticated or (2) wild.
 
 Unit:
 	-
