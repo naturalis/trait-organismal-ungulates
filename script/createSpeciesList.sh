@@ -385,17 +385,6 @@ do
 				yearbreedArray+=("NA")
 			fi
 
-			## Get Mature Weight
-			# The amount of grams a mature animal of the species weighs from the EoL database.
-			if [[ $(grep -A 16 "weight</div" indexEOL.html | grep "(adult)" | wc -l) == 1 ]]
-			then
-				weightGrams=$(grep -A 16 "weight</div" indexEOL.html | grep -B 2 "(adult)" | head -n 1 | sed 's/[^0-9]*//g')
-				weightKG=$(echo "print ${weightGrams}/1000" | python2)
-				weightArray+=("${weightKG}")
-			else
-				weightArray+=("NA")
-			fi
-
 			## Get Parental Care
 			# Whether the parents of the offspring care for their litter from the EoL database.
 			# Add 1 to Array if the species care for their offspring, add 2 if they don't.
