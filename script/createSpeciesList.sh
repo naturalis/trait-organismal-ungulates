@@ -19,7 +19,6 @@ pantArray2=()
 pantArrayfinal=()
 eolIDarray=()
 dietArray=()
-gestArray=()
 avgfoodArray=()
 socArray=()
 hierArray=()
@@ -30,12 +29,10 @@ matingArray=()
 litterArray=()
 breedintArray=()
 yearbreedArray=()
-bodymassArray=()
 weightArray=()
 parcareArray=()
 devstratArray=()
 hornsArray=()
-speedArray=()
 lifeArray=()
 predArray=()
 motilArray=()
@@ -113,49 +110,7 @@ do
 			fi
 		fi
 		
-		## Get GestationPeriod
-		# Check if the gestPeriod contains a range, by checking if it contains 'to'
-		# If not, check if the unit is Days or Months 
-		# If days: add number of days to the Array. If months: multiply by 30.4167 and add the outcome to the Array.
-		#
-		# If the gestPeriod contains a range, calculate the mean. After that, check if the unit is Days or Months
-		# If Days: add number of days to the Array. If months: multiply by 30.4167 and add the outcome to the Array.
-		
-		gestPeriod=$(grep -A 1 "gestation period<" indexADW.html | sed -n 2p | sed 's/<*dd>//g' | tr -d "</" | awk '{$1=$1};1')
-
-		if [[ $(echo ${gestPeriod} |  grep "to" | wc -l) == 0 ]]
-		then
-			if [[  $(echo ${gestPeriod} | grep "days" | wc -l) == 1 ]]
-			then
-				gestDay=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g')
-				gestArray+=("${gestDay}")
-			elif [[  $(echo ${gestPeriod} | grep "months" | wc -l) == 1 ]]
-			then
-				months=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g')
-				gestDays=$(echo "${months}*30.4167" | bc)
-				gestArray+=("${gestDays}")
-			else
-				gestArray+=("NA")
-			fi
-
-		elif [[ $(echo ${gestPeriod} |  grep "to" | wc -l) == 1 ]]
-		then
-			if [[  $(echo ${gestPeriod} | grep "days" | wc -l) == 1 ]]
-			then
-				gestDay2=$(echo ${gestPeriod} | sed 's/[^0-9. ]*//g' | awk '{printf (($1+$2)/2)}')
-				gestArray+=("${gestDay2}")
-			elif [[  $(echo ${gestPeriod} | grep "months" | wc -l) == 1 ]]
-			then
-				monthsRange=$(echo ${gestPeriod} |  sed 's/[^0-9. ]*//g' | awk '{printf (($1+$2)/2)}')
-				gestDays2=$(echo "${monthsRange}*30.4167" | bc)
-				gestArray+=("${gestDays2}")
-			else
-				gestArray+=("NA")
-			fi
-		else
-			gestArray+=("NA")
-		fi
-			
+	
 		## Get Sociality
 		# Code for Solitary on ADW database: 	#20020904145381
 		# Code for Groups on ADW database: 	#20020904145492
@@ -175,10 +130,12 @@ do
 		
 		## Get Social Hierarchy
 		# Code for Dominance Hierarchy:		#20020904145738
-		
 		if [[ $(grep "#20020904145738" indexADW.html | wc -l) == 1  ]]
 		then
 			hierArray+=("1")
+		elif [[ $(curl -Ls -o /dev/null/ -w %{url_effective} https://animaldiversity.org/accounts/${species}/) == "http://animaldiversity.org/accounts/${species}/classification/" ]]
+		then
+			hierArray+=("NA")
 		else
 			hierArray+=("2")
 		fi
@@ -424,7 +381,7 @@ done
 # Write the newly found species to a txt file
 for (( i=0; i<=${#binomArray[@]}; i++ ))
 do
-	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${gestArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" "${yearbreedArray[${i}]}" "${bodymassArray[${i}]}" "${weightArray[${i}]}" "${parcareArray[${i}]}" "${devstratArray[${i}]}" "${hornsArray[${i}]}" "${speedArray[${i}]}" "${lifeArray[${i}]}" "${predArray[${i}]}" "${motilArray[${i}]}" "${carryArray[${i}]}" "${pullArray[${i}]}" "${movespeedArray[${i}]}" "${travdistArray[${i}]}" >> ${speciesTXT} 
+	printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" "${eolIDarray[${i}]}" "${binomArray[${i}]}" "${orderArray[${i}]}" "${famArray[${i}]}" "${genusArray[${i}]}" "${speciesArray[${i}]}" "${domArray[${i}]}" "${pantArray1[${i}]}" "${dietArray[${i}]}" "${avgfoodArray[${i}]}" "${socArray[${i}]}" "${hierArray[${i}]}" "${maleArray[${i}]}" "${maturemArray[${i}]}" "${maturefArray[${i}]}" "${matingArray[${i}]}" "${litterArray[${i}]}" "${breedintArray[${i}]}" "${yearbreedArray[${i}]}" "${weightArray[${i}]}" "${parcareArray[${i}]}" "${devstratArray[${i}]}" "${hornsArray[${i}]}" "${lifeArray[${i}]}" "${predArray[${i}]}" "${motilArray[${i}]}" "${carryArray[${i}]}" "${pullArray[${i}]}" "${movespeedArray[${i}]}" "${travdistArray[${i}]}" >> ${speciesTXT} 
 
 	printf "\n"  >> ${speciesTXT}
 
