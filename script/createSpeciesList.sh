@@ -387,4 +387,7 @@ do
 
 done
 
+# Replace the -999 with NA and remove last empty line
+sed -i 's/-999/NA/g' ${speciesTXT}
+sed -i 's/NA.00/NA/g' ${speciesTXT}
 sed -i '$d' ${speciesTXT}
