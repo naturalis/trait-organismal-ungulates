@@ -2,7 +2,7 @@ Term:
 	AVGMovingSpeed
 
 Definition:
-	The average amount of kilometers per hour a mature species walks/runs.
+	The average amount of kilometers per hour a mature species can run.
 
 Units:
 	Kilometers per hour
