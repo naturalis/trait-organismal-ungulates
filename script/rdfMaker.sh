@@ -4,10 +4,11 @@
 # Declare files and arrays
 csv="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/ungulatesTraits.csv"
 rdf="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/RDF/ungulate_traits.ttl"
+wilreed="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/msw3-all.csv"
 trait=()
 species=()
 value=()
-
+ideol=1
 
 ## PREFIXES
 # Add the prefixes to the rdf file
@@ -17,7 +18,7 @@ printf "@prefix species: <https://www.departments.bucknell.edu/biology/resources
 ## ID FILE
 # Get the id, genus, species and subspecies columns from the msw3-all.csv file.
 # File found on the Wilson & Reeder's Mammal species of the world site (https://www.departments.bucknell.edu/biology/resources/msw3/)
-cat msw3-all.csv | tr "," "\t" | awk '{printf $1 "\t" $9 "\t" $11 "\t" $13 "\n"}' | grep "SPECIES" | grep -v "SUBSPECIES" | tr -d "\"" > id.txt
+cat ${wilreed} | tr "," "\t" | awk '{printf $1 "\t" $9 "\t" $11 "\t" $13 "\n"}' | grep "SPECIES" | grep -v "SUBSPECIES" | tr -d "\"" > id.txt
 
 
 ## TRAITS
@@ -54,7 +55,7 @@ do
 	
 	## VALUES
 	# Get the trait values for the right species
-	grep "${species[${z}]}" ${csv} | tr "," "\n" >> value.txt
+	grep "${species[${z}]}" ${csv} | tr "," "\n" > value.txt
 
 	for (( j=1; j<=59; j++ ))
 	do
