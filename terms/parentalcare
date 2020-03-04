@@ -1,8 +1,4 @@
-Term:
-	ParentalCare
-
-Definition:
-	Whether the parents care for and rear the offspring or not. The species were defined as (1) parents care for offspring and (2) parents don't care for offspring.
-
-Units:
-	-
+---
+Term: ParentalCare
+Definition: "Whether the parents care for and rear the offspring or not. The species were defined as (1) parents care for offspring and (2) parents don't care for offspring."
+Units: -

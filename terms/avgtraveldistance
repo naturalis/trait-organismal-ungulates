@@ -1,8 +1,4 @@
-Term:
-	AVGTravelDistance
-
-Definition:
-	The average amount of kilometers a mature species can walk/run per day. The size of the home range is used when information about the average travel distance cannot be found.
-
-Units:
-	Kilometers
+---
+Term: AVGTravelDistance
+Definition: "The average amount of kilometers a mature species can walk/run per day. The size of the home range is used when information about the average travel distance cannot be found."
+Units: Kilometers

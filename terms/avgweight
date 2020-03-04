@@ -1,8 +1,4 @@
-Term:
-	AVGWeight
-
-Definition:
-	The amount of kilograms the mature species weighs on average.
-
-Units:
-	Kilograms
+---
+Term: AVGWeight
+Definition: "The amount of kilograms the mature species weighs on average."
+Units: Kilograms

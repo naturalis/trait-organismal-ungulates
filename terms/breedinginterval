@@ -1,8 +1,4 @@
-Term:
-	BreedingInterval
-
-Definition:
-	Average number of days between two gestation periods.
-
-Units:
-	Days
+---
+Term: BreedingInterval
+Definition: "Average number of days between two gestation periods."
+Units: Days

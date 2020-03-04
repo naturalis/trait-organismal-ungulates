@@ -1,8 +1,4 @@
-Term:
-	AVGBodyMass
-
-Definition:
-	The average amount of matter in the body of an adult animal of the species.
-
-Units:
-	Kilograms
+---
+Term: AVGBodyMass
+Definition: "The average amount of matter in the body of an adult animal of the species."
+Units: Kilograms

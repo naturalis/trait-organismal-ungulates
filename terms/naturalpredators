@@ -1,8 +1,4 @@
-Term:
-	NaturalPredators
-
-Definition:
-	Whether the species has natural predators in their natural habitat (not counting humans). They were defined as (1) having less than 3 natural predators (including 3), (2) having more than 3 natural predators or (3) not having natural predators.
-
-Units:
-	-
+---
+Term: NaturalPredators
+Definition: "Whether the species has natural predators in their natural habitat (not counting humans). They were defined as (1) having less than 3 natural predators (including 3), (2) having more than 3 natural predators or (3) not having natural predators."
+Units: -

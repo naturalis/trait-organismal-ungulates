@@ -1,8 +1,4 @@
-Term:
-	NumOffspring
-
-Definition:
-	The average amount of offspring per pregnancy.
-
-Units:
-	Count
+---
+Term: NumOffspring
+Definition: "The average amount of offspring per pregnancy."
+Units: Count

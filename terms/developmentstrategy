@@ -1,8 +1,4 @@
-Term:
-	DevelopmentStrategy
-
-Definition:
-	Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. The species were defined as (1) precocial or (2) altricial.
-
-Units:
-	-
+---
+Term: DevelopmentStrategy
+Definition: "Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. The species were defined as (1) precocial or (2) altricial."
+Units: -
