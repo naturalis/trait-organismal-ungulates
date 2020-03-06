@@ -1,4 +1,4 @@
-## Terms
+# Terms
 Description of some of the terms used in the dataset. The terms contain the name, definition and units in which the value is measured. When the values are categorical, the different categories are listed. 
 
 ## AVGBodyMass
