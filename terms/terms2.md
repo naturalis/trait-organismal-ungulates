@@ -41,18 +41,18 @@ Description of some of the terms used in the dataset. The terms contain the name
 ## Diet
 - What kind of food the animal eats. 
 - Species were defined as: 
-### Frugivores (1)
-### Granivores (2)
-### Nectivores (3)
-### Folivores (4)
-### Lignivores (5)
-### Multiple kinds (6)
+#### _Frugivores_ (1)
+#### _Granivores_ (2)
+#### _Nectivores_ (3)
+#### _Folivores_ (4)
+#### _Lignivores_ (5)
+#### _Multiple kinds_ (6)
 
 ## Domestication
 - Whether the animal is domesticated or the wild ancestor of a domesticated species or not. 
 - Species were defined as: 
-### Domesticated (1)
-### Wild (2)
+#### _Domesticated_ (1)
+#### _Wild_ (2)
 
 ## Family
 Definiton: The taxonomic rank Family.
@@ -63,10 +63,10 @@ Definiton: The taxonomic rank Family.
 ## Horns/Antlers
 - Whether only the male mature species has horns/antlers, only the female mature species has horns/antlers both male and female mature species have horns/antlers or both male and female species don't have horns/antlers.
 - The species were defined as to which gender has horns/antlers:
-### Male (1)
-### Female (2)
-### Both (3)
-### Neither (4)
+#### _Male_ (1)
+#### _Female_ (2)
+#### _Both_ (3)
+#### _Neither_ (4)
 
 ## ID_EoL
 - The IDs from the Encyclopedia of Life database.
@@ -78,10 +78,10 @@ Definiton: The taxonomic rank Family.
 ## MatingSystem
 - The way the species group is structured in relation to sexual behaviour. 
 - The species' mating systems were defined as:
-### Monogamy (1)
-### Polyandry (2)
-### Polygyny (3)
-### Polygynandry (4)
+#### _Monogamy_ (1)
+#### _Polyandry_ (2)
+#### _Polygyny_ (3)
+#### _Polygynandry_ (4)
 
 ## MaturityReachFemale
 - The months needed for a female animal of the species to reach sexual maturity.
@@ -94,24 +94,24 @@ Definiton: The taxonomic rank Family.
 ## Motility
 - Ability to move spontaneously and actively, using metabolic energy. 
 - The species were defined as:
-### Actively mobile (1)
-### Facultatively mobile (2)
-### Fast moving (3)
+#### _Actively mobile_ (1)
+#### _Facultatively mobile_ (2)
+#### _Fast moving_ (3)
 
 ## NaturalPredators
 - Whether the species has natural predators in their natural habitat (not counting humans). 
 - The species were defined as having:
-### Less than 3 (incl 3) (1)
-### More than 3 (2)
-### None (3)
+#### _Less than 3 (incl 3)_ (1)
+#### _More than 3_ (2)
+#### _None_ (3)
 
 ## NumMales
 - The number of mature males in a group of species. There could be multiple males per social group, one male per social group, no males per social group/males live separatly or there is no social group/the species lives solitary.
 - The species were defined as amount of males per group:
-### Multiple males (1)
-### One male (2)
-### No males/males live separatly (3)
-### No social group/solitary (4)
+#### _Multiple males_ (1)
+#### _One male_ (2)
+#### _No males/males live separatly_ (3)
+#### _No social group/solitary_ (4)
 
 ## NumOffspring
 - The average amount of offspring per pregnancy.
@@ -123,8 +123,8 @@ Definiton: The taxonomic rank Family.
 ## ParentalCare
 - Whether the parents care for and rear the offspring or not. 
 - The species were defined as: 
-### Parents care for offspring (1)
-### Parents don't care for offspring (2)
+#### _Parents care for offspring_ (1)
+#### _Parents don't care for offspring_ (2)
 
 ## PullStrength
 - The amount of grams a mature species can pull (Same as carry weight, 20% of the mature animal's body weight).
@@ -133,14 +133,14 @@ Definiton: The taxonomic rank Family.
 ## SocialHierarchy
 - Whether there is a social hierarchy or not. 
 - The species were defined as 
-### Social hierarchy (1) 
-### No social hierarchy (2)
+#### _Social hierarchy_ (1) 
+#### _No social hierarchy_ (2)
 
 ## Sociality
 - The degree to which the species tend to associate in social groups. 
 - The species were defined as:
-### Solitary (1) 
-### In a group (2)
+#### _Solitary_ (1) 
+#### _In a group_ (2)
 
 ## Species
 - The taxonomic rank Species.
@@ -148,5 +148,5 @@ Definiton: The taxonomic rank Family.
 ## YearRoundBreeding
 - Whether the species breeds all year round or seasonal.
 - The species were defined as:
-### Year round (1)
-### Seasonal (2)
+#### _Year round_ (1)
+#### _Seasonal_ (2)
