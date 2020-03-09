@@ -100,9 +100,9 @@ Definiton: The taxonomic rank Family.
 
 ## NumMales
 - The number of mature males in a group of species. They were defined as (1) multiple males per social group (2) one male per social group (3) no males per social group / males live separatly or (4) there is no social group / the species is solitary.
-#### _Multiple males_
-#### _One male_
-#### _No males_
+#### _Multiple_
+#### _One_
+#### _None_
 #### _Solitary_
 
 ## NumOffspring
