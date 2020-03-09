@@ -35,24 +35,24 @@ Description of some of the terms used in the dataset. The terms contain the name
 ## DevelopmentStrategy
 - Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. 
 - The species were defined as:
-1 ### Precocial
-2 ### Altricial.
+### Precocial (1)
+### Altricial (2)
 
 ## Diet
 - What kind of food the animal eats. 
 - Species were defined as: 
-1 ### Frugivores 
-2 ### Granivores 
-3 ### Nectivores 
-4 ### Folivores 
-5 ### Lignivores
-6 ### Multiple kinds.
+### Frugivores (1)
+### Granivores (2)
+### Nectivores (3)
+### Folivores (4)
+### Lignivores (5)
+### Multiple kinds (6)
 
 ## Domestication
 - Whether the animal is domesticated or the wild ancestor of a domesticated species or not. 
 - Species were defined as: 
-1 ### Domesticated 
-2 ### Wild.
+### Domesticated (1)
+### Wild (2)
 
 ## Family
 Definiton: The taxonomic rank Family.
@@ -62,11 +62,11 @@ Definiton: The taxonomic rank Family.
 
 ## Horns/Antlers
 - Whether only the male mature species has horns/antlers, only the female mature species has horns/antlers both male and female mature species have horns/antlers or both male and female species don't have horns/antlers.
-- The species were defined as to with gender has horns/antlers:
-1 ### Male
-2 ### Female
-3 ### Both
-4 ### Neither
+- The species were defined as to which gender has horns/antlers:
+### Male (1)
+### Female (2)
+### Both (3)
+### Neither (4)
 
 ## ID_EoL
 - The IDs from the Encyclopedia of Life database.
@@ -78,10 +78,10 @@ Definiton: The taxonomic rank Family.
 ## MatingSystem
 - The way the species group is structured in relation to sexual behaviour. 
 - The species' mating systems were defined as:
-1 ### Monogamy
-2 ### Polyandry
-3 ### Polygyny 
-4 ### Polygynandry
+### Monogamy (1)
+### Polyandry (2)
+### Polygyny (3)
+### Polygynandry (4)
 
 ## MaturityReachFemale
 - The months needed for a female animal of the species to reach sexual maturity.
@@ -94,24 +94,24 @@ Definiton: The taxonomic rank Family.
 ## Motility
 - Ability to move spontaneously and actively, using metabolic energy. 
 - The species were defined as:
-1 ### Actively mobile 
-2 ### Facultatively mobile
-3 ### Fast moving
+### Actively mobile (1)
+### Facultatively mobile (2)
+### Fast moving (3)
 
 ## NaturalPredators
 - Whether the species has natural predators in their natural habitat (not counting humans). 
 - The species were defined as having:
-1 ### Less than 3 (incl 3) 
-2 ### More than 3 
-3 ### None
+### Less than 3 (incl 3) (1)
+### More than 3 (2)
+### None (3)
 
 ## NumMales
 - The number of mature males in a group of species. There could be multiple males per social group, one male per social group, no males per social group/males live separatly or there is no social group/the species lives solitary.
 - The species were defined as amount of males per group:
-1 ### Multiple males
-2 ### One male
-3 ### No males/males live separatly
-4 ### No social group/solitary
+### Multiple males (1)
+### One male (2)
+### No males/males live separatly (3)
+### No social group/solitary (4)
 
 ## NumOffspring
 - The average amount of offspring per pregnancy.
@@ -123,8 +123,8 @@ Definiton: The taxonomic rank Family.
 ## ParentalCare
 - Whether the parents care for and rear the offspring or not. 
 - The species were defined as: 
-1 ### Parents care for offspring 
-2 ### Parents don't care for offspring
+### Parents care for offspring (1)
+### Parents don't care for offspring (2)
 
 ## PullStrength
 - The amount of grams a mature species can pull (Same as carry weight, 20% of the mature animal's body weight).
@@ -133,14 +133,14 @@ Definiton: The taxonomic rank Family.
 ## SocialHierarchy
 - Whether there is a social hierarchy or not. 
 - The species were defined as 
-1 ### Social hierarchy 
-2 ### No social hierarchy
+### Social hierarchy (1) 
+### No social hierarchy (2)
 
 ## Sociality
 - The degree to which the species tend to associate in social groups. 
 - The species were defined as:
-1 ### Solitary 
-2 ### In a group
+### Solitary (1) 
+### In a group (2)
 
 ## Species
 - The taxonomic rank Species.
@@ -148,5 +148,5 @@ Definiton: The taxonomic rank Family.
 ## YearRoundBreeding
 - Whether the species breeds all year round or seasonal.
 - The species were defined as:
-1 ### Year round
-2 ### Seasonal
+### Year round (1)
+### Seasonal (2)
