@@ -33,13 +33,26 @@ Description of some of the terms used in the dataset. The terms contain the name
 - Grams 
 
 ## DevelopmentStrategy
-- Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. The species were defined as (1) precocial or (2) altricial.
+- Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. 
+- The species were defined as:
+1 ### Precocial
+2 ### Altricial.
 
 ## Diet
-- What kind of food the animal eats. Species were defined as (1) frugivores, (2) granivores, (3) nectivores, (4) folivores, (5) lignivores or (6) multiple kinds.
+- What kind of food the animal eats. 
+- Species were defined as: 
+1 ### Frugivores 
+2 ### Granivores 
+3 ### Nectivores 
+4 ### Folivores 
+5 ### Lignivores
+6 ### Multiple kinds.
 
 ## Domestication
-- Whether the animal is domesticated or the wild ancestor of a domesticated species or not. Species were defined as (1) domesticated or (2) wild.
+- Whether the animal is domesticated or the wild ancestor of a domesticated species or not. 
+- Species were defined as: 
+1 ### Domesticated 
+2 ### Wild.
 
 ## Family
 Definiton: The taxonomic rank Family.
@@ -48,7 +61,12 @@ Definiton: The taxonomic rank Family.
 - The taxonomic rank Genus.
 
 ## Horns/Antlers
-- Whether (1) only the male mature species has horns/antlers, (2) only the female mature species has horns/antlers (3) both male and female mature species have horns/antlers or (4) both male and female species don't have horns/antlers.
+- Whether only the male mature species has horns/antlers, only the female mature species has horns/antlers both male and female mature species have horns/antlers or both male and female species don't have horns/antlers.
+- The species were defined as to with gender has horns/antlers:
+1 ### Male
+2 ### Female
+3 ### Both
+4 ### Neither
 
 ## ID_EoL
 - The IDs from the Encyclopedia of Life database.
@@ -58,7 +76,12 @@ Definiton: The taxonomic rank Family.
 - Years
 
 ## MatingSystem
-- The way the species group is structured in relation to sexual behaviour. The species' mating systems were defined as (1) monogamy, (2) polyandry, (3) polygyny and (4) polygynandry.
+- The way the species group is structured in relation to sexual behaviour. 
+- The species' mating systems were defined as:
+1 ### Monogamy
+2 ### Polyandry
+3 ### Polygyny 
+4 ### Polygynandry
 
 ## MaturityReachFemale
 - The months needed for a female animal of the species to reach sexual maturity.
@@ -69,13 +92,26 @@ Definiton: The taxonomic rank Family.
 - Months
 
 ## Motility
-- Ability to move spontaneously and actively, using metabolic energy. The species were defined as (1) actively mobile, (2) facultatively mobile or (3) fast moving.
+- Ability to move spontaneously and actively, using metabolic energy. 
+- The species were defined as:
+1 ### Actively mobile 
+2 ### Facultatively mobile
+3 ### Fast moving
 
 ## NaturalPredators
-- Whether the species has natural predators in their natural habitat (not counting humans). They were defined as (1) having less than 3 natural predators (including 3), (2) having more than 3 natural predators or (3) not having natural predators.
+- Whether the species has natural predators in their natural habitat (not counting humans). 
+- The species were defined as having:
+1 ### Less than 3 (incl 3) 
+2 ### More than 3 
+3 ### None
 
 ## NumMales
-- The number of mature males in a group of species. They were defined as (1) multiple males per social group (2) one male per social group (3) no males per social group / males live separatly or (4) there is no social group / the species is solitary.
+- The number of mature males in a group of species. There could be multiple males per social group, one male per social group, no males per social group/males live separatly or there is no social group/the species lives solitary.
+- The species were defined as amount of males per group:
+1 ### Multiple males
+2 ### One male
+3 ### No males/males live separatly
+4 ### No social group/solitary
 
 ## NumOffspring
 - The average amount of offspring per pregnancy.
@@ -85,20 +121,32 @@ Definiton: The taxonomic rank Family.
 - The taxonomic rank Order.
 
 ## ParentalCare
-- Whether the parents care for and rear the offspring or not. The species were defined as (1) parents care for offspring and (2) parents don't care for offspring.
+- Whether the parents care for and rear the offspring or not. 
+- The species were defined as: 
+1 ### Parents care for offspring 
+2 ### Parents don't care for offspring
 
 ## PullStrength
 - The amount of grams a mature species can pull (Same as carry weight, 20% of the mature animal's body weight).
 - Grams
 
 ## SocialHierarchy
-- Whether there is a social hierarchy or not. They were defined as (1) social hierarchy or (2) no social hierarchy.
+- Whether there is a social hierarchy or not. 
+- The species were defined as 
+1 ### Social hierarchy 
+2 ### No social hierarchy
 
 ## Sociality
-- The degree to which the species tend to associate in social groups. Species were defined as (1) solitary or (2) in a group.
+- The degree to which the species tend to associate in social groups. 
+- The species were defined as:
+1 ### Solitary 
+2 ### In a group
 
 ## Species
 - The taxonomic rank Species.
 
 ## YearRoundBreeding
-- Whether the species breeds (1) all year round or (2) seasonal.
+- Whether the species breeds all year round or seasonal.
+- The species were defined as:
+1 ### Year round
+2 ### Seasonal
