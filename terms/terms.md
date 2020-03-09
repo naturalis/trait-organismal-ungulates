@@ -44,7 +44,7 @@ Description of some of the terms used in the dataset. The terms contain the name
 #### _Nectivores_
 #### _Folivores_
 #### _Lignivores_
-#### _Multiple kinds_
+#### _Multiple_
 
 ## Domestication
 - Whether the animal is domesticated or the wild ancestor of a domesticated species or not. Species were defined as (1) domesticated or (2) wild.
@@ -94,7 +94,7 @@ Definiton: The taxonomic rank Family.
 
 ## NaturalPredators
 - Whether the species has natural predators in their natural habitat (not counting humans). They were defined as (1) having less than 3 natural predators (including 3), (2) having more than 3 natural predators or (3) not having natural predators.
-#### _Less than 3 (incl 3)_
+#### _Less than 3_
 #### _More than 3_
 #### _None_
 
@@ -102,8 +102,8 @@ Definiton: The taxonomic rank Family.
 - The number of mature males in a group of species. They were defined as (1) multiple males per social group (2) one male per social group (3) no males per social group / males live separatly or (4) there is no social group / the species is solitary.
 #### _Multiple males_
 #### _One male_
-#### _No males/males live separatly_
-#### _No social group/solitary_
+#### _No males_
+#### _Solitary_
 
 ## NumOffspring
 - The average amount of offspring per pregnancy.
@@ -114,8 +114,8 @@ Definiton: The taxonomic rank Family.
 
 ## ParentalCare
 - Whether the parents care for and rear the offspring or not. The species were defined as (1) parents care for offspring and (2) parents don't care for offspring.
-#### _Parents care for offspring_
-#### _Parents don't care for offspring_
+#### _Care_
+#### _No care_
 
 ## PullStrength
 - The amount of grams a mature species can pull (Same as carry weight, 20% of the mature animal's body weight).
@@ -123,13 +123,13 @@ Definiton: The taxonomic rank Family.
 
 ## SocialHierarchy
 - Whether there is a social hierarchy or not. They were defined as (1) social hierarchy or (2) no social hierarchy.
-#### _Social hierarchy_
-#### _No social hierarchy_
+#### _Hierarchy_
+#### _No hierarchy_
 
 ## Sociality
 - The degree to which the species tend to associate in social groups. Species were defined as (1) solitary or (2) in a group.
 #### _Solitary_
-#### _In a group_
+#### _Group_
 
 ## Species
 - The taxonomic rank Species.
