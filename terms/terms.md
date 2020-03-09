@@ -33,10 +33,9 @@ Description of some of the terms used in the dataset. The terms contain the name
 - Grams 
 
 ## DevelopmentStrategy
-- Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. 
-- The species were defined as:
-#### _Precocial_ (1)
-#### _Altricial_ (2)
+- Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. The species were defined as (1) precocial or (2) altricial.
+#### _Precocial_
+#### _Altricial_
 
 ## Diet
 - What kind of food the animal eats. 
