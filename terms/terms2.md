@@ -32,11 +32,11 @@ Description of some of the terms used in the dataset. The terms contain the name
 - The average number of grams a mature species can carry. (For the purposes of this paper it is measured as 20% of the mature animal's body weight)
 - Grams 
 
-## DevelopmentStrategy
+## **DevelopmentStrategy**
 - Whether the offspring needs the help of the parents to survive, or they can do it by themselfs. 
 - The species were defined as:
-### Precocial (1)
-### Altricial (2)
+### _Precocial_ (1)
+### _Altricial_ (2)
 
 ## Diet
 - What kind of food the animal eats. 
