@@ -38,20 +38,18 @@ Description of some of the terms used in the dataset. The terms contain the name
 #### _Altricial_
 
 ## Diet
-- What kind of food the animal eats. 
-- Species were defined as: 
-#### _Frugivores_ (1)
-#### _Granivores_ (2)
-#### _Nectivores_ (3)
-#### _Folivores_ (4)
-#### _Lignivores_ (5)
-#### _Multiple kinds_ (6)
+- What kind of food the animal eats. Species were defined as (1) frugivores, (2) granivores, (3) nectivores, (4) folivores, (5) lignivores or (6) multiple kinds.
+#### _Frugivores_
+#### _Granivores_
+#### _Nectivores_
+#### _Folivores_
+#### _Lignivores_
+#### _Multiple kinds_
 
 ## Domestication
-- Whether the animal is domesticated or the wild ancestor of a domesticated species or not. 
-- Species were defined as: 
-#### _Domesticated_ (1)
-#### _Wild_ (2)
+- Whether the animal is domesticated or the wild ancestor of a domesticated species or not. Species were defined as (1) domesticated or (2) wild.
+#### _Domesticated_
+#### _Wild_
 
 ## Family
 Definiton: The taxonomic rank Family.
@@ -60,12 +58,11 @@ Definiton: The taxonomic rank Family.
 - The taxonomic rank Genus.
 
 ## Horns/Antlers
-- Whether only the male mature species has horns/antlers, only the female mature species has horns/antlers both male and female mature species have horns/antlers or both male and female species don't have horns/antlers.
-- The species were defined as to which gender has horns/antlers:
-#### _Male_ (1)
-#### _Female_ (2)
-#### _Both_ (3)
-#### _Neither_ (4)
+- Whether (1) only the male mature species has horns/antlers, (2) only the female mature species has horns/antlers (3) both male and female mature species have horns/antlers or (4) both male and female species don't have horns/antlers.
+#### _Male_
+#### _Female_
+#### _Both_
+#### _Neither_
 
 ## ID_EoL
 - The IDs from the Encyclopedia of Life database.
@@ -75,12 +72,11 @@ Definiton: The taxonomic rank Family.
 - Years
 
 ## MatingSystem
-- The way the species group is structured in relation to sexual behaviour. 
-- The species' mating systems were defined as:
-#### _Monogamy_ (1)
-#### _Polyandry_ (2)
-#### _Polygyny_ (3)
-#### _Polygynandry_ (4)
+- The way the species group is structured in relation to sexual behaviour. The species' mating systems were defined as (1) monogamy, (2) polyandry, (3) polygyny and (4) polygynandry.
+#### _Monogamy_
+#### _Polyandry_
+#### _Polygyny_
+#### _Polygynandry_
 
 ## MaturityReachFemale
 - The months needed for a female animal of the species to reach sexual maturity.
@@ -91,26 +87,23 @@ Definiton: The taxonomic rank Family.
 - Months
 
 ## Motility
-- Ability to move spontaneously and actively, using metabolic energy. 
-- The species were defined as:
-#### _Actively mobile_ (1)
-#### _Facultatively mobile_ (2)
-#### _Fast moving_ (3)
+- Ability to move spontaneously and actively, using metabolic energy. The species were defined as (1) actively mobile, (2) facultatively mobile or (3) fast moving.
+#### _Actively mobile_
+#### _Facultatively mobile_
+#### _Fast moving_
 
 ## NaturalPredators
-- Whether the species has natural predators in their natural habitat (not counting humans). 
-- The species were defined as having:
-#### _Less than 3 (incl 3)_ (1)
-#### _More than 3_ (2)
-#### _None_ (3)
+- Whether the species has natural predators in their natural habitat (not counting humans). They were defined as (1) having less than 3 natural predators (including 3), (2) having more than 3 natural predators or (3) not having natural predators.
+#### _Less than 3 (incl 3)_
+#### _More than 3_
+#### _None_
 
 ## NumMales
-- The number of mature males in a group of species. There could be multiple males per social group, one male per social group, no males per social group/males live separatly or there is no social group/the species lives solitary.
-- The species were defined as amount of males per group:
-#### _Multiple males_ (1)
-#### _One male_ (2)
-#### _No males/males live separatly_ (3)
-#### _No social group/solitary_ (4)
+- The number of mature males in a group of species. They were defined as (1) multiple males per social group (2) one male per social group (3) no males per social group / males live separatly or (4) there is no social group / the species is solitary.
+#### _Multiple males_
+#### _One male_
+#### _No males/males live separatly_
+#### _No social group/solitary_
 
 ## NumOffspring
 - The average amount of offspring per pregnancy.
@@ -120,32 +113,28 @@ Definiton: The taxonomic rank Family.
 - The taxonomic rank Order.
 
 ## ParentalCare
-- Whether the parents care for and rear the offspring or not. 
-- The species were defined as: 
-#### _Parents care for offspring_ (1)
-#### _Parents don't care for offspring_ (2)
+- Whether the parents care for and rear the offspring or not. The species were defined as (1) parents care for offspring and (2) parents don't care for offspring.
+#### _Parents care for offspring_
+#### _Parents don't care for offspring_
 
 ## PullStrength
 - The amount of grams a mature species can pull (Same as carry weight, 20% of the mature animal's body weight).
 - Grams
 
 ## SocialHierarchy
-- Whether there is a social hierarchy or not. 
-- The species were defined as 
-#### _Social hierarchy_ (1) 
-#### _No social hierarchy_ (2)
+- Whether there is a social hierarchy or not. They were defined as (1) social hierarchy or (2) no social hierarchy.
+#### _Social hierarchy_
+#### _No social hierarchy_
 
 ## Sociality
-- The degree to which the species tend to associate in social groups. 
-- The species were defined as:
-#### _Solitary_ (1) 
-#### _In a group_ (2)
+- The degree to which the species tend to associate in social groups. Species were defined as (1) solitary or (2) in a group.
+#### _Solitary_
+#### _In a group_
 
 ## Species
 - The taxonomic rank Species.
 
 ## YearRoundBreeding
-- Whether the species breeds all year round or seasonal.
-- The species were defined as:
-#### _Year round_ (1)
-#### _Seasonal_ (2)
+- Whether the species breeds (1) all year round or (2) seasonal.
+#### _Year round_
+#### _Seasonal_
