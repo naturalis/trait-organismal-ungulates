@@ -3,10 +3,13 @@
 # DOCUMENTATION ABOUT CHANGING PATHS TO OWN DIRECTORIES
 ## Need Python2
 
+# Declare root
+root="/home/zoe/Documents/GitHub/trait-organismal-ungulates/"
+
 # Declaring variables
-pantheria="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/PanTHERIA.tsv"
-speciesTXT="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/speciesList.txt"
-idEOL="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/eolID.csv"
+pantheria=${root}"data/PanTHERIA.tsv"
+speciesTXT=${root}"data/CSV/speciesList.txt"
+idEOL=${root}"data/eolID.csv"
 
 binomArray=()
 orderArray=()
