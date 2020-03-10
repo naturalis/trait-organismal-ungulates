@@ -1,14 +1,18 @@
 #!/bin/bash
 
 ## DECLARE
+# Declare root
+root="/home/zoe/Documents/GitHub/trait-organismal-ungulates/"
+
 # Declare files and arrays
-csv="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/CSV/ungulatesTraits.csv"
-temp="/home/zoe/Documents/GitHub/trait-organismal-ungulates/temp.txt"
-rdf="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/RDF/ungulate_traits.ttl"
-wilreed="/home/zoe/Documents/GitHub/trait-organismal-ungulates/data/msw3-all.csv"
+csv=${root}"data/CSV/ungulatesTraits.csv"
+temp=${root}"temp.txt"
+rdf=${root}"data/RDF/ungulate_traits.ttl"
+wilreed=${root}"data/msw3-all.csv"
 trait=()
 species=()
 value=()
+
 
 ## PREFIXES
 # Add the prefixes to the rdf file
@@ -255,7 +259,7 @@ do
 			then
 				if [[ ${value[${i}]} == 1 ]]
 				then
-					val="trait:solitary"
+					val="trait:solitary-1"
 				elif [[ ${value[${i}]} == 2 ]]
 				then
 					val="trait:group"
