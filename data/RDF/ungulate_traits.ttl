@@ -1430,7 +1430,7 @@ species:14200768 trait:eol_id "328689" ;
 	trait:avgfoodconsumption "2.32" ;
 	trait:sociality trait:group ;
 	trait:socialhierarchy trait:hierarchy ;
-	trait:nummales trait:hierarchy ;
+	trait:nummales trait:none ;
 	trait:numoffspring "1.09" ;
 	trait:avgweight "58" ;
 	trait:developmentstrategy trait:altricial ;

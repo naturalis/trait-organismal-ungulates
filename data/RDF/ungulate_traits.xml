@@ -148,6 +148,7 @@
     <ns0:pullstrength>32187.572</ns0:pullstrength>
     <ns0:avgmovingspeed>80</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>2.73</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200504">
     <ns0:eol_id>4447799</ns0:eol_id>
@@ -262,6 +263,7 @@
     <ns0:pullstrength>92380.152</ns0:pullstrength>
     <ns0:avgmovingspeed>9.6</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>71.75</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200211">
     <ns0:eol_id>2921075</ns0:eol_id>
@@ -385,6 +387,7 @@
     <ns0:pullstrength>18840.444</ns0:pullstrength>
     <ns0:avgmovingspeed>55</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>7.06</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200530">
     <ns0:eol_id>308537</ns0:eol_id>
@@ -483,6 +486,7 @@
     <ns0:pullstrength>9490.002</ns0:pullstrength>
     <ns0:avgmovingspeed>40</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>8.05</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200535">
     <ns0:eol_id>311909</ns0:eol_id>
@@ -626,6 +630,7 @@
     <ns0:carryweight>10999.998</ns0:carryweight>
     <ns0:pullstrength>10999.998</ns0:pullstrength>
     <ns0:avgtraveldistance>0.7</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200348">
     <ns0:eol_id>308521</ns0:eol_id>
@@ -793,6 +798,7 @@
     <ns0:carryweight>15826.434</ns0:carryweight>
     <ns0:pullstrength>15826.434</ns0:pullstrength>
     <ns0:avgtraveldistance>4</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200669">
     <ns0:eol_id>328109</ns0:eol_id>
@@ -971,6 +977,7 @@
     <ns0:pullstrength>36450.608</ns0:pullstrength>
     <ns0:avgmovingspeed>48</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>15.05</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200675">
     <ns0:eol_id>328705</ns0:eol_id>
@@ -1134,6 +1141,7 @@
     <ns0:carryweight>158264.352</ns0:carryweight>
     <ns0:pullstrength>158264.352</ns0:pullstrength>
     <ns0:avgtraveldistance>15</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200687">
     <ns0:eol_id>328699</ns0:eol_id>
@@ -1427,6 +1435,7 @@
     <ns0:pullstrength>110903.182</ns0:pullstrength>
     <ns0:avgmovingspeed>53.5</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>100</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200115">
     <ns0:eol_id>309019</ns0:eol_id>
@@ -1497,7 +1506,7 @@
     <ns0:avgfoodconsumption>2.32</ns0:avgfoodconsumption>
     <ns0:sociality rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#group"/>
     <ns0:socialhierarchy rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#hierarchy"/>
-    <ns0:nummales rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#hierarchy"/>
+    <ns0:nummales rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#none"/>
     <ns0:numoffspring>1.09</ns0:numoffspring>
     <ns0:avgweight>58</ns0:avgweight>
     <ns0:developmentstrategy rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#altricial"/>
@@ -1717,6 +1726,7 @@
     <ns0:carryweight>12179.754</ns0:carryweight>
     <ns0:pullstrength>12179.754</ns0:pullstrength>
     <ns0:avgtraveldistance>0.64</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200786">
     <ns0:eol_id>328695</ns0:eol_id>
@@ -2008,6 +2018,7 @@
     <ns0:hornsantlers rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#Both"/>
     <ns0:naturalpredators rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#more-than-3"/>
     <ns0:avgtraveldistance>1.7</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200076">
     <ns0:eol_id>328336</ns0:eol_id>
@@ -2650,6 +2661,7 @@
     <ns0:pullstrength>48173.426</ns0:pullstrength>
     <ns0:avgmovingspeed>55</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>58.42</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200371">
     <ns0:eol_id>328650</ns0:eol_id>
@@ -3138,6 +3150,7 @@
     <ns0:carryweight>4617.574</ns0:carryweight>
     <ns0:pullstrength>4617.574</ns0:pullstrength>
     <ns0:avgmovingspeed>70</ns0:avgmovingspeed>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200399">
     <ns0:eol_id>308403</ns0:eol_id>
@@ -3525,6 +3538,7 @@
     <ns0:pullstrength>56492.426</ns0:pullstrength>
     <ns0:avgmovingspeed>64</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>7.4</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200541">
     <ns0:eol_id>129515</ns0:eol_id>
@@ -4025,6 +4039,7 @@
     <ns0:motility rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#actively-mobile"/>
     <ns0:carryweight>14837.282</ns0:carryweight>
     <ns0:pullstrength>14837.282</ns0:pullstrength>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200799">
     <ns0:eol_id>1038795</ns0:eol_id>
@@ -4809,6 +4824,7 @@
     <ns0:pullstrength>7760.874</ns0:pullstrength>
     <ns0:avgmovingspeed>56</ns0:avgmovingspeed>
     <ns0:avgtraveldistance>2.5</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200593">
     <ns0:eol_id>311497</ns0:eol_id>
@@ -5006,6 +5022,7 @@
     <ns0:carryweight>4109.372</ns0:carryweight>
     <ns0:pullstrength>4109.372</ns0:pullstrength>
     <ns0:avgtraveldistance>1</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200244">
     <ns0:eol_id>7238006</ns0:eol_id>
@@ -5466,6 +5483,7 @@
     <ns0:carryweight>3718.002</ns0:carryweight>
     <ns0:pullstrength>3718.002</ns0:pullstrength>
     <ns0:avgtraveldistance>0.16</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200403">
     <ns0:eol_id>308384</ns0:eol_id>
@@ -5812,6 +5830,7 @@
     <ns0:carryweight>5759.302</ns0:carryweight>
     <ns0:pullstrength>5759.302</ns0:pullstrength>
     <ns0:avgtraveldistance>0.31</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200807">
     <ns0:eol_id>4447278</ns0:eol_id>
@@ -6925,6 +6944,7 @@
     <ns0:carryweight>4546.266</ns0:carryweight>
     <ns0:pullstrength>4546.266</ns0:pullstrength>
     <ns0:avgtraveldistance>0.6</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200019">
     <ns0:eol_id>328331</ns0:eol_id>
@@ -7974,6 +7994,7 @@
     <ns0:carryweight>19094.322</ns0:carryweight>
     <ns0:pullstrength>19094.322</ns0:pullstrength>
     <ns0:avgtraveldistance>9.255</ns0:avgtraveldistance>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200437">
     <ns0:eol_id>999297</ns0:eol_id>
@@ -8996,6 +9017,7 @@
     <ns0:motility rdf:resource="https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#actively-mobile"/>
     <ns0:carryweight>3856.424</ns0:carryweight>
     <ns0:pullstrength>3856.424</ns0:pullstrength>
+  </rdf:Description>
 
   <rdf:Description rdf:about="https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&amp;id=14200727">
     <ns0:eol_id>1038786</ns0:eol_id>
