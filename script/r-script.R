@@ -10,7 +10,7 @@ library(usdm)
 
 ## The project root and paths
 #declare root and paths to data
-root <- "/home/zoe/Documents/Naturalis/R-Studio/trait-organismal-ungulates"
+root <- "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R"
 treeFile <- paste(c(root, "/data/ungulates.tree"), collapse = "")
 ungulatesFile <- paste(c(root, "/data/CSV/ungulatesTraits.csv"), collapse = "")
 
@@ -18,8 +18,6 @@ ungulatesFile <- paste(c(root, "/data/CSV/ungulatesTraits.csv"), collapse = "")
 #read datafiles into R
 ungulatesData <- read.csv(ungulatesFile, header = TRUE, sep= ",")
 tree <- read.tree(treeFile)
-ggtree(tree, layout = "circular") 
-# + geom_tiplab() adds labels, but doesn't work properly (yet) 
 
 
 ### 2 Preprocessing
@@ -36,24 +34,33 @@ ungulatesData <- ungulatesData %>% rename(Horns_Antlers = Horns.Antlers,
                                           X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
 
 summary(ungulatesData)
-#remove columns that (almost) only consist of missing values (>200 NA)
+#remove traits that (almost) only consist of missing values (>200 NA)
 ungulatesData <- subset(ungulatesData, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRate_mLO2hr, 
                                                    X5.2_BasalMetRateMass_g, X7.1_DispersalAge_d,
                                                    X16.1_LittersPerYear, X13.2_NeonateHeadBodyLen_mm,
                                                    X10.1_PopulationGrpSize, X13.3_WeaningHeadBodyLen_mm,
                                                    X5.4_WeaningBodyMass_g, X2.1_AgeatEyeOpening_d))
 
+#remove traits without any information gain (only consist of one value)
+ungulatesData <- subset(ungulatesData, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
+X6.2_TrophicLevel
+
+
+X24.1_TeatNumber
+X12.1_HabitatBreadth
+X1.1_ActivityCycle
+
 #convert Order values to binary form
 ungulatesData$Order = factor(ungulatesData$Order, levels=c("Artiodactyla", "Perissodactyla"), labels = c(1,2))
 summary(ungulatesData)
 
-### 4 Distance Matrix
+
+### 3 Distance Matrix
+#not sure what to do with this yet
 distances <- cophenetic.phylo(phyloTree)
 
 
-
-
-### 3 VIF-analysis
+### 4 VIF-analysis
 ## Highest VIF value
 ## NOG MEE BEZIG
 vif(ungulatesData[3:49])
