@@ -1,14 +1,70 @@
+### 1 Import data
+
+## Packages
 library(ape)
 library(ggtree)
+library(ggplot2)
+library(Rphylopars)
+library(tidyverse)
+library(usdm)
 
+## The project root and paths
+#declare root and paths to data
 root <- "/home/zoe/Documents/Naturalis/R-Studio/trait-organismal-ungulates"
 treeFile <- paste(c(root, "/data/ungulates.tree"), collapse = "")
 ungulatesFile <- paste(c(root, "/data/CSV/ungulatesTraits.csv"), collapse = "")
 
-phyloTree <- read.tree(treeFile)
-ggtree(phyloTree, layout = "circular") 
-# + geom_tiplab() adds labels, but doesn't work (yet) 
-
+## Import tree and domestication data
+#read datafiles into R
 ungulatesData <- read.csv(ungulatesFile, header = TRUE, sep= ",")
+tree <- read.tree(treeFile)
+ggtree(tree, layout = "circular") 
+# + geom_tiplab() adds labels, but doesn't work properly (yet) 
 
 
+### 2 Preprocessing
+#drop tips that aren't in dataset
+tips_drop <- setdiff(tree$tip.label, ungulatesData$BinomialName)
+phyloTree <- drop.tip(tree, tips_drop)
+
+#check if there are still name differences between the tree and dataset
+setdiff(phyloTree$tip.label, ungulatesData$BinomialName)
+setdiff(ungulatesData$BinomialName, phyloTree$tip.label)
+
+#rename columns with dots in the name
+ungulatesData <- ungulatesData %>% rename(Horns_Antlers = Horns.Antlers,
+                                          X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
+
+summary(ungulatesData)
+#remove columns that (almost) only consist of missing values (>200 NA)
+ungulatesData <- subset(ungulatesData, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRate_mLO2hr, 
+                                                   X5.2_BasalMetRateMass_g, X7.1_DispersalAge_d,
+                                                   X16.1_LittersPerYear, X13.2_NeonateHeadBodyLen_mm,
+                                                   X10.1_PopulationGrpSize, X13.3_WeaningHeadBodyLen_mm,
+                                                   X5.4_WeaningBodyMass_g, X2.1_AgeatEyeOpening_d))
+
+#convert Order values to binary form
+ungulatesData$Order = factor(ungulatesData$Order, levels=c("Artiodactyla", "Perissodactyla"), labels = c(1,2))
+summary(ungulatesData)
+
+### 4 Distance Matrix
+distances <- cophenetic.phylo(phyloTree)
+
+
+
+
+### 3 VIF-analysis
+## Highest VIF value
+## NOG MEE BEZIG
+vif(ungulatesData[3:49])
+
+
+# Information about data per predictor variable
+summary(ungulatesData)
+str(ungulatesData)
+ungulatesData$BinomialName
+
+# Testdata
+theme_set(theme_bw(base_size=18))
+testdata <- read.csv(ungulatesFile, header = TRUE, sep = ",", nrows = 10)
+qplot(testdata$Domestication, testdata$X1.1_ActivityCycle, facets = . ~ testdata$BinomialName, colour = BinomialName, geom = "boxplot", data = testdata)
