@@ -10,11 +10,13 @@ knitr::opts_chunk$set(echo = T)
 # 1 Import data
 
 First the needed packages, data and phylogenetic tree are loaded into R. The root of the
-GitHub repository must be declared for the data to be found.
+GitHub repository must be declared for the data to be found. The trait data and OMI data 
+need to be merged.
 
 ### Load packages
 ```{r Load packages, message=FALSE}
 library(ape)
+library(dplyr)
 library(ggtree)
 library(ggplot2)
 library(Rphylopars)
@@ -27,14 +29,23 @@ library(usdm)
 root <- "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R"
 treeFile <- paste(c(root, "/data/ungulates.tree"), collapse = "")
 ungulatesFile <- paste(c(root, "/data/CSV/ungulatesTraits.csv"), collapse = "")
+omiFile <- paste(c(root, "/data/OMI.csv"), collapse = "")
 ```
 
 ### Import tree and domestication data
 ```{r import data}
 ungulatesData <- read.csv(ungulatesFile, header = TRUE, sep= ",")
+omi <- read.csv(omiFile, header = TRUE, sep = ",")
 tree <- read.tree(treeFile)
 ```
 
+### Merge datasets
+```{r merge data}
+ungulatesData <- ungulatesData[2:59]
+omi <- omi %>% rename(BinomialName = X)
+dataset <- merge(ungulatesData, omi, by="BinomialName", all=T)
+dataset <- dataset[-c(258:265),]
+```
 
 # 2 Preprocessing
 
@@ -44,22 +55,23 @@ dropped. Rename trait names that contain dots, remove traits that consist of mor
 
 ```{r check if names match between dataset and tree}
 #drop tips that aren't in dataset
-tips_drop <- setdiff(tree$tip.label, ungulatesData$BinomialName)
+tips_drop <- setdiff(tree$tip.label, dataset$BinomialName)
 phyloTree <- drop.tip(tree, tips_drop)
 
 
 #rename columns with dots in the name
-ungulatesData <- ungulatesData %>% rename(Horns_Antlers = Horns.Antlers,
-                                          X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
+dataset <- dataset %>% rename(Horns_Antlers = Horns.Antlers,
+                              X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
 
 
 #remove traits that (almost) only consist of missing values (>200 NA)
-ungulatesData <- subset(ungulatesData, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X7.1_DispersalAge_d, X16.1_LittersPerYear, X13.2_NeonateHeadBodyLen_mm, X10.1_PopulationGrpSize, X13.3_WeaningHeadBodyLen_mm, X5.4_WeaningBodyMass_g, X2.1_AgeatEyeOpening_d))
+dataset <- subset(dataset, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X7.1_DispersalAge_d, X16.1_LittersPerYear, X13.2_NeonateHeadBodyLen_mm, X10.1_PopulationGrpSize, X13.3_WeaningHeadBodyLen_mm, X5.4_WeaningBodyMass_g, X2.1_AgeatEyeOpening_d))
 
 
 #remove traits without any information gain (only consist of one value)
-ungulatesData <- subset(ungulatesData, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
+dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
 ```
+
 
 # 3 Distance Matrix
 ### Not sure what to do with this yet
@@ -74,17 +86,18 @@ distances <- cophenetic.phylo(phyloTree)
 # 4 VIF-analysis
 
 There probably will be some colinearity between the different traits in the dataset. 
-Colinearity could lead to bias in the model, so a correction will have to be done. This can 
-be done using the Variance Inflation Factor (vif).
+Colinearity could lead to bias in the model, so a correction will have to be done. This can be done using the Variance Inflation Factor (vif).
 
 ### Only shows inf and NaN vif values ???
 ```{r general code VIF analysis, results='markup'}
-vif(ungulatesData[,c(8:46)])
+predictors <- dataset[,c(7:86)]
+
+vif(predictors)
 ```
 
 
 
 # Information about data per predictor variable
-summary(ungulatesData)
-str(ungulatesData)
-ungulatesData$BinomialName
+summary(dataset)
+str(dataset)
+dataset$BinomialName
