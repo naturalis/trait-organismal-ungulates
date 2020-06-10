@@ -1,0 +1,90 @@
+---
+title: "VIF"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+# VIF-analysis
+
+There are alot of traits in the dataset, which can lead to colinearity. To eliminate most of
+the colinearity, a VIF analysis will be done. Loading the data is done with the 'Import data' 
+and 'Preprocessing' part of the Pipeline.Rmd script.
+
+```{r load packages, message=FALSE}
+library(usdm)
+```
+
+
+## General code
+
+This is the general code for the VIF analysis, which will change due to new values being left out during
+the analysis. The VIF value and biological reasoning will help with choosing which traits should be left
+out.
+
+```{r general code}
+predictors <- dataset[,c(7:77)]
+vif(predictors)
+```
+
+## Trait data only
+
+Some traits have a very high colinearity with other traits, because they fall into the same category 
+(for example LitterSize and TeatNumber, which both have to do with offspring). When there is a very high colinearity, the VIF analysis shows only infinite instead of numbers as a VIF value. Because of this, the removal of very high colinearity needs to be done in smaller steps.
+
+``` {r round 1 - trait 7:20}
+#Round 1 with the following traits: 
+# X1.1_ActivityCycle, X5.1_AdultBodyMass_g, X13.1_AdultHeadBodyLen_mm, X3.1_AgeatFirstBirth_d, 
+# X9.1_GestationLen_d, X12.1_HabitatBreadth, X22.1_HomeRange_km2, X14.1_InterbirthInterval_d, 
+# X15.1_LitterSize, X17.1_MaxLongevity_m, X21.1_PopulationDensity_n_km2, X23.1_SexualMaturityAge_d, 
+# X10.2_SocialGrpSize, X24.1_TeatNumber
+vif(dataset[,c(7:20)])
+
+# Remove: X13.1_AdultHeadBodyLen_mm(9), X3.1_AgeatFirstBirth_d(10)
+vif(dataset[,c(7:8, 11:20)])
+```
+
+
+``` {r round 2 - 21:36}
+#Round 2 with following traits:
+# X24.1_TeatNumber, X6.2_TrophicLevel, X25.1_WeaningAge_d, AVGFoodConsumption, Sociality, 
+# SocialHierarchy, NumMales, MatingSystem, YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, 
+# Lifespan, NaturalPredators, CarryWeight, AVGMovingSpeed, AVGTravelDistance
+vif(dataset[,c(21:36)])
+
+# Remove: X24.1_TeatNumber(21), CarryWeight(34)
+vif(dataset[,c(22:33, 35:36)])
+```
+
+
+``` {r round 3 - 7:36}
+#Round 3 with following traits:
+# X1.1_ActivityCycle, X5.1_AdultBodyMass_g, X13.1_AdultHeadBodyLen_mm, X3.1_AgeatFirstBirth_d, 
+# X6.1_DietBreadth, X9.1_GestationLen_d, X12.1_HabitatBreadth, X22.1_HomeRange_km2, 
+# X14.1_InterbirthInterval_d, X15.1_LitterSize, X17.1_MaxLongevity_m, X21.1_PopulationDensity_n_km2, 
+# X23.1_SexualMaturityAge_d, X10.2_SocialGrpSize, X24.1_TeatNumber, X6.2_TrophicLevel, 
+# X25.1_WeaningAge_d, AVGFoodConsumption, Sociality, SocialHierarchy, NumMales, MatingSystem, 
+# YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, NaturalPredators, CarryWeight, 
+# AVGMovingSpeed, AVGTravelDistance
+vif(dataset[,c(7:36)])
+
+# Remove: X9.1_GestationLen_d(12), X14.1_InterbirthInterval_d(15), X17.1_MaxLongevity_m(17), 
+# X23.1_SexualMaturityAge_d(19), X10.2_SocialGrpSize(20), X25.1_WeaningAge_d(23), MatingSystem(28),
+# Lifespan(32), CarryWeight(34), AVGMovingSpeed(35), AVGTravelDistance(36)
+vif(dataset[,c(7:8, 11, 13:14, 16, 18, 22, 25:27, 29:31, 33)])
+```
+
+
+## OMI/geographical data
+#### WIP
+``` {r round 4 - 37:50}
+# Remove: annualPET(40), continentality(43), growingDegDays0(45), maxTempColdest(47), 
+# PETColdestQuarter(50), bio1(59), bio4(62), bio7(65) bio10(68), bio11(69), bio12(70), bio13(71),
+# bio6(64)
+vif(dataset[,c(37:39, 41:42, 44, 46, 48:49, 51:58, 60:61, 63, 66:67, 72:77)])
+
+```
+
+
