@@ -368,10 +368,11 @@ summary {
 
 <div id="import-data" class="section level1">
 <h1>1 Import data</h1>
-<p>First the needed packages, data and phylogenetic tree are loaded into R. The root of the GitHub repository must be declared for the data to be found.</p>
+<p>First the needed packages, data and phylogenetic tree are loaded into R. The root of the GitHub repository must be declared for the data to be found. The trait data and OMI data need to be merged.</p>
 <div id="load-packages" class="section level3">
 <h3>Load packages</h3>
 <pre class="r"><code>library(ape)
+library(dplyr)
 library(ggtree)
 library(ggplot2)
 library(Rphylopars)
@@ -382,48 +383,70 @@ library(usdm)</code></pre>
 <h3>Declare project root and paths</h3>
 <pre class="r"><code>root &lt;- &quot;/home/zoe/Documents/GitHub/trait-organismal-ungulates-R&quot;
 treeFile &lt;- paste(c(root, &quot;/data/ungulates.tree&quot;), collapse = &quot;&quot;)
-ungulatesFile &lt;- paste(c(root, &quot;/data/CSV/ungulatesTraits.csv&quot;), collapse = &quot;&quot;)</code></pre>
+ungulatesFile &lt;- paste(c(root, &quot;/data/CSV/ungulatesTraits.csv&quot;), collapse = &quot;&quot;)
+omiFile &lt;- paste(c(root, &quot;/data/OMI.csv&quot;), collapse = &quot;&quot;)</code></pre>
 </div>
 <div id="import-tree-and-domestication-data" class="section level3">
 <h3>Import tree and domestication data</h3>
 <pre class="r"><code>ungulatesData &lt;- read.csv(ungulatesFile, header = TRUE, sep= &quot;,&quot;)
+omi &lt;- read.csv(omiFile, header = TRUE, sep = &quot;,&quot;)
 tree &lt;- read.tree(treeFile)</code></pre>
+</div>
+<div id="merge-datasets" class="section level3">
+<h3>Merge datasets</h3>
+<pre class="r"><code>ungulatesData &lt;- ungulatesData[2:59]
+omi &lt;- omi %&gt;% rename(BinomialName = X)
+dataset &lt;- merge(ungulatesData, omi, by=&quot;BinomialName&quot;, all=T)
+dataset &lt;- dataset[-c(258:265),]
+rm(ungulatesData)</code></pre>
 </div>
 </div>
 <div id="preprocessing" class="section level1">
 <h1>2 Preprocessing</h1>
 <p>There are names in the phylogenetic tree that aren’t in the dataset, these tips can be dropped. Rename trait names that contain dots, remove traits that consist of more than 200 missing values and remove traits that don’t have any information gain.</p>
 <pre class="r"><code>#drop tips that aren't in dataset
-tips_drop &lt;- setdiff(tree$tip.label, ungulatesData$BinomialName)
+tips_drop &lt;- setdiff(tree$tip.label, dataset$BinomialName)
 phyloTree &lt;- drop.tip(tree, tips_drop)
+rm(tree)
 
 
 #rename columns with dots in the name
-ungulatesData &lt;- ungulatesData %&gt;% rename(Horns_Antlers = Horns.Antlers,
-                                          X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
+dataset &lt;- dataset %&gt;% rename(Horns_Antlers = Horns.Antlers,
+                              X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
 
 
 #remove traits that (almost) only consist of missing values (&gt;200 NA)
-ungulatesData &lt;- subset(ungulatesData, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X7.1_DispersalAge_d, X16.1_LittersPerYear, X13.2_NeonateHeadBodyLen_mm, X10.1_PopulationGrpSize, X13.3_WeaningHeadBodyLen_mm, X5.4_WeaningBodyMass_g, X2.1_AgeatEyeOpening_d))
+dataset &lt;- subset(dataset, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X7.1_DispersalAge_d, X16.1_LittersPerYear, X13.2_NeonateHeadBodyLen_mm, X10.1_PopulationGrpSize, X13.3_WeaningHeadBodyLen_mm, X5.4_WeaningBodyMass_g, X2.1_AgeatEyeOpening_d))
 
 
 #remove traits without any information gain (only consist of one value)
-ungulatesData &lt;- subset(ungulatesData, select = -c(Motility, ParentalCare, X12.2_Terrestriality))</code></pre>
+dataset &lt;- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
+
+
+#remove traits that are almost identical to other traits
+dataset &lt;- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, 
+                                       Diet, AVGWeight, MaturityReachFemale,
+                                       MaturityReachMale, X22.2_HomeRange_Indiv_km2,
+                                       X5.3_NeonateBodyMass_g))
+
+domestic &lt;- subset(dataset, dataset$Domestication == &quot;1&quot;)
+wild &lt;- subset(dataset, dataset$Domestication == &quot;2&quot;)</code></pre>
 </div>
 <div id="distance-matrix" class="section level1">
 <h1>3 Distance Matrix</h1>
 <div id="not-sure-what-to-do-with-this-yet" class="section level3">
 <h3>Not sure what to do with this yet</h3>
 <p>Make a distance matrix, which shows the phylogenetic distances between all the species in the tree.</p>
-<pre class="r"><code>distances &lt;- cophenetic.phylo(phyloTree)</code></pre>
+<pre class="r"><code>#distances &lt;- cophenetic.phylo(phyloTree)</code></pre>
 </div>
 </div>
 <div id="vif-analysis" class="section level1">
 <h1>4 VIF-analysis</h1>
 <p>There probably will be some colinearity between the different traits in the dataset. Colinearity could lead to bias in the model, so a correction will have to be done. This can be done using the Variance Inflation Factor (vif).</p>
-<div id="only-shows-inf-and-nan-vif-values" class="section level3">
-<h3>Only shows inf and NaN vif values ???</h3>
-<pre class="r"><code>vif(ungulatesData[,c(8:46)])</code></pre>
+<div id="wip" class="section level3">
+<h3>WIP</h3>
+<pre class="r"><code>predictors &lt;- dataset[,c(7:77)]
+vif(predictors)</code></pre>
 <pre><code>##                        Variables VIF
 ## 1             X1.1_ActivityCycle Inf
 ## 2           X5.1_AdultBodyMass_g Inf
@@ -433,42 +456,74 @@ ungulatesData &lt;- subset(ungulatesData, select = -c(Motility, ParentalCare, X1
 ## 6            X9.1_GestationLen_d Inf
 ## 7           X12.1_HabitatBreadth NaN
 ## 8            X22.1_HomeRange_km2 Inf
-## 9      X22.2_HomeRange_Indiv_km2 Inf
-## 10    X14.1_InterbirthInterval_d Inf
-## 11              X15.1_LitterSize Inf
-## 12          X17.1_MaxLongevity_m Inf
-## 13        X5.3_NeonateBodyMass_g Inf
-## 14 X21.1_PopulationDensity_n_km2 Inf
-## 15     X23.1_SexualMaturityAge_d Inf
-## 16           X10.2_SocialGrpSize Inf
-## 17              X24.1_TeatNumber NaN
-## 18             X6.2_TrophicLevel NaN
-## 19            X25.1_WeaningAge_d Inf
-## 20                          Diet Inf
-## 21            AVGFoodConsumption Inf
-## 22                     Sociality Inf
-## 23               SocialHierarchy NaN
-## 24                      NumMales Inf
-## 25             MaturityReachMale Inf
-## 26           MaturityReachFemale Inf
-## 27                  MatingSystem NaN
-## 28                  NumOffspring Inf
-## 29              BreedingInterval Inf
-## 30             YearRoundBreeding NaN
-## 31                     AVGWeight Inf
-## 32           DevelopmentStrategy Inf
-## 33                 Horns_Antlers Inf
-## 34                      Lifespan Inf
-## 35              NaturalPredators Inf
-## 36                   CarryWeight Inf
-## 37                  PullStrength Inf
-## 38                AVGMovingSpeed Inf
-## 39             AVGTravelDistance Inf</code></pre>
+## 9     X14.1_InterbirthInterval_d Inf
+## 10              X15.1_LitterSize Inf
+## 11          X17.1_MaxLongevity_m Inf
+## 12 X21.1_PopulationDensity_n_km2 Inf
+## 13     X23.1_SexualMaturityAge_d Inf
+## 14           X10.2_SocialGrpSize Inf
+## 15              X24.1_TeatNumber NaN
+## 16             X6.2_TrophicLevel NaN
+## 17            X25.1_WeaningAge_d Inf
+## 18            AVGFoodConsumption Inf
+## 19                     Sociality Inf
+## 20               SocialHierarchy NaN
+## 21                      NumMales Inf
+## 22                  MatingSystem NaN
+## 23             YearRoundBreeding NaN
+## 24           DevelopmentStrategy Inf
+## 25                 Horns_Antlers Inf
+## 26                      Lifespan Inf
+## 27              NaturalPredators Inf
+## 28                   CarryWeight Inf
+## 29                AVGMovingSpeed Inf
+## 30             AVGTravelDistance Inf
+## 31                        Aspect Inf
+## 32                   BulkDensity Inf
+## 33                ClayPercentage Inf
+## 34                     annualPET Inf
+## 35      aridityIndexThornthwaite Inf
+## 36         climaticMoistureIndex Inf
+## 37                continentality Inf
+## 38                     embergerQ Inf
+## 39               growingDegDays0 Inf
+## 40               growingDegDays5 Inf
+## 41                maxTempColdest Inf
+## 42                minTempWarmest Inf
+## 43            monthCountByTemp10 Inf
+## 44             PETColdestQuarter Inf
+## 45              PETDriestQuarter Inf
+## 46                PETseasonality Inf
+## 47             PETWarmestQuarter Inf
+## 48             PETWettestQuarter Inf
+## 49               thermicityIndex Inf
+## 50                 OrganicCarbon Inf
+## 51                        PhCaCL Inf
+## 52                         Slope Inf
+## 53                          bio1 Inf
+## 54                          bio2 Inf
+## 55                          bio3 Inf
+## 56                          bio4 Inf
+## 57                          bio5 Inf
+## 58                          bio6 Inf
+## 59                          bio7 Inf
+## 60                          bio8 Inf
+## 61                          bio9 Inf
+## 62                         bio10 Inf
+## 63                         bio11 Inf
+## 64                         bio12 Inf
+## 65                         bio13 Inf
+## 66                         bio14 Inf
+## 67                         bio15 Inf
+## 68                         bio16 Inf
+## 69                         bio17 Inf
+## 70                         bio18 Inf
+## 71                         bio19 Inf</code></pre>
 </div>
 </div>
 <div id="information-about-data-per-predictor-variable" class="section level1">
 <h1>Information about data per predictor variable</h1>
-<p>summary(ungulatesData) str(ungulatesData) ungulatesData$BinomialName</p>
+<p>summary(dataset) str(dataset) dataset$BinomialName</p>
 </div>
 
 

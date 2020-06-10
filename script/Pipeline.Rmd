@@ -45,6 +45,7 @@ ungulatesData <- ungulatesData[2:59]
 omi <- omi %>% rename(BinomialName = X)
 dataset <- merge(ungulatesData, omi, by="BinomialName", all=T)
 dataset <- dataset[-c(258:265),]
+rm(ungulatesData)
 ```
 
 # 2 Preprocessing
@@ -57,6 +58,7 @@ dropped. Rename trait names that contain dots, remove traits that consist of mor
 #drop tips that aren't in dataset
 tips_drop <- setdiff(tree$tip.label, dataset$BinomialName)
 phyloTree <- drop.tip(tree, tips_drop)
+rm(tree)
 
 
 #rename columns with dots in the name
@@ -70,6 +72,17 @@ dataset <- subset(dataset, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRa
 
 #remove traits without any information gain (only consist of one value)
 dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
+
+
+#remove traits that are almost identical to other traits
+dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, 
+                                       Diet, AVGWeight, MaturityReachFemale,
+                                       MaturityReachMale, X22.2_HomeRange_Indiv_km2,
+                                       X5.3_NeonateBodyMass_g))
+
+domestic <- subset(dataset, dataset$Domestication == "1")
+wild <- subset(dataset, dataset$Domestication == "2")
+
 ```
 
 
@@ -79,7 +92,7 @@ Make a distance matrix, which shows the phylogenetic distances between all the s
 the tree.
 
 ```{r distance matrix calculations}
-distances <- cophenetic.phylo(phyloTree)
+#distances <- cophenetic.phylo(phyloTree)
 ```
 
 
@@ -88,10 +101,9 @@ distances <- cophenetic.phylo(phyloTree)
 There probably will be some colinearity between the different traits in the dataset. 
 Colinearity could lead to bias in the model, so a correction will have to be done. This can be done using the Variance Inflation Factor (vif).
 
-### Only shows inf and NaN vif values ???
+### WIP
 ```{r general code VIF analysis, results='markup'}
-predictors <- dataset[,c(7:86)]
-
+predictors <- dataset[,c(7:77)]
 vif(predictors)
 ```
 
