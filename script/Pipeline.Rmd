@@ -29,13 +29,14 @@ library(usdm)
 root <- "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R"
 treeFile <- paste(c(root, "/data/ungulates.tree"), collapse = "")
 ungulatesFile <- paste(c(root, "/data/CSV/ungulatesTraits.csv"), collapse = "")
-omiFile <- paste(c(root, "/data/OMI.csv"), collapse = "")
+omiFile <- ("https://raw.githubusercontent.com/naturalis/trait-geo-diverse-ungulates/master/results/OMI/niche_traits.csv")
 ```
 
 ### Import tree and domestication data
 ```{r import data}
 ungulatesData <- read.csv(ungulatesFile, header = TRUE, sep= ",")
-omi <- read.csv(omiFile, header = TRUE, sep = ",")
+omi <- read.csv(omiFile)
+omi$X <- gsub(" ", "_", omi$X)
 tree <- read.tree(treeFile)
 ```
 
