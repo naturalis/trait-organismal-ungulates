@@ -47,6 +47,9 @@ omi <- omi %>% rename(BinomialName = X)
 dataset <- merge(ungulatesData, omi, by="BinomialName", all=T)
 dataset <- dataset[-c(258:265),]
 rm(ungulatesData)
+
+#write to csv for use outside of R-Studio
+write.csv(dataset, "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R/mergedData.csv", row.names=FALSE)
 ```
 
 # 2 Preprocessing
@@ -83,6 +86,8 @@ dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInter
 
 domestic <- subset(dataset, dataset$Domestication == "1")
 wild <- subset(dataset, dataset$Domestication == "2")
+
+
 
 ```
 
