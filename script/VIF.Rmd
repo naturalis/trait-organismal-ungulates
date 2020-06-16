@@ -36,39 +36,20 @@ A correlation matrix can help with finding out which traits have a very high col
 library(caret)
 columns <- dataset[,c(7:77)]
 matrix <- cor(columns,use = "pairwise.complete.obs")
-findCorrelation(matrix, cutoff = 0.9, verbose = TRUE, exact=TRUE)
+findCorrelation(matrix, cutoff = 0.9, verbose = TRUE, exact=FALSE)
 ```
 
-Flagging aka removing: 
-  Column 69: bio17
-  Column 65: bio13
-  Column 64: bio12
-  Column 63: bio11
-  Column 62: bio10
-  Column 61: bio9
-  Column 59: bio7
-  Column 58: bio6
-  Column 57: bio5
-  Column 56: bio4
-  Column 53: bio1
-  Column 49: thermicityIndex
-  Column 44: PETColdestQuarter
-  Column 41: maxTempColdest
-  Column 40: growingDegDays5
-  Column 39: growingDegDays0
-  Column 38: embergerQ
-  Column 37: continentality
-  Column 34: annualPET
-  Column 30: AVGTravelDistance
-  Column 28: CarryWeight
-  Column 2: X5.1_AdultBodyMass_g
+Removed following columns with the help of the correlation matrix:
+2,8,34,37,38,39,40,41,44,49,53,56,57,58,59,61,62,63,64,65,69
 
 ```{r remove flagged columns}
-testdata <- columns[,c(1, 3:27, 29, 31:33, 35, 36, 42, 43, 45:48, 50:52, 54, 55, 60, 66:68, 70, 71)]
+testdata <- columns[,c(1,3:7,9:33,35,36,42,43,45:48,50:52,54,55,60,66:68,70,71)]
 testmatrix <- cor(testdata, use = "pairwise.complete.obs")
 findCorrelation(testmatrix, cutoff = 0.9, verbose = TRUE, exact = TRUE)
 
-vif(testdata[,c(1:49)])
+# Still infinite numbers
+vif(testdata[,c(1:50)])
+
 ```
 
 ## Based on VIF values
