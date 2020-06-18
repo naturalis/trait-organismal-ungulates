@@ -47,10 +47,14 @@ findCorrelation(matrix, cutoff = 0.9, verbose = TRUE, exact=FALSE)
 The corrplot package is used to visualize the collinearity between the traits.
 
 ```{r visualize matrix}
-plotMatrix <- cor(columns, use = "pairwise.complete.obs")
-rownames(plotMatrix) <- c(1:71)
-colnames(plotMatrix) <- c(1:71)
+
+test <- columns[,c(1,2,5,7,8,10,12,14,18,19,22:27,29,31,33,42,50,70,71)]
+plotMatrix <- cor(test, use = "pairwise.complete.obs")
+rownames(plotMatrix) <- c(1,2,5,7,8,10,12,14,18,19,22:27,29,31,33,42,50,70,71)
+colnames(plotMatrix) <- c(1,2,5,7,8,10,12,14,18,19,22:27,29,31,33,42,50,70,71)
 corrplot(plotMatrix, type = "upper", order = "hclust", tl.pos = 'd', tl.col = 'black', tl.cex = 0.6)
+
+vif(test)
 ```
 
 
