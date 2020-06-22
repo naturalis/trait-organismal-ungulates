@@ -18,160 +18,217 @@ library(usdm)
 ```
 
 
-## General code
+## General code VIF
 
 This is the general code for the VIF analysis, which will change due to new values being left out during
 the analysis. The VIF value and biological reasoning will help with choosing which traits should be left
 out.
 
-```{r general code}
-predictors <- dataset[,c(7:77)]
-vif(predictors)
+```{r general code VIF, message=FALSE}
+columns <- dataset[,c(7:77)]
+vif(columns)
 ```
 
 
 ## Correlation Matrix
 
-A correlation matrix can help with finding out which traits have a very high collinearity
+A VIF analysis with all the predictors results in only infinite values. A correlation matrix can help
+with finding out which traits have a very high collinearity, so they can be removed and a VIF analysis 
+can be properly done.
 
-```{r correlation matrix}
+```{r general code matrix}
+matrix <- cor(columns, use = "pairwise.complete.obs")
+```
+
+#### Find highest correlation
+
+The corrplot package is used to visualize the collinearity between the traits, using the 
+correlation matrix. With the findCorrelation function, the columns with the highest collinearity is 
+found. By visualizing the matrix, the outcome of the findCorrelation function can be easily checked. 
+At the beginning of every round the VIF function is run, to check if the results are still infinite.
+
+```{r visualize matrix}
 library(caret)
 library(corrplot)
 
-columns <- dataset[,c(7:77)]
-matrix <- cor(columns,use = "pairwise.complete.obs")
-findCorrelation(matrix, cutoff = 0.9, verbose = TRUE, exact=FALSE)
+# Round1
+plotPredictors <- columns[,c(1:71)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+plotMatrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+## Find all traits with a correlation of .9 or higher, and -.9 and lower
+## Result: remove 39 40 41 44 49 53 56 57 58 59 61 62 63 69  2  8 34 37 38 64 65
+findCorrelation(plotMatrix, cutoff = .9, verbose = FALSE, exact=FALSE)
+
+
+# Round2
+plotPredictors <- plotPredictors[,c(1,3:7,9:33,35,36,38,42,43,45:48,50:52,54,55,60,66:68,70,71)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+## Find all traits with a correlation of .8 or higher, and -.8 and lower
+## Result: remove 7 11 13 33 36 45 46 47  3 34 32 49
+findCorrelation(matrix, cutoff = .8, verbose=FALSE, exact = FALSE)
+
+
+# Round3
+plotPredictors <- plotPredictors[,c(1,2,4:6,8:10,12,14:31,35,37:44,48,50,51)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+## Find all traits with a correlation of .7 or higher, and -.7 and lower
+## Result: remove 7 11 31 2 26
+findCorrelation(matrix, cutoff = .7, verbose=FALSE, exact = FALSE)
+
+
+# Round4
+plotPredictors <- plotPredictors[,c(1,3:6,8:10,12:25,27:30,32:39)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+## Find all traits with a correlation of .6 or higher, and -.6 and lower
+## Result: remove 19 25 34 24 31
+findCorrelation(matrix, cutoff = .6, verbose=FALSE, exact = FALSE)
+
+
+# Round5
+plotPredictors <- plotPredictors[,c(1:18,20:23,26:30,32,33)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+## Find all traits with a correlation of .5 or higher, and -.5 and lower
+## Result: remove 8 17 23 29 10 24
+findCorrelation(matrix, cutoff = .5, verbose=FALSE, exact = FALSE)
+
+
+# Round6
+plotPredictors <- plotPredictors[,c(1:7,9,11:16,18:22,25:28)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+## Find all traits with a correlation of .4 or higher, and -.4 and lower
+## Result: remove 9 10 23 21
+findCorrelation(matrix, cutoff = .4, verbose=FALSE, exact = FALSE)
+
+
+# Round7
+plotPredictors <- plotPredictors[,c(1:8,11:20,22)]
+
+## Check VIF > no infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 ```
 
-#### Visualize matrix
-The corrplot package is used to visualize the collinearity between the traits.
+#### Declare predictor set
 
-```{r visualize matrix}
+(Without AdultBodyMass)
+The set of predictors is declared for the VIF analysis, and a last check for collinearity using the
+visualized matrix is done.
 
-test <- columns[,c(1,2,5,7,8,10,12,14,18,19,22:27,29,31,33,42,50,70,71)]
-plotMatrix <- cor(test, use = "pairwise.complete.obs")
-rownames(plotMatrix) <- c(1,2,5,7,8,10,12,14,18,19,22:27,29,31,33,42,50,70,71)
-colnames(plotMatrix) <- c(1,2,5,7,8,10,12,14,18,19,22:27,29,31,33,42,50,70,71)
-corrplot(plotMatrix, type = "upper", order = "hclust", tl.pos = 'd', tl.col = 'black', tl.cex = 0.6)
+(With AdultBodyMass)
+The set of predictors is declared for the VIF analysis, and a last check for collinearity using the
+visualized matrix is done. During the first round the AdultBodyMass is removed due to a high collinearity
+with other traits. The bodymass is an important trait, so it will be reinserted in this step.
 
-vif(test)
+``` {r declare predictor set}
+# without X5.1_AdultBodyMass_g
+setPredictors <- columns[,c(1,5:7,10,12,14,18,22:25,27,29:31,33,50,52)]
+matrix <- cor(setPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+# With AdultBodyMass
+# X5.1_AdultBodyMass_g and X9.1_GestationLen_d have a high collinearity. X5.1_AdultBodyMass_g seems more 
+# important for this research, so X9.1_GestationLen_d is removed.
+setPredictors <- columns[,c(1,2,5,7,10,12,14,18,22:25,27,29:31,33,50,52)]
+matrix <- cor(setPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 ```
 
 
+## VIF Analysis
+
+During the VIF analysis traits are removed using the VIF values: the highest values are removed until the
+remaining traits have a VIF of 10 or lower.
+
+```{r VIF}
+# (without X5.1_AdultBodyMass_g)
+# Round1 - Results: remove X9.1_GestationLen_d
+vif(setPredictors)
+
+# Round2 - Results: remove AVGFoodConsumption
+setPredictors <- setPredictors[,c(1,2,4:19)]
+vif(setPredictors)
+
+# Round3 
+setPredictors <- setPredictors[,c(1:6,8:18)]
+vif(setPredictors)
 
 
+# (with X5.1_AdultBodyMass_g - we wanna hold so is considered as below 10)
+# Round1 - Results: remove AVGFoodConsumption
+vif(setPredictors)
 
+# Round2 - Results: remove YearRoundBreeding
+setPredictors <- setPredictors[,c(1:7,9:19)]
+vif(setPredictors)
 
-## Based on VIF values
-
-Traits were removed using only the VIF values: the highest VIF values is removed until the remaining
-traits have a VIF of 10 or lower.
-
-#### Trait data only
-
-Some traits have a very high collinearity with other traits, because they fall into the same category 
-(for example LitterSize and TeatNumber, which both have to do with offspring). When there is a very high collinearity, the VIF analysis shows only infinite instead of numbers as a VIF value. Because of this, the removal of very high collinearity needs to be done in smaller steps.
-
-``` {r trait only - 7:20}
-# Round 1 with the following traits:
-# X1.1_ActivityCycle, X5.1_AdultBodyMass_g, X13.1_AdultHeadBodyLen_mm, X3.1_AgeatFirstBirth_d,
-# X6.1_DietBreadth, X9.1_GestationLen_d, X12.1_HabitatBreadth, X22.1_HomeRange_km2, 
-# X14.1_InterbirthInterval_d, X15.1_LitterSize, X17.1_MaxLongevity_m, X21.1_PopulationDensity_n_km2,
-# X23.1_SexualMaturityAge_d, X10.2_SocialGrpSize
-vif(dataset[,c(7:20)])
-
-# Removed: X5.1_AdultBodyMass_g(8), X3.1_AgeatFirstBirth_d(10), X9.1_GestationLen_d(12),
-# X17.1_MaxLongevity_m(17)
-vif(dataset[,c(7, 9, 11, 13:16, 18:20)])
+# Round3 - Results: all of the traits are under 10 (except X5.1_AdultBodyMass_g)
+setPredictors <- setPredictors[,c(1:8, 10:18)]
+vif(setPredictors)
 ```
 
 
-```{r trait only - 21:36}
-# Round 2 with the following traits:
-# X24.1_TeatNumber, X6.2_TrophicLevel, X25.1_WeaningAge_d, AVGFoodConsumption, Sociality, 
-# SocialHierarchy, NumMales, MatingSystem, YearRoundBreeding, DevelopmentStrategy, Horns_Antlers,
-# Lifespan, NaturalPredators, CarryWeight, AVGMovingSpeed, AVGTravelDistance
-vif(dataset[,c(21:36)])
+## Final predictor set
 
-# Removed: X6.2_TrophicLevel(22), NaturalPredators(33), CarryWeight(34), AVGTravelDistance(36)
-vif(dataset[,c(21, 23:32, 35)])
+The final set of predictors is declared.
+
+```{r declare predictors}
+## (without X5.1_AdultBodyMass_g)
+# X1.1_ActivityCycle, X6.1_DietBreadth, X12.1_HabitatBreadth, X15.1_LitterSize, 
+# X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, MatingSystem, YearRoundBreeding, 
+# DevelopmentStrategy, Horns_Antlers, NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect,
+# ClayPercentage, OrganicCarbon, Slope
+predictors <- columns[,c(1,5,7,10,12,14,22:25,27,29:31,33,50,52)]
+
+## (with X5.1_AdultBodyMass_g)
+# X1.1_ActivityCycle, X5.1_AdultBodyMass_g, X6.1_DietBreadth, X12.1_HabitatBreadth, X15.1_LitterSize, 
+# X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, MatingSystem, DevelopmentStrategy, Horns_Antlers, 
+# NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon, Slope
+predictors <- columns[,c(1,2,5,7,10,12,14,22,24,25,27,29:31,33,50,52)]
+vif(predictors)
 ```
 
-
-```{r trait only - 7:36}
-# Round 3 with following traits:
-# X1.1_ActivityCycle, X13.1_AdultHeadBodyLen_mm, X6.1_DietBreadth, X12.1_HabitatBreadth, 
-# X22.1_HomeRange_km2, X14.1_InterbirthInterval_d, X15.1_LitterSize, X17.1_MaxLongevity_m, 
-# X21.1_PopulationDensity_n_km2, X23.1_SexualMaturityAge_d, X10.2_SocialGrpSize, X24.1_TeatNumber, 
-# X25.1_WeaningAge_d, AVGFoodConsumption, Sociality, SocialHierarchy, NumMales, MatingSystem, 
-# YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, AVGMovingSpeed
-vif(dataset[,c(7, 9, 11, 13:16, 18:21, 23:32, 35)])
-
-# Removed: X13.1_AdultHeadBodyLen_mm(9), X14.1_InterbirthInterval_d(15), X23.1_SexualMaturityAge_d(19), 
-# X24.1_TeatNumber(21), X25.1_WeaningAge_d(23), AVGFoodConsumption(24), Sociality(25), MatingSystem(28),
-# YearRoundBreeding(29), AVGMovingSpeed(35)
-
-# Added earlier removed traits, which made the VIF values better: NaturalPredators(33), CarryWeight(34)
-vif(dataset[,c(7, 11, 13, 14, 16, 18, 20, 26, 27, 30:34)])
-
-# We want BodyMass to be in the traits for the modelling. When we swap out CarryWeight with BodyMass, 
-# (those two traits have a high collinearity, because CarryWeight was calculated using the bodymass) the 
-# VIF values work perfectly.
-vif(dataset[,c(7, 8, 11, 13, 14, 16, 18, 20, 26, 27, 30:33)])
-```
-
-
-#### OMI data only
-
-The OMI data is highly correlated with itself. To keep it organized, the VIF analysis is done in several
-smaller steps.
-
-```{r omi only - 36:77}
-# Round 1 with:
-# Aspect, BulkDensity, ClayPercentage, annualPET, aridityIndexThornthwaite, climaticMoistureIndex,
-# continentality, embergerQ, growingDegDays0, growingDegDays5, maxTempColdest, minTempWarmest, 
-# monthCountByTemp10, PETColdestQuarter, PETDriestQuarter, PETseasonality, PETWarmestQuarter, 
-# PETWettestQuarter, thermicityIndex, OrganicCarbon, PhCaCL, Slope, bio1, bio2, bio3, bio4, bio5, bio6,
-# bio7, bio8, bio9, bio10, bio11, bio12, bio13, bio14, bio15, bio16, bio17, bio18, bio19
-vif(dataset[,c(37:77)])
-
-# Removed: annualPET(40), aridityIndexThornthwaite(41), climaticMoistureIndex(42), continentality(43), 
-# embergerQ(44), growingDegDays0(45), growingDegDays5(46), maxTempColdest(47), minTempWarmest(48), 
-# monthCountByTemp10(49), PETColdestQuarter(50), PETWarmestQuarter(53), thermicityIndex(55), bio1(59), 
-# bio3(61), bio4(62), bio5(63), bio6(64), bio8(66), bio9(67), bio10(68), bio11(69), bio12(70), bio13(71),
-# bio16(74), bio17(75), 
-vif(dataset[,c(37:39, 51, 52, 54, 56:58, 60, 65, 72, 73, 76, 77)])
-```
-
-
-
-
-#### Both the traits and OMI datasets
-#### WIP
-Very difficult, bodymass correlates with alot of traits and OMI data
-
-```{r traits + OMI}
-vif(dataset[,c(7, 8, 11, 13, 14, 16, 18, 20, 26, 27, 30:33)])
-vif(dataset[,c(37:39, 51, 52, 54, 56:58, 60, 65, 72, 73, 76, 77)])
-
-vif(dataset[,c(7, 8, 11, 13, 14, 16, 18, 20, 26, 27, 30:33, 37:39, 51, 52)])
-```
-
-## Based on VIF values and biology
-
-Traits were removed using VIF values and biological knowledge: the highest VIF values are removed, using 
-biological reasoning, until the remaining traits have a VIF of 10 or lower.
-
-#### Trait data only
-WIP
-
-
-## OMI data only
-WIP
-
-
-## Trait and OMI dataset
-
-When the trait and OMI data is merged and analysed, a high collinearity is seen. To keep it organized,
-the VIF analysis is done in several smaller steps.
 
