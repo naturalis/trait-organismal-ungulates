@@ -58,12 +58,12 @@ plotPredictors <- columns[,c(1:71)]
 vif(plotPredictors)
 
 ## Construct matrix and visualize
-plotMatrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 
 ## Find all traits with a correlation of .9 or higher, and -.9 and lower
 ## Result: remove 39 40 41 44 49 53 56 57 58 59 61 62 63 69  2  8 34 37 38 64 65
-findCorrelation(plotMatrix, cutoff = .9, verbose = FALSE, exact=FALSE)
+findCorrelation(matrix, cutoff = .9, verbose = FALSE, exact=FALSE)
 
 
 # Round2

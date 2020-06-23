@@ -84,10 +84,9 @@ dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInter
                                        MaturityReachMale, X22.2_HomeRange_Indiv_km2,
                                        X5.3_NeonateBodyMass_g))
 
-domestic <- subset(dataset, dataset$Domestication == "1")
-wild <- subset(dataset, dataset$Domestication == "2")
 
-
+#domestic <- subset(dataset, dataset$Domestication == "1")
+#wild <- subset(dataset, dataset$Domestication == "2")
 
 ```
 
