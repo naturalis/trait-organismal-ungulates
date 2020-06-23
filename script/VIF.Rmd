@@ -154,22 +154,11 @@ corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black",
 
 #### Declare predictor set
 
-(Without AdultBodyMass)
-The set of predictors is declared for the VIF analysis, and a last check for collinearity using the
-visualized matrix is done.
-
-(With AdultBodyMass)
 The set of predictors is declared for the VIF analysis, and a last check for collinearity using the
 visualized matrix is done. During the first round the AdultBodyMass is removed due to a high collinearity
 with other traits. The bodymass is an important trait, so it will be reinserted in this step.
 
 ``` {r declare predictor set}
-# without X5.1_AdultBodyMass_g
-setPredictors <- columns[,c(1,5:7,10,12,14,18,22:25,27,29:31,33,50,52)]
-matrix <- cor(setPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
-
-# With AdultBodyMass
 # X5.1_AdultBodyMass_g and X9.1_GestationLen_d have a high collinearity. X5.1_AdultBodyMass_g seems more 
 # important for this research, so X9.1_GestationLen_d is removed.
 setPredictors <- columns[,c(1,2,5,7,10,12,14,18,22:25,27,29:31,33,50,52)]
@@ -184,20 +173,6 @@ During the VIF analysis traits are removed using the VIF values: the highest val
 remaining traits have a VIF of 10 or lower.
 
 ```{r VIF}
-# (without X5.1_AdultBodyMass_g)
-# Round1 - Results: remove X9.1_GestationLen_d
-vif(setPredictors)
-
-# Round2 - Results: remove AVGFoodConsumption
-setPredictors <- setPredictors[,c(1,2,4:19)]
-vif(setPredictors)
-
-# Round3 
-setPredictors <- setPredictors[,c(1:6,8:18)]
-vif(setPredictors)
-
-
-# (with X5.1_AdultBodyMass_g - we wanna hold so is considered as below 10)
 # Round1 - Results: remove AVGFoodConsumption
 vif(setPredictors)
 
@@ -216,14 +191,7 @@ vif(setPredictors)
 The final set of predictors is declared.
 
 ```{r declare predictors}
-## (without X5.1_AdultBodyMass_g)
-# X1.1_ActivityCycle, X6.1_DietBreadth, X12.1_HabitatBreadth, X15.1_LitterSize, 
-# X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, MatingSystem, YearRoundBreeding, 
-# DevelopmentStrategy, Horns_Antlers, NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect,
-# ClayPercentage, OrganicCarbon, Slope
-predictors <- columns[,c(1,5,7,10,12,14,22:25,27,29:31,33,50,52)]
-
-## (with X5.1_AdultBodyMass_g)
+# Final set of predictors, containing:
 # X1.1_ActivityCycle, X5.1_AdultBodyMass_g, X6.1_DietBreadth, X12.1_HabitatBreadth, X15.1_LitterSize, 
 # X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, MatingSystem, DevelopmentStrategy, Horns_Antlers, 
 # NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon, Slope
