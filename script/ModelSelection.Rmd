@@ -1,0 +1,59 @@
+---
+title: "ModelSelection"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+
+# Model Selection
+The Generalized Linear Model (GLM) must be made. The Domestication column is used as the dependent 
+variable, and the other columns are the predictor variables. For the model selection the phylolm package 
+and phyloglmstep function are used.
+
+
+### Load packages
+```{r packages}
+library(phylolm)
+source('phyloglmstep.R')
+```
+
+
+### Formulas
+
+The input formulas are defined, which are going to be used as input for the phyloglmstep function.
+
+```{r declare formulas}
+# Lowest VIF values - with all traits
+formula1 <- Domestication ~ X1.1_ActivityCycle + X5.1_AdultBodyMass_g + X6.1_DietBreadth + X12.1_HabitatBreadth + X15.1_LitterSize + X21.1_PopulationDensity_n_km2 + X10.2_SocialGrpSize + MatingSystem + DevelopmentStrategy + Horns_Antlers + NaturalPredators + AVGMovingSpeed + AVGTravelDistance + Aspect + ClayPercentage + OrganicCarbon + Slope
+
+
+
+```
+
+
+### Model selection
+
+With the use of the phyloglmstep() function, written by Rutger Vos.
+
+
+# WIP 
+Doesn't work yet, dataset and tree dont have the same amount of species
+
+```{r model selection}
+phyloglmstep(formula1, starting.formula = NULL, data=dataset, phy=phyloTree, 
+                         method="logistic_MPLE",
+                         direction = "forward", trace = 0,
+                         btol = 100, log.alpha.bound = 8, start.beta=NULL, 
+                         start.alpha=NULL, boot = 0, full.matrix = TRUE,
+                         k=2)
+```
+
+
+
+
+
+
+
