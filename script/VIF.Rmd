@@ -15,10 +15,12 @@ and 'Preprocessing' part of the Pipeline.Rmd script.
 
 ```{r load packages, message=FALSE}
 library(usdm)
+library(caret)
+library(corrplot)
 ```
 
 
-## General code VIF
+### General code VIF
 
 This is the general code for the VIF analysis, which will change due to new values being left out during
 the analysis. The VIF value and biological reasoning will help with choosing which traits should be left
@@ -30,14 +32,18 @@ vif(columns)
 ```
 
 
-## Correlation Matrix
+### Correlation Matrix
 
 A VIF analysis with all the predictors results in only infinite values. A correlation matrix can help
 with finding out which traits have a very high collinearity, so they can be removed and a VIF analysis 
 can be properly done.
 
 ```{r general code matrix}
+# Make matrix
 matrix <- cor(columns, use = "pairwise.complete.obs")
+
+# Visualize matrix
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 ```
 
 #### Find highest correlation
@@ -48,9 +54,6 @@ found. By visualizing the matrix, the outcome of the findCorrelation function ca
 At the beginning of every round the VIF function is run, to check if the results are still infinite.
 
 ```{r visualize matrix}
-library(caret)
-library(corrplot)
-
 # Round1
 plotPredictors <- columns[,c(1:71)]
 
@@ -167,7 +170,7 @@ corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black",
 ```
 
 
-## VIF Analysis
+### VIF Analysis
 
 During the VIF analysis traits are removed using the VIF values: the highest values are removed until the
 remaining traits have a VIF of 10 or lower.
@@ -186,7 +189,7 @@ vif(setPredictors)
 ```
 
 
-## Final predictor set
+### Final predictor set
 
 The final set of predictors is declared.
 
