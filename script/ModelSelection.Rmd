@@ -21,6 +21,16 @@ source('phyloglmstep.R')
 ```
 
 
+### Load data
+
+The dataset and predictors variables are declared in the 'Pipeline.Rmd' script to prevent redundant code.
+
+```{r data}
+# Declare dataset which contains both the dependent as the predictor variables
+dataModel <- cbind(dataset[,6], predictors)
+colnames(dataModel)[1] <- "Domestication"
+```
+
 ### Formulas
 
 The input formulas are defined, which are going to be used as input for the phyloglmstep function.
@@ -40,10 +50,16 @@ With the use of the phyloglmstep() function, written by Rutger Vos.
 
 
 # WIP 
-Doesn't work yet, dataset and tree dont have the same amount of species
+Doesn't work yet
+
+Error in phyloglm(formula, data, phy, method, btol, log.alpha.bound, start.beta, : the number of rows in the data does not match the number of tips in the tree.
 
 ```{r model selection}
-phyloglmstep(formula1, starting.formula = NULL, data=dataset, phy=phyloTree, 
+# Both give 219 - so i dont know where it goes wrong
+NROW(dataModel)
+Ntip(tree)
+
+phyloglmstep(formula1, starting.formula = NULL, data=dataModel, phy=tree, 
                          method="logistic_MPLE",
                          direction = "forward", trace = 0,
                          btol = 100, log.alpha.bound = 8, start.beta=NULL, 
