@@ -22,6 +22,7 @@ library(ggplot2)
 library(Rphylopars)
 library(tidyverse)
 library(usdm)
+library(corrplot)
 ```
 
 ### Declare project root and paths
@@ -46,25 +47,57 @@ ungulatesData <- ungulatesData[2:59]
 omi <- omi %>% rename(BinomialName = X)
 dataset <- merge(ungulatesData, omi, by="BinomialName", all=T)
 dataset <- dataset[-c(258:265),]
-rm(ungulatesData)
 
 #write to csv for use outside of R-Studio
-write.csv(dataset, "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R/mergedData.csv", row.names=FALSE)
+#write.csv(dataset, "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R/mergedData.csv", row.names=FALSE)
+
+# Remove all unnecessary variables 
+rm(treeFile, ungulatesFile, omiFile, ungulatesData, omi)
 ```
+
 
 # 2 Preprocessing
 
 There are names in the phylogenetic tree that aren't in the dataset, these tips can be
-dropped. Rename trait names that contain dots, remove traits that consist of more than 
+dropped. And some of the species names must be renamed in the tree, to match the species names in the dataset. 
+Also, rename trait names that contain dots, remove traits that consist of more than 
 200 missing values and remove traits that don't have any information gain.
 
 ```{r check if names match between dataset and tree}
-#drop tips that aren't in dataset
-tips_drop <- setdiff(tree$tip.label, dataset$BinomialName)
-phyloTree <- drop.tip(tree, tips_drop)
-rm(tree)
+# Which species aren't in the tree
+diffRows <- setdiff(dataset$BinomialName, tree$tip.label)
+
+# Handsearch which species in diffRows are domesticated and in the tree, but named differently:
+## Bos_frontalis, Bos_grunniens, Bos_taurus, Bubalus_bubalis, Capra_hircus, Equus_caballus, Lama_glama, Ovis_aries
+
+# Rename tree tips
+tree$tip.label[tree$tip.label=="Bos_frontalis_gaurus"] <- "Bos_frontalis"
+tree$tip.label[tree$tip.label=="Bos_grunniens_mutus"] <- "Bos_grunniens"
+tree$tip.label[tree$tip.label=="Bos_taurus_primigenius"] <- "Bos_taurus"
+tree$tip.label[tree$tip.label=="Bubalus_bubalis_arnee"] <- "Bubalus_bubalis"
+tree$tip.label[tree$tip.label=="Capra_hircus_aegagrus"] <- "Capra_hircus"
+tree$tip.label[tree$tip.label=="Equus_przewalskii"] <- "Equus_caballus"
+tree$tip.label[tree$tip.label=="Lama_glama_guanicoe"] <- "Lama_glama"
+tree$tip.label[tree$tip.label=="Ovis_aries_orientalis"] <- "Ovis_aries"
+
+# Drop rows that aren't in the tree, and aren't domesticated
+dropRows <- setdiff(dataset$BinomialName, tree$tip.label)
+rowNum <- c(4,7,18,19,20,49,50,53,56,76,79,91,94,96,100,115,132,137,139,141,144,146,153,154,156,157,158,162,174,201,215,222,224,229,252,254,255,256)
+dataset <- dataset[-c(rowNum),]
+
+# Drop tips that aren't in dataset
+dropTips <- setdiff(tree$tip.label, dataset$BinomialName)
+tree <- drop.tip(tree, dropTips)
+
+# Final check if there are any differences
+setdiff(dataset$BinomialName, tree$tip.label)
+setdiff(tree$tip.label, dataset$BinomialName)
+
+rm(diffRows, dropRows, rowNum, dropTips)
+```
 
 
+```{r misc preprocessing}
 #rename columns with dots in the name
 dataset <- dataset %>% rename(Horns_Antlers = Horns.Antlers,
                               X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
@@ -83,11 +116,6 @@ dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInter
                                        Diet, AVGWeight, MaturityReachFemale,
                                        MaturityReachMale, X22.2_HomeRange_Indiv_km2,
                                        X5.3_NeonateBodyMass_g))
-
-
-#domestic <- subset(dataset, dataset$Domestication == "1")
-#wild <- subset(dataset, dataset$Domestication == "2")
-
 ```
 
 
@@ -104,13 +132,26 @@ the tree.
 # 4 VIF-analysis
 
 There probably will be some colinearity between the different traits in the dataset. 
-Colinearity could lead to bias in the model, so a correction will have to be done. This can be done using the Variance Inflation Factor (vif).
+Colinearity could lead to bias in the model, so a correction will have to be done. This can be done using
+the Variance Inflation Factor (vif). Only the best combination is shown, for the whole analysis, see 'VIF.Rmd'
 
-### WIP
 ```{r general code VIF analysis, results='markup'}
-predictors <- dataset[,c(7:77)]
+columns <- dataset[,c(7:77)]
+predictors <- columns[,c(1,2,5,7,10,12,14,22,24,25,27,29:31,33,50,52)]
+
+matrix <- cor(predictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
 vif(predictors)
+rm(columns)
 ```
+
+
+# Model Selection
+
+The Generalized Linear Model (GLM) must be made. The Domestication column is used as the dependent 
+variable, and the other columns are the predictor variables. For the model selection the phylolm package 
+and phyloglmstep function are used.
 
 
 
