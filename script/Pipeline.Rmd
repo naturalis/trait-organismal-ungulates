@@ -84,6 +84,7 @@ tree$tip.label[tree$tip.label=="Ovis_aries_orientalis"] <- "Ovis_aries"
 dropRows <- setdiff(dataset$BinomialName, tree$tip.label)
 rowNum <- c(4,7,18,19,20,49,50,53,56,76,79,91,94,96,100,115,132,137,139,141,144,146,153,154,156,157,158,162,174,201,215,222,224,229,252,254,255,256)
 dataset <- dataset[-c(rowNum),]
+rownames(dataset) <- 1:219
 
 # Drop tips that aren't in dataset
 dropTips <- setdiff(tree$tip.label, dataset$BinomialName)
@@ -143,7 +144,7 @@ matrix <- cor(predictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 
 vif(predictors)
-rm(columns)
+rm(columns, matrix)
 ```
 
 
@@ -152,6 +153,7 @@ rm(columns)
 The Generalized Linear Model (GLM) must be made. The Domestication column is used as the dependent 
 variable, and the other columns are the predictor variables. For the model selection the phylolm package 
 and phyloglmstep function are used.
+
 
 
 
