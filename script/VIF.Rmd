@@ -35,7 +35,7 @@ vif(columns)
 ### Correlation Matrix
 
 A VIF analysis with all the predictors results in only infinite values. A correlation matrix can help
-with finding out which traits have a very high collinearity, so they can be removed and a VIF analysis 
+with finding which traits have a very high collinearity, so they can be removed and a VIF analysis 
 can be properly done.
 
 ```{r general code matrix}
@@ -49,7 +49,7 @@ corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black",
 #### Find highest correlation
 
 The corrplot package is used to visualize the collinearity between the traits, using the 
-correlation matrix. With the findCorrelation function, the columns with the highest collinearity is 
+correlation matrix. With the findCorrelation function, the columns with the highest collinearity are 
 found. By visualizing the matrix, the outcome of the findCorrelation function can be easily checked. 
 At the beginning of every round the VIF function is run, to check if the results are still infinite.
 
@@ -162,8 +162,13 @@ visualized matrix is done. During the first round the AdultBodyMass is removed d
 with other traits. The bodymass is an important trait, so it will be reinserted in this step.
 
 ``` {r declare predictor set}
+# Insert X5.1_AdultBodyMass_g (column 2) and check for high collinearity
+setPredictors <- columns[,c(1,2,5:7,10,12,14,18,22:25,27,29:31,33,50,52)]
+matrix <- cor(setPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
 # X5.1_AdultBodyMass_g and X9.1_GestationLen_d have a high collinearity. X5.1_AdultBodyMass_g seems more 
-# important for this research, so X9.1_GestationLen_d is removed.
+# important for this research, so X9.1_GestationLen_d (column 6) is removed.
 setPredictors <- columns[,c(1,2,5,7,10,12,14,18,22:25,27,29:31,33,50,52)]
 matrix <- cor(setPredictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
