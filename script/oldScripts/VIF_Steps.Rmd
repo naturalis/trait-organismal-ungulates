@@ -1,0 +1,226 @@
+---
+title: "VIF_Steps.Rmd"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## VIF Analysis
+
+There are alot of traits in the dataset, which can lead to collinearity. To eliminate most of
+the collinearity, a VIF analysis will be done. Loading the data is done with the 'Import data' 
+and 'Preprocessing' part of the Pipeline.Rmd script.
+
+```{r load packages, message=FALSE}
+library(usdm)
+library(caret)
+library(corrplot)
+```
+
+
+### General code VIF
+
+This is the general code for the VIF analysis, which will change due to new values being left out during
+the analysis. The VIF value and biological reasoning will help with choosing which traits should be left
+out.
+
+```{r general code VIF, message=FALSE}
+columns <- dataset[,c(8:78)]
+vif(columns)
+```
+
+
+### Correlation Matrix
+
+A VIF analysis with all the predictors results in only infinite values. A correlation matrix can help
+with finding which traits have a very high collinearity, so they can be removed and a VIF analysis 
+can be properly done.
+
+```{r general code matrix}
+# Make matrix
+matrix <- cor(columns, use = "pairwise.complete.obs")
+
+# Visualize matrix
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+```
+
+#### Find highest correlation
+
+The corrplot package is used to visualize the collinearity between the traits, using the 
+correlation matrix. With the findCorrelation function, the columns with the highest collinearity are 
+found. By visualizing the matrix, the outcome of the findCorrelation function can be easily checked. 
+At the beginning of every round the VIF function is run, to check if the results are still infinite.
+
+```{r visualize matrix}
+# Round1
+plotPredictors <- columns[,c(1:71)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+
+## Find all traits with a correlation of .9 or higher, and -.9 and lower
+## Result: remove 39 40 41 44 49 53 56 57 58 59 61 62 63 69  2  8 34 37 38 64 65
+delColumn <- findCorrelation(matrix, cutoff = .9, verbose = FALSE, exact=FALSE)
+
+
+# Round2
+plotPredictors <- plotPredictors[,-c(delColumn)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+
+## Find all traits with a correlation of .8 or higher, and -.8 and lower
+## Result: remove 7 13 33 36 45 46 47  3 34 49
+delColumn <- findCorrelation(matrix, cutoff = .8, verbose=FALSE, exact = FALSE)
+
+
+# Round3
+plotPredictors <- plotPredictors[,-c(delColumn)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+
+## Find all traits with a correlation of .7 or higher, and -.7 and lower
+## Result: remove 7 9 12 29 33 2 27
+delColumn <- findCorrelation(matrix, cutoff = .7, verbose=FALSE, exact = FALSE)
+
+
+# Round4
+plotPredictors <- plotPredictors[,-c(delColumn)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+
+## Find all traits with a correlation of .6 or higher, and -.6 and lower
+## Result: remove 19 25 34 24 31
+delColumn <- findCorrelation(matrix, cutoff = .6, verbose=FALSE, exact = FALSE)
+
+
+# Round5
+plotPredictors <- plotPredictors[,-c(delColumn)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+
+## Find all traits with a correlation of .5 or higher, and -.5 and lower
+## Result: remove 8 17 23 24 26
+delColumn <- findCorrelation(matrix, cutoff = .5, verbose=FALSE, exact = FALSE)
+
+
+# Round6
+plotPredictors <- plotPredictors[,-c(delColumn)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+
+## Find all traits with a correlation of .4 or higher, and -.4 and lower
+## Result: remove 9 10 23
+delColumn <- findCorrelation(matrix, cutoff = .4, verbose=FALSE, exact = FALSE)
+
+
+# Round7
+plotPredictors <- plotPredictors[,-c(delColumn)]
+
+## Check VIF > still infinite values
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+
+## Find all traits with a correlation of .3 or higher, and -.3 and lower
+## Result: remove 5 9 12 20 21 2
+delColumn <- findCorrelation(matrix, cutoff = .3, verbose=FALSE, exact = FALSE)
+
+
+# Round8
+plotPredictors <- plotPredictors[,-c(delColumn)]
+
+## Check VIF > no infinite values!
+vif(plotPredictors)
+
+## Construct matrix and visualize
+matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+```
+
+#### Declare predictor set
+
+The set of predictors is declared for the VIF analysis, and a last check for collinearity using the
+visualized matrix is done. During the first round the AdultBodyMass is removed due to a high collinearity
+with other traits. The bodymass is an important trait, so it will be reinserted in this step.
+
+``` {r declare predictor set}
+# Insert X5.1_AdultBodyMass_g (column 2) and check for high collinearity
+setPredictors <- cbind(columns[,2],plotPredictors)
+colnames(setPredictors)[1] <- "X5.1_AdultBodyMass_g"
+matrix <- cor(setPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+
+# X5.1_AdultBodyMass_g and X9.1_GestationLen_d have a high collinearity. X5.1_AdultBodyMass_g seems more 
+# important for this research, so X9.1_GestationLen_d (column 3) is removed.
+setPredictors <- setPredictors[,-c(3)]
+matrix <- cor(setPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+```
+
+
+### VIF Analysis
+
+During the VIF analysis traits are removed using the VIF values: the highest values are removed until the
+remaining traits have a VIF of 10 or lower.
+
+```{r VIF}
+# Round1 - Results: remove AVGFoodConsumption
+vif(setPredictors)
+
+# Round2 - all of the traits are under 10
+setPredictors <- setPredictors[,c(1:5,7:14)]
+vif(setPredictors)
+```
+
+
+### Final predictor set
+
+The final set of predictors is declared.
+
+```{r declare predictors}
+# Final set of predictors, containing:
+# X1.1_ActivityCycle, X5.1_AdultBodyMass_g, X12.1_HabitatBreadth, X21.1_PopulationDensity_n_km2, 
+# X10.2_SocialGrpSize, MatingSystem, YearRoundBreeding, Horns_Antlers, AVGMovingSpeed, AVGTravelDistance,
+# Aspect, ClayPercentage, OrganicCarbon
+predictors <- setPredictors
+vif(predictors)
+```
+
+
+```{r clean out environment}
+rm(setPredictors, plotPredictors, delColumn, columns)
+```
+
