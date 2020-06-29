@@ -67,8 +67,8 @@ Also, rename trait names that contain dots, remove traits that consist of more t
 dropRows <- setdiff(dataset$CanonicalName, tree$tip.label)
 
 # Drop rows that aren't in the tree, and aren't domesticated
-dataset <- dataset[-c(3,5,48,86,88,99,152),]
-rownames(dataset) <- 1:147
+row.names(dataset) <- dataset$CanonicalName
+dataset <- dataset[!(row.names(dataset) %in% dropRows), ]
 
 # Drop tips that aren't in dataset
 dropTips <- setdiff(tree$tip.label, dataset$CanonicalName)
@@ -140,7 +140,11 @@ The Generalized Linear Model (GLM) must be made. The Domestication column is use
 variable, and the other columns are the predictor variables. For the model selection the phylolm package 
 and phyloglmstep function are used.
 
+```{r}
 
+
+
+```
 
 
 # Information about data per predictor variable
