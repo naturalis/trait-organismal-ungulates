@@ -37,16 +37,15 @@ omiFile <- ("https://raw.githubusercontent.com/naturalis/trait-geo-diverse-ungul
 ```{r import data}
 ungulatesData <- read.csv(ungulatesFile, header = TRUE, sep= ",")
 omi <- read.csv(omiFile)
-omi$X <- gsub(" ", "_", omi$X)
 tree <- read.tree(treeFile)
 ```
 
 ### Merge datasets
 ```{r merge data}
-ungulatesData <- ungulatesData[2:59]
-omi <- omi %>% rename(BinomialName = X)
-dataset <- merge(ungulatesData, omi, by="BinomialName", all=T)
-dataset <- dataset[-c(258:265),]
+ungulatesData <- ungulatesData[2:60]
+omi <- omi %>% rename(CanonicalName = X)
+dataset <- merge(ungulatesData, omi, by="CanonicalName")
+dataset$CanonicalName <- gsub(" ", "_", dataset$CanonicalName)
 
 #write to csv for use outside of R-Studio
 #write.csv(dataset, "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R/mergedData.csv", row.names=FALSE)
@@ -65,36 +64,21 @@ Also, rename trait names that contain dots, remove traits that consist of more t
 
 ```{r check if names match between dataset and tree}
 # Which species aren't in the tree
-diffRows <- setdiff(dataset$BinomialName, tree$tip.label)
-
-# Handsearch which species in diffRows are domesticated and in the tree, but named differently:
-## Bos_frontalis, Bos_grunniens, Bos_taurus, Bubalus_bubalis, Capra_hircus, Equus_caballus, Lama_glama, Ovis_aries
-
-# Rename tree tips
-tree$tip.label[tree$tip.label=="Bos_frontalis_gaurus"] <- "Bos_frontalis"
-tree$tip.label[tree$tip.label=="Bos_grunniens_mutus"] <- "Bos_grunniens"
-tree$tip.label[tree$tip.label=="Bos_taurus_primigenius"] <- "Bos_taurus"
-tree$tip.label[tree$tip.label=="Bubalus_bubalis_arnee"] <- "Bubalus_bubalis"
-tree$tip.label[tree$tip.label=="Capra_hircus_aegagrus"] <- "Capra_hircus"
-tree$tip.label[tree$tip.label=="Equus_przewalskii"] <- "Equus_caballus"
-tree$tip.label[tree$tip.label=="Lama_glama_guanicoe"] <- "Lama_glama"
-tree$tip.label[tree$tip.label=="Ovis_aries_orientalis"] <- "Ovis_aries"
+dropRows <- setdiff(dataset$CanonicalName, tree$tip.label)
 
 # Drop rows that aren't in the tree, and aren't domesticated
-dropRows <- setdiff(dataset$BinomialName, tree$tip.label)
-rowNum <- c(4,7,18,19,20,49,50,53,56,76,79,91,94,96,100,115,132,137,139,141,144,146,153,154,156,157,158,162,174,201,215,222,224,229,252,254,255,256)
-dataset <- dataset[-c(rowNum),]
-rownames(dataset) <- 1:219
+dataset <- dataset[-c(3,5,48,86,88,99,152),]
+rownames(dataset) <- 1:147
 
 # Drop tips that aren't in dataset
-dropTips <- setdiff(tree$tip.label, dataset$BinomialName)
+dropTips <- setdiff(tree$tip.label, dataset$CanonicalName)
 tree <- drop.tip(tree, dropTips)
 
 # Final check if there are any differences
-setdiff(dataset$BinomialName, tree$tip.label)
-setdiff(tree$tip.label, dataset$BinomialName)
+setdiff(dataset$CanonicalName, tree$tip.label)
+setdiff(tree$tip.label, dataset$CanonicalName)
 
-rm(diffRows, dropRows, rowNum, dropTips)
+rm(dropRows, dropTips)
 ```
 
 
@@ -104,8 +88,8 @@ dataset <- dataset %>% rename(Horns_Antlers = Horns.Antlers,
                               X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
 
 
-#remove traits that (almost) only consist of missing values (>200 NA)
-dataset <- subset(dataset, select = -c(X8.1_AdultForearmLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X7.1_DispersalAge_d, X16.1_LittersPerYear, X13.2_NeonateHeadBodyLen_mm, X10.1_PopulationGrpSize, X13.3_WeaningHeadBodyLen_mm, X5.4_WeaningBodyMass_g, X2.1_AgeatEyeOpening_d))
+#remove traits that (almost) only consist of missing values (>100 NA)
+dataset <- subset(dataset, select = -c(X5.4_WeaningBodyMass_g, X13.3_WeaningHeadBodyLen_mm, X13.2_NeonateHeadBodyLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X2.1_AgeatEyeOpening_d, X8.1_AdultForearmLen_mm, X10.1_PopulationGrpSize))
 
 
 #remove traits without any information gain (only consist of one value)
@@ -116,12 +100,14 @@ dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestrial
 dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, 
                                        Diet, AVGWeight, MaturityReachFemale,
                                        MaturityReachMale, X22.2_HomeRange_Indiv_km2,
-                                       X5.3_NeonateBodyMass_g))
+                                       X5.3_NeonateBodyMass_g,X16.1_LittersPerYear,X7.1_DispersalAge_d))
+
+
 ```
 
 
 # 3 Distance Matrix
-### Not sure what to do with this yet
+### Haven't done anything with this one yet
 Make a distance matrix, which shows the phylogenetic distances between all the species in 
 the tree.
 
