@@ -54,121 +54,15 @@ correlation matrix. With the findCorrelation function, the columns with the high
 found. By visualizing the matrix, the outcome of the findCorrelation function can be easily checked. 
 At the beginning of every round the VIF function is run, to check if the results are still infinite.
 
-```{r visualize matrix}
-# Round1
+```{r corr loop}
+thresholds <- c(.9, .8, .7, .6, .5, .4, .3)
 plotPredictors <- columns[,c(1:71)]
 
-## Check VIF > still infinite values
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
-
-## Find all traits with a correlation of .9 or higher, and -.9 and lower
-## Result: remove 39 40 41 44 49 53 56 57 58 59 61 62 63 69  2  8 34 37 38 64 65
-delColumn <- findCorrelation(matrix, cutoff = .9, verbose = FALSE, exact=FALSE)
-
-
-# Round2
-plotPredictors <- plotPredictors[,-c(delColumn)]
-
-## Check VIF > still infinite values
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
-
-## Find all traits with a correlation of .8 or higher, and -.8 and lower
-## Result: remove 7 13 33 36 45 46 47  3 34 49
-delColumn <- findCorrelation(matrix, cutoff = .8, verbose=FALSE, exact = FALSE)
-
-
-# Round3
-plotPredictors <- plotPredictors[,-c(delColumn)]
-
-## Check VIF > still infinite values
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
-
-## Find all traits with a correlation of .7 or higher, and -.7 and lower
-## Result: remove 7 9 12 29 33 2 27
-delColumn <- findCorrelation(matrix, cutoff = .7, verbose=FALSE, exact = FALSE)
-
-
-# Round4
-plotPredictors <- plotPredictors[,-c(delColumn)]
-
-## Check VIF > still infinite values
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
-
-## Find all traits with a correlation of .6 or higher, and -.6 and lower
-## Result: remove 19 25 34 24 31
-delColumn <- findCorrelation(matrix, cutoff = .6, verbose=FALSE, exact = FALSE)
-
-
-# Round5
-plotPredictors <- plotPredictors[,-c(delColumn)]
-
-## Check VIF > still infinite values
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
-
-## Find all traits with a correlation of .5 or higher, and -.5 and lower
-## Result: remove 8 17 23 24 26
-delColumn <- findCorrelation(matrix, cutoff = .5, verbose=FALSE, exact = FALSE)
-
-
-# Round6
-plotPredictors <- plotPredictors[,-c(delColumn)]
-
-## Check VIF > still infinite values
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
-
-## Find all traits with a correlation of .4 or higher, and -.4 and lower
-## Result: remove 9 10 23
-delColumn <- findCorrelation(matrix, cutoff = .4, verbose=FALSE, exact = FALSE)
-
-
-# Round7
-plotPredictors <- plotPredictors[,-c(delColumn)]
-
-## Check VIF > still infinite values
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
-
-## Find all traits with a correlation of .3 or higher, and -.3 and lower
-## Result: remove 5 9 12 20 21 2
-delColumn <- findCorrelation(matrix, cutoff = .3, verbose=FALSE, exact = FALSE)
-
-
-# Round8
-plotPredictors <- plotPredictors[,-c(delColumn)]
-
-## Check VIF > no infinite values!
-vif(plotPredictors)
-
-## Construct matrix and visualize
-matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+for(thr in thresholds){
+  matrix <- cor(plotPredictors, use = "pairwise.complete.obs")
+  delColumn <- findCorrelation(matrix, cutoff = thr, verbose = FALSE, exact=FALSE)
+  plotPredictors <- plotPredictors[,-c(delColumn)]
+}
 ```
 
 
@@ -223,7 +117,7 @@ vif(predictors)
 
 
 ```{r clean out environment}
-rm(setPredictors, plotPredictors, delColumn, columns)
+rm(setPredictors, plotPredictors, delColumn, columns, thr, thresholds)
 ```
 
 
