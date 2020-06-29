@@ -17,7 +17,7 @@ and phyloglmstep function are used.
 ### Load packages
 ```{r packages}
 library(phylolm)
-source('phyloglmstep.R')
+source("https://raw.githubusercontent.com/naturalis/angiosperm-traits/master/phyloglmstep.R")
 ```
 
 
@@ -37,7 +37,7 @@ The input formulas are defined, which are going to be used as input for the phyl
 
 ```{r declare formulas}
 # Lowest VIF values - with all traits
-formula1 <- Domestication ~ X1.1_ActivityCycle + X5.1_AdultBodyMass_g + X6.1_DietBreadth + X12.1_HabitatBreadth + X15.1_LitterSize + X21.1_PopulationDensity_n_km2 + X10.2_SocialGrpSize + MatingSystem + DevelopmentStrategy + Horns_Antlers + NaturalPredators + AVGMovingSpeed + AVGTravelDistance + Aspect + ClayPercentage + OrganicCarbon + Slope
+formula1 <- Domestication ~ X1.1_ActivityCycle + X5.1_AdultBodyMass_g + X12.1_HabitatBreadth + X21.1_PopulationDensity_n_km2 + X10.2_SocialGrpSize + MatingSystem + YearRoundBreeding + Horns_Antlers + AVGMovingSpeed + AVGTravelDistance + Aspect + ClayPercentage + OrganicCarbon
 
 
 
@@ -50,26 +50,23 @@ With the use of the phyloglmstep() function, written by Rutger Vos.
 
 
 # WIP 
-Doesn't work yet
-
 Error in phyloglm(formula, data, phy, method, btol, log.alpha.bound, start.beta, : the number of rows in the data does not match the number of tips in the tree.
 
 ```{r model selection}
 # Both give 219 - so i dont know where it goes wrong
-NROW(dataModel)
+NROW(dataset)
 Ntip(tree)
 
-phyloglmstep(formula1, starting.formula = NULL, data=dataModel, phy=tree, 
-                         method="logistic_MPLE",
-                         direction = "forward", trace = 0,
-                         btol = 100, log.alpha.bound = 8, start.beta=NULL, 
-                         start.alpha=NULL, boot = 0, full.matrix = TRUE,
-                         k=2)
+phyloglmstep(formula1, starting.formula = NULL, data=dataset, phy=tree, 
+             method="logistic_MPLE", direction = "forward", trace = 2, 
+             btol = 10, log.alpha.bound = 4, start.beta=NULL, 
+             start.alpha=NULL, boot = 0, full.matrix = TRUE, k=2)
 ```
 
 
+Look at if the species have data in every trait from the formula
 
-
+complete.cases (zoiets)
 
 
 
