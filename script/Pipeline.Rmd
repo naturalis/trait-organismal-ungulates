@@ -23,6 +23,8 @@ library(Rphylopars)
 library(tidyverse)
 library(usdm)
 library(corrplot)
+library(phylolm)
+source("https://raw.githubusercontent.com/naturalis/angiosperm-traits/master/phyloglmstep.R")
 ```
 
 ### Declare project root and paths
@@ -48,7 +50,7 @@ dataset <- merge(ungulatesData, omi, by="CanonicalName")
 dataset$CanonicalName <- gsub(" ", "_", dataset$CanonicalName)
 
 #write to csv for use outside of R-Studio
-#write.csv(dataset, "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R/mergedData.csv", row.names=FALSE)
+#write.csv(dataset, "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R/data/CSV/mergedData.csv", row.names=FALSE)
 
 # Remove all unnecessary variables 
 rm(treeFile, ungulatesFile, omiFile, ungulatesData, omi)
@@ -60,7 +62,7 @@ rm(treeFile, ungulatesFile, omiFile, ungulatesData, omi)
 There are names in the phylogenetic tree that aren't in the dataset, these tips can be
 dropped. And some of the species names must be renamed in the tree, to match the species names in the dataset. 
 Also, rename trait names that contain dots, remove traits that consist of more than 
-200 missing values and remove traits that don't have any information gain.
+100 missing values and remove traits that don't have any information gain.
 
 ```{r check if names match between dataset and tree}
 # Which species aren't in the tree
@@ -101,30 +103,18 @@ dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInter
                                        Diet, AVGWeight, MaturityReachFemale,
                                        MaturityReachMale, X22.2_HomeRange_Indiv_km2,
                                        X5.3_NeonateBodyMass_g,X16.1_LittersPerYear,X7.1_DispersalAge_d))
-
-
 ```
 
 
-# 3 Distance Matrix
-### Haven't done anything with this one yet
-Make a distance matrix, which shows the phylogenetic distances between all the species in 
-the tree.
-
-```{r distance matrix calculations}
-#distances <- cophenetic.phylo(phyloTree)
-```
-
-
-# 4 VIF-analysis
+# 3 VIF-analysis
 
 There probably will be some colinearity between the different traits in the dataset. 
 Colinearity could lead to bias in the model, so a correction will have to be done. This can be done using
 the Variance Inflation Factor (vif). Only the best combination is shown, for the whole analysis, see 'VIF.Rmd'
 
 ```{r general code VIF analysis, results='markup'}
-columns <- dataset[,c(7:77)]
-predictors <- columns[,c(1,2,5,7,10,12,14,22,24,25,27,29:31,33,50,52)]
+columns <- dataset[,c(8:78)]
+predictors <- columns[,c(1,2,7,12,14,22,23,25,29,30,31,33,50)]
 
 matrix <- cor(predictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
@@ -134,7 +124,7 @@ rm(columns, matrix)
 ```
 
 
-# Model Selection
+# 4 Model Selection
 
 The Generalized Linear Model (GLM) must be made. The Domestication column is used as the dependent 
 variable, and the other columns are the predictor variables. For the model selection the phylolm package 
