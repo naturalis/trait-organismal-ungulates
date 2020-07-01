@@ -7,6 +7,64 @@ output: html_document
 knitr::opts_chunk$set(echo = T)
 ```
 
+# Added - Will later remove
+
+Added this part to make the dataset and tree. Same as in Pipeline.Rmd.
+Phyloglmstep starts at the header Model Selection
+
+#### data and tree
+```{r declare root and paths}
+root <- "/home/zoe/Documents/GitHub/trait-organismal-ungulates-R"
+treeFile <- paste(c(root, "/data/ungulates.tree"), collapse = "")
+ungulatesFile <- paste(c(root, "/data/CSV/ungulatesTraits.csv"), collapse = "")
+omiFile <- ("https://raw.githubusercontent.com/naturalis/trait-geo-diverse-ungulates/master/results/OMI/niche_traits.csv")
+
+ungulatesData <- read.csv(ungulatesFile, header = TRUE, sep= ",")
+omi <- read.csv(omiFile)
+tree <- read.tree(treeFile)
+
+ungulatesData <- ungulatesData[2:60]
+omi <- omi %>% rename(CanonicalName = X)
+dataset <- merge(ungulatesData, omi, by="CanonicalName")
+dataset$CanonicalName <- gsub(" ", "_", dataset$CanonicalName)
+
+# Remove all unnecessary variables 
+rm(treeFile, ungulatesFile, omiFile, ungulatesData, omi)
+
+# Which species aren't in the tree
+dropRows <- setdiff(dataset$CanonicalName, tree$tip.label)
+
+# Drop rows that aren't in the tree, and aren't domesticated
+row.names(dataset) <- dataset$CanonicalName
+dataset <- dataset[!(row.names(dataset) %in% dropRows), ]
+
+# Drop tips that aren't in dataset
+dropTips <- setdiff(tree$tip.label, dataset$CanonicalName)
+tree <- drop.tip(tree, dropTips)
+
+rm(dropRows, dropTips)
+
+#rename columns with dots in the name
+dataset <- dataset %>% rename(Horns_Antlers = Horns.Antlers,
+                              X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
+
+
+#remove traits that (almost) only consist of missing values (>100 NA)
+dataset <- subset(dataset, select = -c(X5.4_WeaningBodyMass_g, X13.3_WeaningHeadBodyLen_mm, X13.2_NeonateHeadBodyLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X2.1_AgeatEyeOpening_d, X8.1_AdultForearmLen_mm, X10.1_PopulationGrpSize))
+
+
+#remove traits without any information gain (only consist of one value)
+dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
+
+
+#remove traits that are almost identical to other traits
+dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, 
+                                       Diet, AVGWeight, MaturityReachFemale,
+                                       MaturityReachMale, X22.2_HomeRange_Indiv_km2,
+                                       X5.3_NeonateBodyMass_g,X16.1_LittersPerYear,X7.1_DispersalAge_d))
+```
+
+
 
 # Model Selection
 The Generalized Linear Model (GLM) must be made. The Domestication column is used as the dependent 
@@ -21,14 +79,41 @@ source("https://raw.githubusercontent.com/naturalis/angiosperm-traits/master/phy
 ```
 
 
-### Load data
+### Data
 
-The dataset and predictors variables are declared in the 'Pipeline.Rmd' script to prevent redundant code.
+A dataset without any missing values is made. It contains the Domestication trait, and also the 
+CanonicalNames to match the data with the tree. The tree tips that aren't in the final data, are dropped.
 
 ```{r data}
-# Declare dataset which contains both the dependent as the predictor variables
-dataModel <- cbind(dataset[,6], predictors)
-colnames(dataModel)[1] <- "Domestication"
+# Complete trait set, with Domestication and CanonicalNames
+columns <- dataset[,c(1,7:78)]
+
+# The predictor variables from the VIF analysis + Domestication and CanonicalNames
+data <- columns[,c(1,2,3,4,9,14,16,24,25,27,31,32,33,35,52)]
+
+# Only the rows without any missing values are collected
+data <- data[complete.cases(data),]
+
+# Dropping species from the tree, to make the amount of species the same in the data and tree
+#setdiff(data$CanonicalName, tree$tip.label)
+dropTips <- setdiff(tree$tip.label, data$CanonicalName)
+phyloTree <- drop.tip(tree, dropTips)
+
+# Domesticated species
+#domData <- dataset[dataset$Domestication == 1,]
+#domData <- domData[,c(1,7,8,9,14,19,21,29,30,32,36,37,38,40,57)]
+
+rm(columns, dropTips)
+```
+
+
+### Binary dependent variable
+
+The dependent variable should be in a binary state. This means that the Domestication trait needs to be
+converted to 0-1 instead of the 1-2 it's now. The 'wild' state (2) will be converted to the zero state (0). This way 'wild' appears as 0 and 'domesticated' appears as 1.
+
+```{r zero state}
+data$Domestication[data$Domestication==2] <- 0 
 ```
 
 ### Formulas
@@ -39,6 +124,8 @@ The input formulas are defined, which are going to be used as input for the phyl
 # Lowest VIF values - with all traits
 formula1 <- Domestication ~ X1.1_ActivityCycle + X5.1_AdultBodyMass_g + X12.1_HabitatBreadth + X21.1_PopulationDensity_n_km2 + X10.2_SocialGrpSize + MatingSystem + YearRoundBreeding + Horns_Antlers + AVGMovingSpeed + AVGTravelDistance + Aspect + ClayPercentage + OrganicCarbon
 
+# Without X12.1_HabitatBreadth
+formula2 <- Domestication ~ X1.1_ActivityCycle + X5.1_AdultBodyMass_g + X21.1_PopulationDensity_n_km2 + X10.2_SocialGrpSize + MatingSystem + YearRoundBreeding + Horns_Antlers + AVGMovingSpeed + AVGTravelDistance + Aspect + ClayPercentage + OrganicCarbon
 
 
 ```
@@ -48,25 +135,11 @@ formula1 <- Domestication ~ X1.1_ActivityCycle + X5.1_AdultBodyMass_g + X12.1_Ha
 
 With the use of the phyloglmstep() function, written by Rutger Vos.
 
-
-# WIP 
-Error in phyloglm(formula, data, phy, method, btol, log.alpha.bound, start.beta, : the number of rows in the data does not match the number of tips in the tree.
-
 ```{r model selection}
-# Both give 219 - so i dont know where it goes wrong
-NROW(dataset)
-Ntip(tree)
-
-phyloglmstep(formula1, starting.formula = NULL, data=dataset, phy=tree, 
+phyloglmstep(formula2, starting.formula = NULL, data=data, phy=phyloTree, 
              method="logistic_MPLE", direction = "forward", trace = 2, 
              btol = 10, log.alpha.bound = 4, start.beta=NULL, 
              start.alpha=NULL, boot = 0, full.matrix = TRUE, k=2)
 ```
-
-
-Look at if the species have data in every trait from the formula
-
-complete.cases (zoiets)
-
 
 
