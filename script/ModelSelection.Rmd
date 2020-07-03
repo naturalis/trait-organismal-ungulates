@@ -15,6 +15,7 @@ Phyloglmstep starts at the header Model Selection
 ```{r packages}
 library(ape)
 library(dplyr)
+library(plyr)
 library(ggtree)
 library(ggplot2)
 library(Rphylopars)
@@ -96,11 +97,12 @@ A dataset without any missing values is made. It contains the Domestication trai
 CanonicalNames to match the data with the tree. The tree tips that aren't in the final data, are dropped.
 
 ```{r data}
-# Complete trait set, with Domestication and CanonicalNames
-columns <- dataset[,c(1,7:78)]
-
 # The predictor variables from the VIF analysis + Domestication and CanonicalNames
-modelData <- columns[,c(1,2,3,4,9,14,16,24,25,27,31,32,33,35,52)]
+modelData <- cbind(dataset$CanonicalName, dataset$Domestication,predictors)
+
+# Rename colnames for Domestication and CanonicalName
+names(modelData)[names(modelData)=="dataset$Domestication"] <- "Domestication"
+names(modelData)[names(modelData)=="dataset$CanonicalName"] <- "CanonicalName"
 
 # Only the rows without any missing values are collected
 modelData <- modelData[complete.cases(modelData),]
