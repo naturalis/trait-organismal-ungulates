@@ -104,6 +104,9 @@ modelData <- cbind(dataset$CanonicalName, dataset$Domestication,predictors)
 names(modelData)[names(modelData)=="dataset$Domestication"] <- "Domestication"
 names(modelData)[names(modelData)=="dataset$CanonicalName"] <- "CanonicalName"
 
+# Domesticated species
+domData <- modelData[modelData$Domestication == 1,]
+
 # Only the rows without any missing values are collected
 modelData <- modelData[complete.cases(modelData),]
 
@@ -112,9 +115,7 @@ modelData <- modelData[complete.cases(modelData),]
 dropTips <- setdiff(tree$tip.label, modelData$CanonicalName)
 modelTree <- drop.tip(tree, dropTips)
 
-# Domesticated species
-#domData <- dataset[dataset$Domestication == 1,]
-#domData <- domData[,c(1,7,8,9,14,19,21,29,30,32,36,37,38,40,57)]
+
 
 rm(columns, dropTips)
 ```
