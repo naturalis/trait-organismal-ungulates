@@ -111,7 +111,7 @@ The final set of predictors is declared.
 
 ```{r declare predictors}
 # Final set of predictors, containing:
-# X5.1_AdultBodyMass_g, X1.1_ActivityCycle, X6.1_DietBreadth, X15.1_LitterSize, 
+# X5.1_AdultBodyMass_g, X1.1_ActivityCycle, X6.1_DietBreadth, X12.1_HabitatBreadth, X15.1_LitterSize, 
 # X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, Sociality, NumMales, MatingSystem, 
 # YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, NaturalPredators, AVGMovingSpeed, 
 # AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon
