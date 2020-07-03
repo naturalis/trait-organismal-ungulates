@@ -65,6 +65,9 @@ Also, rename trait names that contain dots, remove traits that consist of more t
 100 missing values and remove traits that don't have any information gain.
 
 ```{r check if names match between dataset and tree}
+# Edited Equus asinus to Equus africanus in tree 
+tree$tip.label[tree$tip.label=="Equus_asinus"] <- "Equus_africanus"
+
 # Which species aren't in the tree
 dropRows <- setdiff(dataset$CanonicalName, tree$tip.label)
 
@@ -114,7 +117,9 @@ the Variance Inflation Factor (vif). Only the best combination is shown, for the
 
 ```{r general code VIF analysis, results='markup'}
 columns <- dataset[,c(8:78)]
-predictors <- columns[,c(1,2,7,12,14,22,23,25,29,30,31,33,50)]
+
+#WIPWIPWIPWIP
+predictors <- select(dataset, c(X5.1_AdultBodyMass_g, X1.1_ActivityCycle, X6.1_DietBreadth, X15.1_LitterSize, X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, Sociality, NumMales, MatingSystem, YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon))
 
 matrix <- cor(predictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
