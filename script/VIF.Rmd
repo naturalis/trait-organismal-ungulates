@@ -13,7 +13,7 @@ There are alot of traits in the dataset, which can lead to collinearity. To elim
 the collinearity, a VIF analysis will be done. Loading the data is done with the 'Import data' 
 and 'Preprocessing' part of the Pipeline.Rmd script.
 
-```{r load packages, message=FALSE}
+```{r load packages, results='hide'}
 library(usdm)
 library(caret)
 library(corrplot)
@@ -26,7 +26,7 @@ This is the general code for the VIF analysis, which will change due to new valu
 the analysis. The VIF value and biological reasoning will help with choosing which traits should be left
 out.
 
-```{r general code VIF, message=FALSE}
+```{r general code VIF}
 columns <- dataset[,c(8:78)]
 vif(columns)
 ```
@@ -55,7 +55,7 @@ found. By visualizing the matrix, the outcome of the findCorrelation function ca
 At the beginning of every round the VIF function is run, to check if the results are still infinite.
 
 ```{r corr loop}
-thresholds <- c(.9, .8, .7, .6, .5, .4, .3)
+thresholds <- c(.9, .8, .7, .6, .5, .44)
 plotPredictors <- columns[,c(1:71)]
 
 for(thr in thresholds){
@@ -63,6 +63,9 @@ for(thr in thresholds){
   delColumn <- findCorrelation(matrix, cutoff = thr, verbose = FALSE, exact=FALSE)
   plotPredictors <- plotPredictors[,-c(delColumn)]
 }
+
+# Check VIF
+vif(plotPredictors)
 ```
 
 
@@ -74,16 +77,12 @@ with other traits. The bodymass is an important trait, so it will be reinserted 
 
 ``` {r declare predictor set}
 # Insert X5.1_AdultBodyMass_g (column 2) and check for high collinearity
-setPredictors <- cbind(columns[,2],plotPredictors)
+setPredictors <- cbind(columns$X5.1_AdultBodyMass_g, plotPredictors)
 colnames(setPredictors)[1] <- "X5.1_AdultBodyMass_g"
 matrix <- cor(setPredictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 
-# X5.1_AdultBodyMass_g and X9.1_GestationLen_d have a high collinearity. X5.1_AdultBodyMass_g seems more 
-# important for this research, so X9.1_GestationLen_d (column 3) is removed.
-setPredictors <- setPredictors[,-c(3)]
-matrix <- cor(setPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
+vif(setPredictors)
 ```
 
 
@@ -95,9 +94,13 @@ remaining traits have a VIF of 10 or lower.
 ```{r VIF}
 # Round1 - Results: remove AVGFoodConsumption
 vif(setPredictors)
+setPredictors$AVGFoodConsumption <- NULL
 
-# Round2 - all of the traits are under 10
-setPredictors <- setPredictors[,c(1:5,7:14)]
+# Round2 - Results: remove bio18
+vif(setPredictors)
+setPredictors$bio18 <- NULL
+
+# Round3 - Results: all VIFs under 10 (except X5.1_AdultBodyMass_g)
 vif(setPredictors)
 ```
 
@@ -108,9 +111,10 @@ The final set of predictors is declared.
 
 ```{r declare predictors}
 # Final set of predictors, containing:
-# X1.1_ActivityCycle, X5.1_AdultBodyMass_g, X12.1_HabitatBreadth, X21.1_PopulationDensity_n_km2, 
-# X10.2_SocialGrpSize, MatingSystem, YearRoundBreeding, Horns_Antlers, AVGMovingSpeed, AVGTravelDistance,
-# Aspect, ClayPercentage, OrganicCarbon
+# X5.1_AdultBodyMass_g, X1.1_ActivityCycle, X6.1_DietBreadth, X15.1_LitterSize, 
+# X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, Sociality, NumMales, MatingSystem, 
+# YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, NaturalPredators, AVGMovingSpeed, 
+# AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon
 predictors <- setPredictors
 vif(predictors)
 ```
