@@ -17,14 +17,10 @@ need to be merged.
 ```{r Load packages, message=FALSE}
 library(ape)
 library(dplyr)
-library(ggtree)
-library(ggplot2)
-library(Rphylopars)
-library(tidyverse)
 library(usdm)
 library(corrplot)
 library(phylolm)
-source("https://raw.githubusercontent.com/naturalis/angiosperm-traits/master/phyloglmstep.R")
+#source("https://raw.githubusercontent.com/naturalis/angiosperm-traits/master/phyloglmstep.R")
 ```
 
 ### Declare project root and paths
@@ -42,10 +38,11 @@ omi <- read.csv(omiFile)
 tree <- read.tree(treeFile)
 ```
 
+
 ### Merge datasets
 ```{r merge data}
 ungulatesData <- ungulatesData[2:60]
-omi <- omi %>% rename(CanonicalName = X)
+names(omi)[names(omi)=="X"] <- "CanonicalName"
 dataset <- merge(ungulatesData, omi, by="CanonicalName")
 dataset$CanonicalName <- gsub(" ", "_", dataset$CanonicalName)
 
@@ -71,7 +68,7 @@ tree$tip.label[tree$tip.label=="Equus_asinus"] <- "Equus_africanus"
 # Which species aren't in the tree
 dropRows <- setdiff(dataset$CanonicalName, tree$tip.label)
 
-# Drop rows that aren't in the tree, and aren't domesticated
+# Drop rows that aren't in the tree (check manually if these are domesticated)
 row.names(dataset) <- dataset$CanonicalName
 dataset <- dataset[!(row.names(dataset) %in% dropRows), ]
 
@@ -86,22 +83,24 @@ setdiff(tree$tip.label, dataset$CanonicalName)
 rm(dropRows, dropTips)
 ```
 
-
 ```{r misc preprocessing}
-#rename columns with dots in the name
-dataset <- dataset %>% rename(Horns_Antlers = Horns.Antlers,
-                              X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
+# Check data
+#summary(dataset)
+
+# Rename columns with dots in the name
+names(dataset)[names(dataset)=="Horns.Antlers"] <- "Horns_Antlers"
+names(dataset)[names(dataset)=="X21.1_PopulationDensity_n.km2"] <- "X21.1_PopulationDensity_n_km2"
 
 
-#remove traits that (almost) only consist of missing values (>100 NA)
+# Remove traits that (almost) only consist of missing values (>100 NA)
 dataset <- subset(dataset, select = -c(X5.4_WeaningBodyMass_g, X13.3_WeaningHeadBodyLen_mm, X13.2_NeonateHeadBodyLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X2.1_AgeatEyeOpening_d, X8.1_AdultForearmLen_mm, X10.1_PopulationGrpSize))
 
 
-#remove traits without any information gain (only consist of one value)
+# Remove traits without any information gain (only consist of one value)
 dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
 
 
-#remove traits that are almost identical to other traits
+# Remove traits that are almost identical to other traits
 dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, 
                                        Diet, AVGWeight, MaturityReachFemale,
                                        MaturityReachMale, X22.2_HomeRange_Indiv_km2,
@@ -116,16 +115,13 @@ Colinearity could lead to bias in the model, so a correction will have to be don
 the Variance Inflation Factor (vif). Only the best combination is shown, for the whole analysis, see 'VIF.Rmd'
 
 ```{r general code VIF analysis, results='markup'}
-columns <- dataset[,c(8:78)]
-
-#WIPWIPWIPWIP
-predictors <- select(dataset, c(X5.1_AdultBodyMass_g, X1.1_ActivityCycle, X6.1_DietBreadth, X15.1_LitterSize, X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, Sociality, NumMales, MatingSystem, YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon))
+predictors <- dplyr::select(dataset, c(X5.1_AdultBodyMass_g, X1.1_ActivityCycle, X6.1_DietBreadth, X12.1_HabitatBreadth, X15.1_LitterSize, X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, Sociality, NumMales, MatingSystem, YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon))
 
 matrix <- cor(predictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 
 vif(predictors)
-rm(columns, matrix)
+rm(matrix)
 ```
 
 
