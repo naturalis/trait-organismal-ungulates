@@ -36,12 +36,15 @@ omi <- read.csv(omiFile)
 tree <- read.tree(treeFile)
 
 ungulatesData <- ungulatesData[2:60]
-omi <- omi %>% rename(CanonicalName = X)
+names(omi)[names(omi)=="X"] <- "CanonicalName"
 dataset <- merge(ungulatesData, omi, by="CanonicalName")
 dataset$CanonicalName <- gsub(" ", "_", dataset$CanonicalName)
 
 # Remove all unnecessary variables 
 rm(treeFile, ungulatesFile, omiFile, ungulatesData, omi)
+
+# Edited Equus asinus to Equus africanus in tree 
+tree$tip.label[tree$tip.label=="Equus_asinus"] <- "Equus_africanus"
 
 # Which species aren't in the tree
 dropRows <- setdiff(dataset$CanonicalName, tree$tip.label)
@@ -54,11 +57,15 @@ dataset <- dataset[!(row.names(dataset) %in% dropRows), ]
 dropTips <- setdiff(tree$tip.label, dataset$CanonicalName)
 tree <- drop.tip(tree, dropTips)
 
+# Final check if there are any differences
+setdiff(dataset$CanonicalName, tree$tip.label)
+setdiff(tree$tip.label, dataset$CanonicalName)
+
 rm(dropRows, dropTips)
 
 #rename columns with dots in the name
-dataset <- dataset %>% rename(Horns_Antlers = Horns.Antlers,
-                              X21.1_PopulationDensity_n_km2 = X21.1_PopulationDensity_n.km2)
+names(dataset)[names(dataset)=="Horns.Antlers"] <- "Horns_Antlers"
+names(dataset)[names(dataset)=="X21.1_PopulationDensity_n.km2"] <- "X21.1_PopulationDensity_n_km2"
 
 
 #remove traits that (almost) only consist of missing values (>100 NA)
@@ -74,6 +81,8 @@ dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInter
                                        Diet, AVGWeight, MaturityReachFemale,
                                        MaturityReachMale, X22.2_HomeRange_Indiv_km2,
                                        X5.3_NeonateBodyMass_g,X16.1_LittersPerYear,X7.1_DispersalAge_d))
+
+predictors <- dplyr::select(dataset, c(X5.1_AdultBodyMass_g, X1.1_ActivityCycle, X6.1_DietBreadth, X12.1_HabitatBreadth, X15.1_LitterSize, X21.1_PopulationDensity_n_km2, X10.2_SocialGrpSize, Sociality, NumMales, MatingSystem, YearRoundBreeding, DevelopmentStrategy, Horns_Antlers, Lifespan, NaturalPredators, AVGMovingSpeed, AVGTravelDistance, Aspect, ClayPercentage, OrganicCarbon))
 ```
 
 
@@ -117,7 +126,7 @@ modelTree <- drop.tip(tree, dropTips)
 
 
 
-rm(columns, dropTips)
+rm(dropTips)
 ```
 
 
@@ -191,7 +200,7 @@ testFormula <- Domestication ~ X1.1_ActivityCycle + X5.1_AdultBodyMass_g + X12.1
 With the use of the phyloglmstep() function, written by Rutger Vos.
 
 ```{r model selection}
-phyloglmstep(testFormula, starting.formula = NULL, data=modelData, phy=modelTree, 
+phyloglmstep(formula2, starting.formula = NULL, data=modelData, phy=modelTree, 
              method="logistic_MPLE", direction = "forward", trace = 2, 
              btol = 30, log.alpha.bound = 4, start.beta=NULL, 
              start.alpha=NULL, boot = 0, full.matrix = TRUE, k=2)
