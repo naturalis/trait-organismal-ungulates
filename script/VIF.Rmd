@@ -43,7 +43,7 @@ can be properly done.
 matrix <- cor(columns, use = "pairwise.complete.obs")
 
 # Visualize matrix
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.6)
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.4)
 ```
 
 
@@ -66,8 +66,8 @@ for(thr in thresholds){
 
 # Check VIF
 vif(plotPredictors)
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 ```
-
 
 #### Declare predictor set
 
@@ -102,6 +102,8 @@ setPredictors$bio18 <- NULL
 
 # Round3 - Results: all VIFs under 10 (except X5.1_AdultBodyMass_g)
 vif(setPredictors)
+matrix <- cor(setPredictors, use = "pairwise.complete.obs")
+corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
 ```
 
 
