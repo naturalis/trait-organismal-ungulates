@@ -1,11 +1,9 @@
 #!/bin/bash
 
 ## DECLARE
-# Absolute path to this script
-SCRIPT=$(readlink -f "$0")
 
 # Absolute path this script is in
-SCRIPTPATH=$(dirname "$SCRIPT")
+SCRIPTPATH=$(dirname "$0")
 root="${SCRIPTPATH}/../"
 
 # Declare files and arrays
