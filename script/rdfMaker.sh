@@ -1,8 +1,12 @@
 #!/bin/bash
 
 ## DECLARE
-# Declare root
-root="/home/zoe/Documents/GitHub/trait-organismal-ungulates/"
+# Absolute path to this script
+SCRIPT=$(readlink -f "$0")
+
+# Absolute path this script is in
+SCRIPTPATH=$(dirname "$SCRIPT")
+root="${SCRIPTPATH}/../"
 
 # Declare files and arrays
 csv=${root}"data/CSV/ungulatesTraits.csv"
