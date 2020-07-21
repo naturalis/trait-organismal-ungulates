@@ -1,7 +1,6 @@
 #!/bin/bash
 
 ## DECLARE
-
 # Absolute path this script is in
 SCRIPTPATH=$(dirname "$0")
 root="${SCRIPTPATH}/../"
@@ -15,17 +14,14 @@ trait=()
 species=()
 value=()
 
-
 ## PREFIXES
 # Add the prefixes to the rdf file
 printf "@prefix species: <https://www.departments.bucknell.edu/biology/resources/msw3/browse.asp?s=y&id=> .\n@prefix trait: <https://github.com/naturalis/trait-organismal-ungulates/blob/master/terms/terms.md#> .\n@prefix pantheria: <http://esapubs.org/archive/ecol/E090/184/metadata.htm> .\n\n" > ${rdf}
-
 
 ## ID FILE
 # Get the id, genus, species and subspecies columns from the msw3-all.csv file.
 # File found on the Wilson & Reeder's Mammal species of the world site (https://www.departments.bucknell.edu/biology/resources/msw3/)
 cat ${wilreed} | tr "," "\t" | awk '{printf $1 "\t" $9 "\t" $11 "\t" $13 "\n"}' | grep "SPECIES" | grep -v "SUBSPECIES" | tr -d "\"" > id.txt
-
 
 ## TRAITS
 # Get all the traits and put them in the trait array
