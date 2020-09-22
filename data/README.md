@@ -5,6 +5,6 @@ PanTHERIA data file, the Mammal Species of the World data file and the phylogeny
 
 - [Ungulate trait data - CSV](CSV)
 - [Ungulate trait data - RDF](RDF)
+- [Phylogeny](phylogeny)
 - [PanTHERIA data file](PanTHERIA.tsv)
 - [Mammal Species of the World data file](msw3-all.csv)
-- [Phylogeny](phylogeny)
