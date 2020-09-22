@@ -9003,4 +9003,3 @@ species:14200122 trait:eol_id "309016" ;
 	trait:carryweight "9499.922" ;
 	trait:pullstrength "9499.922" ;
 	trait:avgtraveldistance "0.12" .
-
