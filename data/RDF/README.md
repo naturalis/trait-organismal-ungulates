@@ -10,7 +10,7 @@ The data set was transformed into an RDF data set, expressed in Turtle syntax. D
 the URIs used for this are from _Wilson & Reeder’s Mammal species of the world_. The predicates are the traits, for which the URIs are
 different per trait. For the taxonomy and PanTHERIA traits, the PanTHERIA URIs are used. These URIs were collected from the EoL database, 
 which contains URIs for all kinds of definitions. The URIs for the different traits can be found in the 
-[definition file](trait-organismal-ungulates/data/CSV/ungulatesTraitsDefinitions.csv) in the data folder.
+[definition file](https://github.com/naturalis/trait-organismal-ungulates/blob/master/script/rdfMaker.sh) in the data folder.
 
 The Turtle trait data was converted to XML format using the EasyRDF converter, after which the XML trait data was validated 
 using the online validation service of the W3C. The online validation service also visualized the RDF part.
