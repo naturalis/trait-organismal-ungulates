@@ -1,7 +1,10 @@
-The final CSV can be found here:
-    https://docs.google.com/spreadsheets/d/1FoVDy_2BDh3LkUiz2B67tXtRMAWQ0_WzcvN5pXl9vAQ/edit?ts=5db859d5#gid=1957613249
+# Data
 
-Used the pages.csv file from the EoL database to get the EoL id. File can be found here (11/11/2019):
-    https://opendata.eol.org/dataset/all-trait-data-large 
+The data folder contains the ungulate trait data in both a comma-seperated file (CSV) and a Resource Description Framework (RDF) using both the Turtle and XML syntax, the
+PanTHERIA data file, the Mammal Species of the World data file and the phylogeny containing the ungulates tree. 
 
-
+- [Ungulate trait data - CSV](CSV)
+- [Ungulate trait data - RDF](RDF)
+- [PanTHERIA data file](PanTHERIA.tsv)
+- [Mammal Species of the World data file](msw3-all.csv)
+- [Phylogeny](phylogeny)
