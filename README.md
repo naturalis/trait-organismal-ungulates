@@ -1,5 +1,7 @@
 # Organismal traits for Ungulates
 
-- [Data files](data)
-- [Ontology terms](terms)
-- [Scripts](script)
+Project repository containing the data files for the analysis of the domesticability of ungulates. The overall layout is as follows:
+
+- [data](data) - data files, containing data on the ungulates and the phylogenetic tree
+- [terms](terms) - ontology terms
+- [script](script) - bash script
