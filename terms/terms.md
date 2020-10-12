@@ -57,12 +57,10 @@ Definiton: The taxonomic rank Family.
 ## Genus
 - The taxonomic rank Genus.
 
-## Horns/Antlers
-- Whether (1) only the male mature species has horns/antlers, (2) only the female mature species has horns/antlers (3) both male and female mature species have horns/antlers or (4) both male and female species don't have horns/antlers.
-#### _Male_
-#### _Female_
-#### _Both_
-#### _Neither_
+## HeadOrnaments
+- Whether there is a sexual dimorphism in head ornaments. The species were defined as (1) there is a sexual dimorphism in head ornaments and (2) there is no sexual dimorphism in head ornaments.
+#### _Sexual dimorphism_
+#### _No sexual dimorphism_
 
 ## ID_EoL
 - The IDs from the Encyclopedia of Life database.
