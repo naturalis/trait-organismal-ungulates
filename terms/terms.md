@@ -72,9 +72,8 @@ Definiton: The taxonomic rank Family.
 - Years
 
 ## MatingSystem
-- The way the species group is structured in relation to sexual behaviour. The species' mating systems were defined as (1) monogamy, (2) polyandry, (3) polygyny and (4) polygynandry.
+- The way the species group is structured in relation to sexual behaviour. The species' mating systems were defined as (1) monogamy, (2) polygyny and (3) polygynandry.
 #### _Monogamy_
-#### _Polyandry_
 #### _Polygyny_
 #### _Polygynandry_
 
