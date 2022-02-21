@@ -1,5 +1,5 @@
 # Terms
-Description of some of the terms used in the dataset. The terms contain the name, definition and units in which the value is measured. When the values are categorical, the different categories are listed. 
+Description of the terms used in the dataset. The terms contain the name, definition and units in which the value is measured. When the values are categorical, the different categories are listed. 
 
 ## AVGBodyMass
 - The average amount of matter in the body of an adult animal of the species.
