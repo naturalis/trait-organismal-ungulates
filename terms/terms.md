@@ -4,6 +4,7 @@ Description of some of the terms used in the dataset. The terms contain the name
 ## AVGBodyMass
 - The average amount of matter in the body of an adult animal of the species.
 - Kilograms
+- Source: 
 
 ## AVGFoodConsumption
 - The average amount of food the mature species eats in a day.
@@ -16,10 +17,6 @@ Description of some of the terms used in the dataset. The terms contain the name
 ## AVGTravelDistance
 - The average amount of kilometers a mature species can walk/run per day. The size of the home range is used when information about the average travel distance cannot be found.
 - Kilometers
-
-## AVGWeight
-- The amount of kilograms the mature species weighs on average.
-- Kilograms
 
 ## Binomial Name
 - The name of the organism, consisting of 2 terms in Latin: the first being the genus and the second being the species.
