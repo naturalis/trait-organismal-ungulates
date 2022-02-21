@@ -4,11 +4,12 @@ Description of the terms used in the dataset. The terms contain the name, defini
 ## AVGBodyMass
 - The average amount of matter in the body of an adult animal of the species.
 - Kilograms
-- Source: 
+- Source: http://purl.obolibrary.org/obo/VT_0001259
 
 ## AVGFoodConsumption
 - The average amount of food the mature species eats in a day.
 - Kilograms
+- Source: 
 
 ## AVGMovingSpeed
 - The average amount of kilometers per hour a mature species can run. Top speed is used instead when information about the average moving speed cannot be found.
