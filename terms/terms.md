@@ -205,8 +205,9 @@ Source: Manually collected from Eol
 - The degree to which the species tend to associate in social groups. Species were defined as (1) solitary or (2) in a group.
 #### _Solitary_
 #### _Group_
-- Source: 
+- Sources: 
 - 1) Animal Diversity Web. https://animaldiversity.org Accessed 2020.
+- 2) Parr, C. S., N. Wilson, P. Leary, K. S. Schulz, K. Lans, L. Walley, J. A. Hammock, A. Goddard, J. Rice, M. Studer, J. T. G. Holmes, and R. J. Corrigan, Jr. 2014. The Encyclopedia of Life v2: Providing Global Access to Knowledge About Life on Earth. Biodiversity Data Journal 2: e1079, doi:10.3897/BDJ.2.e1079
 
 ## Species
 - The taxonomic rank Species.
