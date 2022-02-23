@@ -4,6 +4,7 @@ Description of the terms used in the dataset. The terms contain the name, defini
 ## AVGBodyMass
 - The average amount of matter in the body of an adult animal of the species.
 - Kilograms
+- Note: The trait "5-1_AdultBodyMass_g" in the dataset is the same set of values, but it is measured in grams
 - Sources: 
 - 1) Estes RD. The Behavior Guide to African Mammals: Including Hoofed Mammals, Carnivores, Primates. Berkeley (Calif.): University of California Press; 2012.
 - 2) Castelló José R. Bovids of the World: Antelopes, Gazelles, Cattle, Goats, Sheep, and Relatives. Princeton: Princeton Univ. Press; 2016.
