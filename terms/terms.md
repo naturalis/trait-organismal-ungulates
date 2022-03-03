@@ -195,14 +195,14 @@ Source: Manually collected from Eol
 - Source: Manually collected, same measurement procedure as CarryWeight
 
 ## SocialHierarchy
-- Whether there is a social hierarchy or not (Binary switch). They were defined as (0) no social hierarchy or (1) social hierarchy.
+- Whether or not there is an intrasexual dominance heirarchy among the male members of the species (Binary switch). They were defined as (0) no social hierarchy or (1) social hierarchy.
 #### _Hierarchy_
 #### _No hierarchy_
 - Source: 
 - 1) Animal Diversity Web. https://animaldiversity.org Accessed 2020.
 
 ## Sociality
-- The degree to which the species tend to associate in social groups. Species were defined as (1) solitary or (2) in a group.
+- The tendency for a given species to associate in a herd at some point in their lifespan. Species were defined as (1) solitary or (2) in a group.
 #### _Solitary_
 #### _Group_
 - Sources: 
