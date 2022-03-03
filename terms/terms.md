@@ -11,13 +11,13 @@ Description of the terms used in the dataset. The terms contain the name, defini
 - 3) Animal Diversity Web. https://animaldiversity.org Accessed 2020.
 
 ## AVGFoodConsumption
-- The average amount of food the mature species eats in a day.
+- The average amount of food an adult member of the species eats in a day.
 - Kilograms
 - Source: 
 - 1) Nutrition in Subungulates and Ungulates. Merck Veterinary Manual. https://www.merckvetmanual.com/management-and-nutrition/nutrition-exotic-and-zoo-animals/nutrition-in-subungulates-and-ungulates Updated June 2015. Accessed February 6, 2020.
 
 ## AVGMovingSpeed
-- The average amount of kilometers per hour a mature species can run. Top speed is used instead when information about the average moving speed cannot be found.
+- The average speed a mature member of the species can run (measured in kilometers per hour). Top speed is used instead when information about the average moving speed cannot be found.
 - Kilometers/hour
 - Sources: 
 - 1) Estes RD. The Behavior Guide to African Mammals: Including Hoofed Mammals, Carnivores, Primates. Berkeley (Calif.): University of California Press; 2012.
@@ -28,7 +28,7 @@ Description of the terms used in the dataset. The terms contain the name, defini
 
 
 ## AVGTravelDistance
-- The average amount of kilometers a mature species can walk/run per day. The size of the home range is used when information about the average travel distance cannot be found.
+- The average amount of kilometers a mature member of the species can walk/run per day. The size of the home range is used when information about the average travel distance cannot be found.
 - Kilometers
 - Sources: 
 - 1) Estes RD. The Behavior Guide to African Mammals: Including Hoofed Mammals, Carnivores, Primates. Berkeley (Calif.): University of California Press; 2012.
@@ -50,7 +50,7 @@ Description of the terms used in the dataset. The terms contain the name, defini
 - 1) Parr, C. S., N. Wilson, P. Leary, K. S. Schulz, K. Lans, L. Walley, J. A. Hammock, A. Goddard, J. Rice, M. Studer, J. T. G. Holmes, and R. J. Corrigan, Jr. 2014. The Encyclopedia of Life v2: Providing Global Access to Knowledge About Life on Earth. Biodiversity Data Journal 2: e1079, doi:10.3897/BDJ.2.e1079
 
 ## CarryWeight
-- The average number of grams a mature species can carry. (For the purposes of this paper it is measured as 20% of the mature animal's body weight)
+- The average number of grams a mature member of the species can carry. (For the purposes of this paper it is measured as 20% of the mature animal's body weight)
 - Grams 
 - Source: 
 - 1) Manually collected, the value is equal to 20% of the adult animal's AVGBodyMass 
@@ -74,7 +74,7 @@ Description of the terms used in the dataset. The terms contain the name, defini
 - 1) Myers, P., R. Espinosa, C. S. Parr, T. Jones, G. S. Hammond, and T. A. Dewey. 2022. The Animal Diversity Web (online). Accessed at https://animaldiversity.org.
 
 ## Domestication
-- Whether the animal is domesticated/the wild ancestor of a domesticated species or not. Species were defined as (1) domesticated or (2) wild.
+- Whether the animal is domesticated or the wild ancestor of a domesticated species. Species were defined as (1) domesticated or (2) wild.
 #### _Domesticated_
 #### _Wild_
 - Source: 
@@ -94,7 +94,7 @@ Source: Manually collected from Eol
 
 
 ## HeadOrnaments
-- Whether there is a sexual dimorphism in head ornaments. The species were defined as (0) there is no sexual dimorphism in head ornaments or (1) there is a sexual dimorphism in head ornaments
+- Whether there is a sexual dimorphism in head ornaments. The species were defined as (1) there is no sexual dimorphism in head ornaments or (2) there is a sexual dimorphism in head ornaments
 #### _Sexual dimorphism_
 #### _No sexual dimorphism_
 - Manually collected
@@ -125,13 +125,13 @@ Source: Manually collected from Eol
 - 1) Animal Diversity Web. https://animaldiversity.org Accessed 2020.
 
 ## MaturityReachFemale
-- The months needed for a female animal of the species to reach sexual maturity.
+- The amount of months needed for a female animal of the species to reach sexual maturity.
 - Months
 - Source: 
 - 1) Animal Diversity Web. https://animaldiversity.org Accessed 2020.
 
 ## MaturityReachMale
-- The months needed for a male animal of the species to reach sexual maturity.
+- The amount of months needed for a male animal of the species to reach sexual maturity.
 - Months
 - Source: 
 - 1) Animal Diversity Web. https://animaldiversity.org Accessed 2020.
