@@ -1,5 +1,5 @@
 # Terms
-Description of the terms used in the dataset. The terms contain the name, definition and units in which the value is measured. When the values are categorical, the different categories are listed. 
+Description of the terms used in the dataset. The terms contain the name, definition and units in which the value is measured. When the values are categorical, the different categories are listed. When the trait is binary (presence/absence), the character states are defined. 
 
 ## AVGBodyMass
 - The average amount of matter in the body of an adult animal of the species.
@@ -17,7 +17,7 @@ Description of the terms used in the dataset. The terms contain the name, defini
 - 1) Nutrition in Subungulates and Ungulates. Merck Veterinary Manual. https://www.merckvetmanual.com/management-and-nutrition/nutrition-exotic-and-zoo-animals/nutrition-in-subungulates-and-ungulates Updated June 2015. Accessed February 6, 2020.
 
 ## AVGMovingSpeed
-- The average speed a mature member of the species can run (measured in kilometers per hour). Top speed is used instead when information about the average moving speed cannot be found.
+- The average speed a mature member of the species can run. Top speed is used instead when information about the average moving speed cannot be found.
 - Kilometers/hour
 - Sources: 
 - 1) Estes RD. The Behavior Guide to African Mammals: Including Hoofed Mammals, Carnivores, Primates. Berkeley (Calif.): University of California Press; 2012.
@@ -94,7 +94,7 @@ Source: Manually collected from Eol
 
 
 ## HeadOrnaments
-- Whether there is a sexual dimorphism in head ornaments. The species were defined as (1) there is no sexual dimorphism in head ornaments or (2) there is a sexual dimorphism in head ornaments
+- Whether there is a sexual dimorphism in head ornaments (Binary switch). The species were defined as (0) there is no sexual dimorphism in head ornaments or (1) there is a sexual dimorphism in head ornaments
 #### _Sexual dimorphism_
 #### _No sexual dimorphism_
 - Manually collected
@@ -195,7 +195,7 @@ Source: Manually collected from Eol
 - Source: Manually collected, same measurement procedure as CarryWeight
 
 ## SocialHierarchy
-- Whether there is a social hierarchy or not. They were defined as (1) social hierarchy or (2) no social hierarchy.
+- Whether there is a social hierarchy or not (Binary switch). They were defined as (0) no social hierarchy or (1) social hierarchy.
 #### _Hierarchy_
 #### _No hierarchy_
 - Source: 
