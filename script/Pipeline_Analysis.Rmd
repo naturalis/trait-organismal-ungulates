@@ -92,7 +92,7 @@ dataset <- subset(dataset, select = -c(X5.4_WeaningBodyMass_g, X13.3_WeaningHead
 dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
 
 # Remove traits that are almost identical to other traits
-dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, Diet, AVGWeight, MaturityReachFemale, MaturityReachMale, X22.2_HomeRange_Indiv_km2, X5.3_NeonateBodyMass_g, X16.1_LittersPerYear,X7.1_DispersalAge_d))
+dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, Diet, MaturityReachFemale, MaturityReachMale, X22.2_HomeRange_Indiv_km2, X5.3_NeonateBodyMass_g, X16.1_LittersPerYear,X7.1_DispersalAge_d))
 ```
 
 ### Set as factors
