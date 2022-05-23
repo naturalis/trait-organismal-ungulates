@@ -144,20 +144,6 @@ source("ModelSelection.R")
 rm(vifPredictors, factors)
 ```
 
-#### Results:
-      
-       AIC     logLik Pen.logLik 
-    28.346     -7.173     11.847 
-    
-    Parameter estimate(s) from MPLE:
-    alpha: 0.01145475 
-    
-    Coefficients:
-         (Intercept) X5.1_AdultBodyMass_g  DevelopmentStrategy        HeadOrnaments 
-    -23.861324750517       0.000006403856       4.695920350903       8.733986057383 
-      AVGMovingSpeed    AVGTravelDistance 
-     -0.271395434194       0.006078751863 
-
 
 # 5 Modelling analysis
 The phylogenetic generalized linear modelling analysis optimizes the model. The
@@ -171,18 +157,6 @@ dataset$Domestication[dataset$Domestication==2] <- 0
 phyloGLM <- phyloglm(formula = finalFormula, data = dataset, phy = tree, method = "logistic_MPLE", btol = 36, log.alpha.bound = 4)
 summary(phyloGLM)
 ```
-
-#### Results:
-
-    
-    Coefficients:
-                              Estimate        StdErr z.value  p.value   
-    (Intercept)          -9.3503949900  5.1361469886 -1.8205 0.068682 . 
-    X5.1_AdultBodyMass_g  0.0000045743  0.0000020387  2.2437 0.024850 * 
-    DevelopmentStrategy   1.9876564874  1.1964451827  1.6613 0.096653 . 
-    HeadOrnaments         4.9891203727  1.8993795774  2.6267 0.008621 **
-    AVGMovingSpeed       -0.2389830249  0.0950728567 -2.5137 0.011948 * 
-    AVGTravelDistance     0.0046891017  0.0033020300  1.4201 0.155588  
 
 
 # 6 Model evaluation
