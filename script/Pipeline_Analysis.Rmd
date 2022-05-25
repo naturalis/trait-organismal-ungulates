@@ -98,7 +98,6 @@ dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 
 
 # Remove traits without any information gain (only consist of one value)
-#TODO: Filter invariant columns algorithmically 
 #Identify which variables have zero variance
 nearZeroVar(dataset)
 
@@ -106,10 +105,11 @@ dataset <- subset(dataset, select = -c(nearZeroVar(dataset)))
 
 # Remove traits that are almost identical to other traits
 #TODO: Hard code remove columns that are scaled copies of other columns
-dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, Diet, MaturityReachFemale, MaturityReachMale, X22.2_HomeRange_Indiv_km2, X5.3_NeonateBodyMass_g, X16.1_LittersPerYear,X7.1_DispersalAge_d))
+dataset <- subset(dataset, select = -c(X5.1_AdultBodyMass_g, CarryWeight, PullStrength, X5.3_NeonateBodyMass_g))
 
 
-#TODO: Hard code remove non-data columns (taxonomy)
+#Remove columns that contain non-data taxonomic information
+dataset <- subset(dataset, select = -c(CanonicalName, BinomialName, Order, Family, Genus, Species))
 ```
 
 ### Set as factors
