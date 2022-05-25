@@ -88,9 +88,13 @@ removed.
 # Rename column with dots in the name
 names(dataset)[names(dataset)=="X21.1_PopulationDensity_n.km2"] <- "X21.1_PopulationDensity_n_km2"
 
-# Remove traits that (almost) only consist of missing values (>100 NA)
-# TODO: Filter columns with 50% missing algorithmically 
-dataset <- subset(dataset, select = -c(X5.4_WeaningBodyMass_g, X13.3_WeaningHeadBodyLen_mm, X13.2_NeonateHeadBodyLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X2.1_AgeatEyeOpening_d, X8.1_AdultForearmLen_mm, X10.1_PopulationGrpSize))
+# Remove traits that contain >50% missing variables
+# Check the number and % missing values for all variables in the dataset 
+miss_var_summary(dataset) 
+
+
+## Remove columns with >50% NA
+dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 
 
 # Remove traits without any information gain (only consist of one value)
