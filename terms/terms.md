@@ -74,7 +74,7 @@ Description of the terms used in the dataset. The terms contain the name, defini
 - 1) Myers, P., R. Espinosa, C. S. Parr, T. Jones, G. S. Hammond, and T. A. Dewey. 2022. The Animal Diversity Web (online). Accessed at https://animaldiversity.org.
 
 ## Domestication
-- Whether the animal is domesticated or the wild ancestor of a domesticated species. Species were defined as (1) domesticated or (2) wild.
+- Whether the animal is domesticated or the wild ancestor of a domesticated species. Species were defined as (1) domesticated or (0) wild.
 #### _Domesticated_
 #### _Wild_
 - Source: 
