@@ -99,7 +99,10 @@ dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 
 # Remove traits without any information gain (only consist of one value)
 #TODO: Filter invariant columns algorithmically 
-dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
+#Identify which variables have zero variance
+nearZeroVar(dataset)
+
+dataset <- subset(dataset, select = -c(nearZeroVar(dataset)))
 
 # Remove traits that are almost identical to other traits
 #TODO: Hard code remove columns that are scaled copies of other columns
