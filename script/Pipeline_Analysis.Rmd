@@ -23,6 +23,7 @@ library(performance)
 library(see)
 library(gridExtra)
 library(tidyverse)
+library(naniar)
 ```
 
 ### Import data
