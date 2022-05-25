@@ -19,12 +19,6 @@ dropTips <- setdiff(tree$tip.label, modelData$CanonicalName)
 modelTree <- drop.tip(tree, dropTips)
 
 
-## DEPENDENT VARIABLE
-# The dependent variable should be in a binary state. This means that the
-# Domestication trait needs to be converted to 0-1 instead of the 1-2 it's now.
-# The 'wild' state (2) will be converted to the zero state (0). This way 'wild'
-# appears as 0 and 'domesticated' appears as 1.
-modelData$Domestication[modelData$Domestication==2] <- 0
 modelData$CanonicalName <- NULL
 
 test <- modelData
