@@ -117,10 +117,12 @@ Some of the columns are not seen as categorical, but as numeric. These must be c
 ```{r as factor}
 
 #TODO: Check if all columns are represented 
+dataset$Domestication <- as.factor(dataset$Domestication)
 dataset$X1.1_ActivityCycle <- as.factor(dataset$X1.1_ActivityCycle)
 dataset$X6.1_DietBreadth <- as.factor(dataset$X6.1_DietBreadth)
 dataset$X12.1_HabitatBreadth <- as.factor(dataset$X12.1_HabitatBreadth)
 dataset$X6.2_TrophicLevel <- as.factor(dataset$X6.2_TrophicLevel)
+dataset$Diet <- as.factor(dataset$Diet)
 dataset$Sociality <- as.factor(dataset$Sociality)
 dataset$SocialHierarchy <- as.factor(dataset$SocialHierarchy)
 dataset$NumMales <- as.factor(dataset$NumMales)
