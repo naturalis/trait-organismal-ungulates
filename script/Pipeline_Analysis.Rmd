@@ -76,6 +76,7 @@ setdiff(tree$tip.label, dataset$CanonicalName)
 rm(dropRows, dropTips)
 ```
 
+
 ### Miscellaneous preprocessing
 The dots in the column names are replaced with underscores. After that, the
 traits that consist of more than 100 missing values, traits that have no
@@ -86,19 +87,27 @@ removed.
 names(dataset)[names(dataset)=="X21.1_PopulationDensity_n.km2"] <- "X21.1_PopulationDensity_n_km2"
 
 # Remove traits that (almost) only consist of missing values (>100 NA)
+# TODO: Filter columns with 50% missing algorithmically 
 dataset <- subset(dataset, select = -c(X5.4_WeaningBodyMass_g, X13.3_WeaningHeadBodyLen_mm, X13.2_NeonateHeadBodyLen_mm, X18.1_BasalMetRate_mLO2hr, X5.2_BasalMetRateMass_g, X2.1_AgeatEyeOpening_d, X8.1_AdultForearmLen_mm, X10.1_PopulationGrpSize))
 
+
 # Remove traits without any information gain (only consist of one value)
+#TODO: Filter invariant columns algorithmically 
 dataset <- subset(dataset, select = -c(Motility, ParentalCare, X12.2_Terrestriality))
 
 # Remove traits that are almost identical to other traits
+#TODO: Hard code remove columns that are scaled copies of other columns
 dataset <- subset(dataset, select = -c(PullStrength, NumOffspring, BreedingInterval, Diet, MaturityReachFemale, MaturityReachMale, X22.2_HomeRange_Indiv_km2, X5.3_NeonateBodyMass_g, X16.1_LittersPerYear,X7.1_DispersalAge_d))
+
+
+#TODO: Hard code remove non-data columns (taxonomy)
 ```
 
 ### Set as factors
-Some of the columns are not seen as categorical, but as numeric. These must be converted
-to factors.
+Some of the columns are not seen as categorical, but as numeric. These must be converted to factors.
 ```{r as factor}
+
+#TODO: Check if all columns are represented 
 dataset$X1.1_ActivityCycle <- as.factor(dataset$X1.1_ActivityCycle)
 dataset$X6.1_DietBreadth <- as.factor(dataset$X6.1_DietBreadth)
 dataset$X12.1_HabitatBreadth <- as.factor(dataset$X12.1_HabitatBreadth)
@@ -111,6 +120,7 @@ dataset$YearRoundBreeding <- as.factor(dataset$YearRoundBreeding)
 dataset$DevelopmentStrategy <- as.factor(dataset$DevelopmentStrategy)
 dataset$HeadOrnaments <- as.factor(dataset$HeadOrnaments)
 dataset$NaturalPredators <- as.factor(dataset$NaturalPredators)
+
 ```
 
 # 3 VIF-Analysis
