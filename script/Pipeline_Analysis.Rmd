@@ -94,6 +94,7 @@ miss_var_summary(dataset)
 
 
 ## Remove columns with >50% NA
+# let's experiment with the 0.5 threshold, might be changed
 dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 
 
