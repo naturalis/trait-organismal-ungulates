@@ -137,10 +137,7 @@ dataset$NaturalPredators <- as.factor(dataset$NaturalPredators)
 
 # 3 VIF-Analysis
 There is probably collinearity present amongst the traits in the dataset.
-Collinearity can lead to bias in the model, so we must correct for this. This
-can be done by running a variable inflation factor analysis (VIF). The VIF.R
-script contains the whole VIF analysis. The R script is sourced below. This
-script only requires the 'dataset' variable and after it  is run, it will output the 'predictors' variable.
+Collinearity can lead to bias in the model, so we must correct for this. This can be done by running a variable inflation factor analysis (VIF). The VIF.R script contains the whole VIF analysis. The R script is sourced below. This script only requires the 'dataset' variable and after it is run, it will output the 'predictors' variable.
 ```{r VIF, results='markup'}
 # Do the VIF analysis
 ## BEGIN VALUES
@@ -148,19 +145,13 @@ script only requires the 'dataset' variable and after it  is run, it will output
 startPredictors <- dplyr::select_if(dataset, is.numeric)
 startPredictors$Domestication <- NULL
 
-# The first correlation matrix is a visualization of the dataset without the removal of any 
-# traits. There is a lot of collinearity present.
+# The first correlation matrix is a visualization of the dataset without the removal of any traits. There is a lot of collinearity present.
 matrix <- cor(startPredictors, use = "pairwise.complete.obs")
 corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.4)
 
 
 ## CHECK CORRELATION MATRIX
-# The corrplot package is used to visualize the collinearity between the traits,
-# using the correlation matrix. With the findCorrelation() function, the columns
-# with the highest collinearity are found. By visualizing the matrix, the
-# outcome of the findCorrelation function can be easily checked. The VIF function can be run
-# to easily check if the results are still infinite. A cutoff value of .83 is chosen, 
-# using trial and error.
+# The corrplot package is used to visualize the collinearity between the traits, using the correlation matrix. With the findCorrelation() function, the columns with the highest collinearity are found. By visualizing the matrix, the outcome of the findCorrelation function can be easily checked. The VIF function can be run to easily check if the results are still infinite. A cutoff value of .83 is chosen, using trial and error.
 matrix <- cor(startPredictors, use = "pairwise.complete.obs")
 delColumn <- findCorrelation(matrix, cutoff = .83, verbose = FALSE, exact=FALSE)
 startPredictors <- startPredictors[,-c(delColumn)]
@@ -168,11 +159,7 @@ startPredictors <- startPredictors[,-c(delColumn)]
 vif(startPredictors)
 
 ## INSERT ADULTBODYMASS
-# The set of predictors is declared for the VIF analysis, and a last check for
-# collinearity using the visualized matrix is done. During the first round the
-# AdultBodyMass was removed due to a high collinearity with other traits. However, 
-# because Adultbodymass is hypothesized to be a biologically relevant trait, 
-# it will be reinserted in this step.
+# The set of predictors is declared for the VIF analysis, and a last check for collinearity using the visualized matrix is done. During the first round, AdultBodyMass was removed due to a high collinearity with other traits. However, because Adultbodymass is hypothesized to be a biologically relevant trait, it will be reinserted in this step.
 vifPredictors <- cbind(dataset$X5.1_AdultBodyMass_g, startPredictors)
 colnames(vifPredictors)[1] <- "X5.1_AdultBodyMass_g"
 
