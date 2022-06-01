@@ -137,7 +137,7 @@ dataset$NaturalPredators <- as.factor(dataset$NaturalPredators)
 
 # 3 VIF-Analysis
 There is probably collinearity present amongst the traits in the dataset.
-Collinearity can lead to bias in the model, so we must correct for this. This can be done by running a variable inflation factor analysis (VIF). The VIF.R script contains the whole VIF analysis. The R script is sourced below. This script only requires the 'dataset' variable and after it is run, it will output the 'predictors' variable.
+Collinearity can lead to bias in the model, so we must correct for this. This can be done by running a variable inflation factor analysis (VIF). This script only requires the 'dataset' variable and after it is run, it will output the 'predictors' variable.
 ```{r VIF, results='markup'}
 # Do the VIF analysis
 ## BEGIN VALUES
