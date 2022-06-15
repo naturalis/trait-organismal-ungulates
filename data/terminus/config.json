@@ -1,6 +1,6 @@
 {
     "database": "ungulate-traits",
-    "endpoint": "https://dashboard.terminusdb.com/",
+    "endpoint": "https://cloud.terminusdb.com/rutger.vos|bd39",
     "team": "rutger.vos|bd39",
     "use JWT token": true
 }
