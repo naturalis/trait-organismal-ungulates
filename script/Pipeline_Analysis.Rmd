@@ -39,7 +39,7 @@ study, we seek to identify what these are.
 
 # Materials and methods
 
-## Ungulate traits and domestication
+## Data collection
 
 Many scientists have discussed what trait values are required for an animal to
 be amenable for domestication. For example, in the influential popular science 
