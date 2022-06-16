@@ -175,9 +175,6 @@ which 14 are categorical/factors and 60 are numeric, for 148 species.
 # remove columns that contain non-data taxonomic information
 dataset <- subset(dataset, select = -c(CanonicalName, BinomialName, Order, Family, Genus, Species, ID_EoL))
 
-# rename column with dots in the name
-names(dataset)[names(dataset)=="X21.1_PopulationDensity_n.km2"] <- "X21.1_PopulationDensity_n_km2"
-
 # make sure the columns are typed correctly. these are factors, the rest is numeric
 factors <- c(
   'Domestication','X1.1_ActivityCycle','X6.1_DietBreadth','X12.1_HabitatBreadth',
