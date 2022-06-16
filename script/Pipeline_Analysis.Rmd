@@ -6,18 +6,12 @@ output:
 ---
 ```{r setup, include=FALSE, message=FALSE}
 
-<<<<<<< HEAD
-# 1 Import data
-Our first step is to import packages and data into R. The trait data and OMI 
-data also need to be merged.
-=======
 # To produce an appealing output document, we will hide the code from it, hence
 # echo = FALSE, and same for warnings:
 
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
 # Load the required packages:
->>>>>>> 843e2ba0c557428b2b5b436abcc9bb73f3de5de9
 
 library(ape)
 library(dplyr)
@@ -137,7 +131,7 @@ tree$tip.label[tree$tip.label=="Equus_asinus"] <- "Equus_africanus"
 
 # match tree and data
 res <- match.phylo.data(tree, dataset)
-tree <- res[1]
+tree <- res[1]$phy
 dataset <- res[2]$data
 
 rm(ungulatesData, omi, res)
@@ -165,7 +159,8 @@ dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 
 # remove traits that are almost identical to other traits
 # XXX Why are we removing neonate body mass? I reverted that
-dataset <- subset(dataset, select = -c(AVGBodyMass, CarryWeight, PullStrength))
+# XXX Why do we have both X15.1_LitterSize AND NumOffspring?
+dataset <- subset(dataset, select = -c(AVGBodyMass, CarryWeight, PullStrength, NumOffspring))
 ```
 
 After the data merging and filtering we now have a data set of 74 variables, of
@@ -193,19 +188,31 @@ for (colname in names(dataset)) {
 }
 ```
 
-# 3 VIF-Analysis
-There is probably collinearity present amongst the traits in the dataset.
-Collinearity can lead to bias in the model, so we must correct for this. This can be done by running a variable inflation factor analysis (VIF). This script only requires the 'dataset' variable and after it is run, it will output the 'predictors' variable.
-```{r corrplot, results='markup'}
-# Do the VIF analysis
-## BEGIN VALUES
-# Take only the numeric predictors and remove the dependent variable
-startPredictors <- dplyr::select_if(dataset, is.numeric)
-startPredictors$Domestication <- NULL
+## Variable selection
 
-# The first correlation matrix is a visualization of the dataset without the removal of any traits. There is a lot of collinearity present.
+Inspired by: https://stats.stackexchange.com/questions/547024/what-are-pitfalls-of-clustering-variables-by-absolute-correlation-for-variable-s?newreg=23f15a0b98b34912a8ffd0d7450d937a
+
+Unless a statistician steps in (have you asked?) a reasonable procedure as far
+as I can see is the following:
+
+1. For each column individually, do the phyloglm (i.e. Domestication ~ column)
+   and record the AIC of the model.
+2. Calculate the correlation matrix (as below).
+3. Perform complete agglomerative clustering to identify the islands in the 
+   correlation matrix.
+4. For each cluster, iteratively remove variables in ascending order of AIC, 
+   i.e. poor fitting variables are thrown out first. Calculate the VIF after
+   each removal, and stop until VIF<10 for all remaining members of the cluster.
+5. Do this for all clusters, then move on to model selection.
+
+```{r corrplot, results='markup'}
+# take only the numeric predictors and remove the dependent variable
+startPredictors <- select_if(dataset, is.numeric)
+
+# the first correlation matrix is a visualization of the dataset without the 
+# removal of any traits. There is a lot of collinearity present.
 matrix <- cor(startPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.4)
+corrplot(matrix, type="full", order = "hclust", tl.pos = "lt", tl.col = "black", tl.cex = 0.4, diag=F)
 
 ```
 
@@ -222,31 +229,24 @@ matrix <- cor(startPredictors, use = "pairwise.complete.obs")
 delColumn <- findCorrelation(matrix, cutoff = .83, verbose = FALSE, exact=FALSE)
 startPredictors <- startPredictors[,-c(delColumn)]
 
+
+
 vif(startPredictors)
+
 
 ```
 #Precipitation
-Multiple variables are tightly correlated because they are aspects of 
-precipitation, we are going to remove them 1 by 1 in order of decreasing VIF.
-We start with bio14 (precipitation of the driest month) because it has the 
-highest VIF value. 
-```{r variable elimination, results='markup'}
-startPredictors$bio14 <- NULL
-vif(startPredictors)
+explanation
+```
 
-startPredictors$bio18 <- NULL
-vif(startPredictors)
 
-startPredictors$bio15 <- NULL
-vif(startPredictors)
+
 
 ```
 
 #Temperature
-Multiple variables are tightly correlated because they are aspects of 
-temperature, the next step is to remove these variables 1 by 1 in order of 
-decreasing VIF
-```{}
+explanation
+```
 
 
 
@@ -255,17 +255,10 @@ decreasing VIF
 ```
 #BodyMass
 explanation
-```{}
 
-
-```
 
 ## INSERT ADULTBODYMASS
-# The set of predictors is declared for the VIF analysis, and a last check for 
-#collinearity using the visualized matrix is done. During the first round, 
-#AdultBodyMass was removed due to a high collinearity with other traits. 
-#However, because Adultbodymass is hypothesized to be a biologically relevant 
-#trait, it will be reinserted in this step.
+# The set of predictors is declared for the VIF analysis, and a last check for collinearity using the visualized matrix is done. During the first round, AdultBodyMass was removed due to a high collinearity with other traits. However, because Adultbodymass is hypothesized to be a biologically relevant trait, it will be reinserted in this step.
 vifPredictors <- cbind(dataset$X5.1_AdultBodyMass_g, startPredictors)
 colnames(vifPredictors)[1] <- "X5.1_AdultBodyMass_g"
 
@@ -369,8 +362,7 @@ function phyloglm from the phylolm package is used for this.
 dataset$Domestication[dataset$Domestication==2] <- 0
 
 # Construct model
-phyloGLM <- phyloglm(formula = finalFormula, data = dataset, phy = tree, 
-method = "logistic_MPLE", btol = 36, log.alpha.bound = 4)
+phyloGLM <- phyloglm(formula = finalFormula, data = dataset, phy = tree, method = "logistic_MPLE", btol = 36, log.alpha.bound = 4)
 summary(phyloGLM)
 ```
 
