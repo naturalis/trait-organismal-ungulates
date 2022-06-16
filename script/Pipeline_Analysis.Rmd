@@ -9,7 +9,8 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
 # 1 Import data
-Our first step is to import packages and data into R. The trait data and OMI data also need to be merged.
+Our first step is to import packages and data into R. The trait data and OMI 
+data also need to be merged.
 
 ### Load packages
 ```{r Load packages, message=FALSE}
@@ -164,24 +165,23 @@ matrix <- cor(startPredictors, use = "pairwise.complete.obs")
 delColumn <- findCorrelation(matrix, cutoff = .83, verbose = FALSE, exact=FALSE)
 startPredictors <- startPredictors[,-c(delColumn)]
 
-
-
 vif(startPredictors)
-
 
 ```
 #Precipitation
-explanation
-```
-
+Multiple variables are tightly correlated because they are aspects of 
+precipitation, we are going to remove them 1 by 1 in order of decreasing VIF
+```{r variable elimination, results='markup'}
+startPredictors$bio14 <- NULL
+vif(startPredictors)
 
 
 
 ```
 
 #Temperature
-explanation
-```
+Multiple variables are tightly correlated because they are aspects of temperature, the next step is to remove these variables 1 by 1 in order of decreasing VIF
+```{}
 
 
 
@@ -190,7 +190,10 @@ explanation
 ```
 #BodyMass
 explanation
+```{}
 
+
+```
 
 ## INSERT ADULTBODYMASS
 # The set of predictors is declared for the VIF analysis, and a last check for collinearity using the visualized matrix is done. During the first round, AdultBodyMass was removed due to a high collinearity with other traits. However, because Adultbodymass is hypothesized to be a biologically relevant trait, it will be reinserted in this step.
@@ -297,7 +300,8 @@ function phyloglm from the phylolm package is used for this.
 dataset$Domestication[dataset$Domestication==2] <- 0
 
 # Construct model
-phyloGLM <- phyloglm(formula = finalFormula, data = dataset, phy = tree, method = "logistic_MPLE", btol = 36, log.alpha.bound = 4)
+phyloGLM <- phyloglm(formula = finalFormula, data = dataset, phy = tree, 
+method = "logistic_MPLE", btol = 36, log.alpha.bound = 4)
 summary(phyloGLM)
 ```
 
