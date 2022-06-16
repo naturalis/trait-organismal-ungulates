@@ -1,7 +1,8 @@
 # Data
 
-The data folder contains the ungulate trait data in both a comma-seperated file (CSV) and a Resource Description Framework (RDF) using both the Turtle and XML syntax, the
-PanTHERIA data file, the Mammal Species of the World data file and the phylogeny containing the ungulates tree. 
+The data folder contains ungulate trait data in comma-separated file (CSV) and Resource Description Framework (RDF) 
+format (the latter both as Turtle and RDF/XML syntax), the PanTHERIA data file, the Mammal Species of the World 
+data file and the phylogeny containing the ungulates tree. 
 
 - [Ungulate trait data - CSV](CSV)
 - [Ungulate trait data - RDF](RDF)
