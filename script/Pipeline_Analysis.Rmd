@@ -137,58 +137,57 @@ dataset <- res[2]$data
 rm(ungulatesData, omi, res)
 ```
 
-### Filtering incomplete data
+### Data filtering
 
-The traits that consist of more than 100 missing values, traits that have no
-information gain and traits that are almost identical to other traits are
-removed.
-```{r misc preprocessing}
-# Rename column with dots in the name
-names(dataset)[names(dataset)=="X21.1_PopulationDensity_n.km2"] <- "X21.1_PopulationDensity_n_km2"
+For the success of the subsequent analysis, some data columns need to be 
+omitted. Firstly, some of the data was imported from the PanTHERIA data set, 
+which spans all mammals but for which some of the columns were invariant for our 
+study species. This was the case for four columns. We also removed
+the 13 columns with more than 50% missing data. Lastly, some of our columns are
+(near) copies of other columns. For example, we searched for data on the pull 
+strength and carry weight of ungulates and found that a common rule is that 
+these are scaled versions of the body mass. Such collinearity poses problems
+in some of our calculations, so we removed the three columns where that is the
+case.
 
-# Remove traits that contain >50% missing variables
-# Check the number and % missing values for all variables in the dataset 
-miss_var_summary(dataset) 
-
-
-## Remove columns with >50% NA
-# let's experiment with the 0.5 threshold, might be changed
-dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
-
-# Remove traits without any information gain (only consist of one value)
-#Identify which variables have zero variance
-nearZeroVar(dataset)
-
+```{r filter}
+# remove traits without any information gain (only consist of one value)
 dataset <- subset(dataset, select = -c(nearZeroVar(dataset)))
 
-# Remove traits that are almost identical to other traits
-# XXX Why are we removing neonate body mass
-dataset <- subset(dataset, select = -c(AVGBodyMass, CarryWeight, PullStrength, X5.3_NeonateBodyMass_g))
+# remove columns with >50% NA
+dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 
-#Remove columns that contain non-data taxonomic information
-dataset <- subset(dataset, select = -c(CanonicalName, BinomialName, Order, Family, Genus, Species, ID_EoL))
+# remove traits that are almost identical to other traits
+# XXX Why are we removing neonate body mass? I reverted that
+dataset <- subset(dataset, select = -c(AVGBodyMass, CarryWeight, PullStrength))
 ```
 
-### Set as factors
-Some of the columns are not seen as categorical, but as numeric. These must be converted to factors.
-```{r as factor}
+After the data merging and filtering we now have a data set of 74 variables, of
+which 14 are categorical/factors and 60 are numeric, for 148 species.
 
-#TODO: Check if all columns are represented 
-dataset$Domestication <- as.factor(dataset$Domestication)
-dataset$X1.1_ActivityCycle <- as.factor(dataset$X1.1_ActivityCycle)
-dataset$X6.1_DietBreadth <- as.factor(dataset$X6.1_DietBreadth)
-dataset$X12.1_HabitatBreadth <- as.factor(dataset$X12.1_HabitatBreadth)
-dataset$X6.2_TrophicLevel <- as.factor(dataset$X6.2_TrophicLevel)
-dataset$Diet <- as.factor(dataset$Diet)
-dataset$Sociality <- as.factor(dataset$Sociality)
-dataset$SocialHierarchy <- as.factor(dataset$SocialHierarchy)
-dataset$NumMales <- as.factor(dataset$NumMales)
-dataset$MatingSystem <- as.factor(dataset$MatingSystem)
-dataset$YearRoundBreeding <- as.factor(dataset$YearRoundBreeding)
-dataset$DevelopmentStrategy <- as.factor(dataset$DevelopmentStrategy)
-dataset$HeadOrnaments <- as.factor(dataset$HeadOrnaments)
-dataset$NaturalPredators <- as.factor(dataset$NaturalPredators)
+```{r preprocess}
+# remove columns that contain non-data taxonomic information
+dataset <- subset(dataset, select = -c(CanonicalName, BinomialName, Order, Family, Genus, Species, ID_EoL))
 
+# rename column with dots in the name
+names(dataset)[names(dataset)=="X21.1_PopulationDensity_n.km2"] <- "X21.1_PopulationDensity_n_km2"
+
+# make sure the columns are typed correctly. these are factors, the rest is numeric
+factors <- c(
+  'Domestication','X1.1_ActivityCycle','X6.1_DietBreadth','X12.1_HabitatBreadth',
+  'X6.2_TrophicLevel','Diet','Sociality','SocialHierarchy','NumMales',
+  'MatingSystem','YearRoundBreeding','DevelopmentStrategy','HeadOrnaments',
+  'NaturalPredators'
+)
+
+for (colname in names(dataset)) {
+  if ( colname %in% factors ) {
+    dataset[[colname]] <- as.factor(dataset[[colname]])
+  }
+  else {
+    dataset[[colname]] <- as.numeric(dataset[[colname]])
+  }
+}
 ```
 
 # 3 VIF-Analysis
