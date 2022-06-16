@@ -1,18 +1,18 @@
 ---
-title: "Pipeline_Analysis"
+title: "Correlates of domesticability in ungulates"
 output:
   pdf_document: default
   html_document: default
 ---
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
-```
+```{r setup, include=FALSE, message=FALSE}
 
-# 1 Import data
-Our first step is to import packages and data into R. The trait data and OMI data also need to be merged.
+# To produce an appealing output document, we will hide the code from it, hence
+# echo = FALSE, and same for warnings:
 
-### Load packages
-```{r Load packages, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+
+# Load the required packages:
+
 library(ape)
 library(dplyr)
 library(usdm)
@@ -24,64 +24,122 @@ library(see)
 library(gridExtra)
 library(tidyverse)
 library(naniar)
+library(picante)
 ```
 
-### Import data
-The datasets can be found in different GitHub repositories. The ungulate
-dataset and tree can be found in the trait-organismal-ungulates repository. 
-The OMI data is found in the trait-geo-diverse-ungulates repository.
-```{r import data}
+# Introduction
+
+All of the large animals that humans have ever domesticated and that went on to
+have a significant impact on the fates of human societies are hooved mammals.
+Assuming that humans did not simply domesticate animal species at random (a safe
+assumption given how taxonomically restricted the domesticates are), there must
+have been traits that make some species attractive for domestication, and others
+less so. In other words, there most be correlates of domesticability. In this
+study, we seek to identify what these are.
+
+# Materials and methods
+
+## Ungulate traits and domestication
+
+Many scientists have discussed what trait values are required for an animal to
+be amenable for domestication. For example, in the influential popular science 
+book _Guns, Germs, and Steel_, author Jared Diamond {ref} enumerates a number of 
+behavioral, ecological, and life history traits about which he asserts that each
+has to fall into place or domestication will fail (he calls this the Karenina 
+principle). Other authors {ref, ref} have proposed other traits, so there is no 
+definitive list. Hence, here we will cast a wide net in an approach where we 
+will test which combination of traits best predicts the domesticated state 
+across the ungulates.
+
+### Morphological, life history, and behavioral traits
+
+Ungulates were initially domesticated for food and some of their other body
+parts as raw materials, e.g. hides, horns, bones, sinew, etc. Their usefulness
+as transport and draft animals and as providers of milk and manure came later
+(cf. the 'secondary products revolution' {ref}). As such, early domestication 
+was a kind of replacement of hunting, which is a lot of work and potentially 
+dangerous. Given the expended effort, optimal foraging theory suggests that
+hunting (or, subsequently, domesticating) small ungulates such as chevrotains is
+relatively unattractive. Conversely, very large ungulates such as rhinoceroses 
+are too dangerous. This suggest that body mass by itself might play a role, as 
+might many of the traits that allometrically scale with it. For example, Diamond 
+argues that long gestation lengths and life spans - which scale with body mass
+and size - are unattractive. For these kinds of traits we combine data
+from the PanTHERIA database of mammal diversity {ref} with additional literature
+study of other plausible candidate traits.
+
+**Add a section here about the traits that you and Zoe collected: what are they,
+why these ones, where do they come from**
+
+```{r morpho}
 ungulatesData <- read.csv("https://raw.githubusercontent.com/naturalis/trait-organismal-ungulates/master/data/CSV/ungulatesTraits.csv")
-omi <- read.csv("https://raw.githubusercontent.com/naturalis/trait-geo-diverse-ungulates/master/results/OMI/niche_traits.csv")
-tree <- read.tree("https://raw.githubusercontent.com/naturalis/trait-organismal-ungulates/master/data/phylogeny/ungulates.tree")
 ```
 
-### Merge datasets
-The ungulate data and OMI data have to be merged into one dataset. The EoL-ID is
-removed and the data is merged by the canonical name (present in both the
-datasets). The last step is to replace the spaces in the canonical name with
-underscores, to match the species names in the tree.
+### Abiotic niche dimensions
+
+None of the domesticated ungulates are from tropical rain forests. Multiple 
+explanations are possible for this. For example, grassland biomes select for
+large social group (herd) formation, which in turn may be attractive. Or, 
+provisioning rain forest animals with the food they require is cumbersome - or
+indeed anything else about the habitat they require is hard to reproduce
+sufficiently. In any case, the biotope and its properties can be hypothesized to
+play a role. To derive these properties, we collected geo-referenced occurrences 
+for the ungulates from GBIF {ref}, and used their latitude/longitude coordinates
+to obtain pixel values for 42 GIS layers from selected data sources {ref, ref, 
+ref, ref}. We then applied an outlying mean index (OMI) transformation to these 
+raw pixel values to obtain single point estimates for each GIS layer, for each 
+species. Simply put, this gives us an estimate of, for example, annual average 
+temperature in the localities where occurrences of zebras have been recorded.
+
+
+```{r abio}
+omi <- read.csv("https://raw.githubusercontent.com/naturalis/trait-geo-diverse-ungulates/master/results/OMI/niche_traits.csv")
+```
+
+### Taxonomy and phylogeny
+
+In this study, we combine species data from multiple sources. This includes the 
+data we have described in the previous sections but also phylogeny. As our study
+involves the comparative analysis of biological species, which are always 
+related by shared descent however distant, we must account for 
+pseudoreplication by incorporating phylogeny, for which we use a previously 
+published supertree {ref}. We normalize all these different sources on a single 
+taxonomy {ref} as the authoritative source for canonical names. Mammalian 
+taxonomy is relatively well-resolved, but we did have to make a few minor 
+decisions. As an initial remark, the name 'ungulates' is folk taxonomy, the
+current systematics of our study species defines them as the terrestrial members
+of the Cetartiodactyla and the Perissodactyla, which jointly form a paraphyletic
+clade that excludes the whales. Subsequently, a taxonomic rule in zoological 
+nomenclature that is only variably observed, is that domesticates are not 
+assigned a distinct specific epithet (only subspecific ones). This manifested in
+the phylogeny, which includes the tip _Equus asinus_ - domesticated donkeys. We
+relabeled this as the wild ancestor _Equus africanus_. (This has no effect on the
+rest of the analysis, as the patristic distance between either of these and the
+other species in the data is identical.)
+
 ```{r merge data}
-ungulatesData <- ungulatesData[2:60]
+# join on canonical name
 names(omi)[names(omi)=="X"] <- "CanonicalName"
 dataset <- merge(ungulatesData, omi, by="CanonicalName")
-dataset$CanonicalName <- gsub(" ", "_", dataset$CanonicalName)
 
-# Clean up the global environment 
-rm(ungulatesData, omi)
-```
+# substitute spaces with underscores and use as row names to match the tree
+row.names(dataset) <- gsub(" ", "_", dataset$CanonicalName)
 
-# 2 Preprocessing
-### Equalize species in tree and dataset
-To start, 'Equus asinus' is renamed to the 'Equus africanus' in the tree, to
-match the dataset. The species that aren't in the tree are dropped from the
-dataset. The species that aren't in the dataset are dropped from the tree.
-```{r check if names match between dataset and tree, results='hide'}
-# Changed Equus asinus to Equus africanus in the tree 
+# read tree, correct donkey name
+tree <- read.tree("https://raw.githubusercontent.com/naturalis/trait-organismal-ungulates/master/data/phylogeny/ungulates.tree")
 tree$tip.label[tree$tip.label=="Equus_asinus"] <- "Equus_africanus"
 
-# Check Which species aren't in the tree
-dropRows <- setdiff(dataset$CanonicalName, tree$tip.label)
+# match tree and data
+res <- match.phylo.data(tree, dataset)
+tree <- res[1]
+dataset <- res[2]$data
 
-# Drop rows that aren't in the tree (check manually if these are domesticated)
-row.names(dataset) <- dataset$CanonicalName
-dataset <- dataset[!(row.names(dataset) %in% dropRows), ]
-
-# Drop tips that aren't in dataset
-dropTips <- setdiff(tree$tip.label, dataset$CanonicalName)
-tree <- drop.tip(tree, dropTips)
-
-# Final check to see if there are any differences
-setdiff(dataset$CanonicalName, tree$tip.label)
-setdiff(tree$tip.label, dataset$CanonicalName)
-
-rm(dropRows, dropTips)
+rm(ungulatesData, omi, res)
 ```
 
+### Filtering incomplete data
 
-### Miscellaneous preprocessing
-The dots in the column names are replaced with underscores. After that, the
-traits that consist of more than 100 missing values, traits that have no
+The traits that consist of more than 100 missing values, traits that have no
 information gain and traits that are almost identical to other traits are
 removed.
 ```{r misc preprocessing}
@@ -97,7 +155,6 @@ miss_var_summary(dataset)
 # let's experiment with the 0.5 threshold, might be changed
 dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 
-
 # Remove traits without any information gain (only consist of one value)
 #Identify which variables have zero variance
 nearZeroVar(dataset)
@@ -105,12 +162,11 @@ nearZeroVar(dataset)
 dataset <- subset(dataset, select = -c(nearZeroVar(dataset)))
 
 # Remove traits that are almost identical to other traits
-#TODO: Hard code remove columns that are scaled copies of other columns
+# XXX Why are we removing neonate body mass
 dataset <- subset(dataset, select = -c(AVGBodyMass, CarryWeight, PullStrength, X5.3_NeonateBodyMass_g))
 
-
 #Remove columns that contain non-data taxonomic information
-dataset <- subset(dataset, select = -c(CanonicalName, BinomialName, Order, Family, Genus, Species))
+dataset <- subset(dataset, select = -c(CanonicalName, BinomialName, Order, Family, Genus, Species, ID_EoL))
 ```
 
 ### Set as factors
