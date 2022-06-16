@@ -170,17 +170,25 @@ vif(startPredictors)
 ```
 #Precipitation
 Multiple variables are tightly correlated because they are aspects of 
-precipitation, we are going to remove them 1 by 1 in order of decreasing VIF
+precipitation, we are going to remove them 1 by 1 in order of decreasing VIF.
+We start with bio14 (precipitation of the driest month) because it has the 
+highest VIF value. 
 ```{r variable elimination, results='markup'}
 startPredictors$bio14 <- NULL
 vif(startPredictors)
 
+startPredictors$bio18 <- NULL
+vif(startPredictors)
 
+startPredictors$bio15 <- NULL
+vif(startPredictors)
 
 ```
 
 #Temperature
-Multiple variables are tightly correlated because they are aspects of temperature, the next step is to remove these variables 1 by 1 in order of decreasing VIF
+Multiple variables are tightly correlated because they are aspects of 
+temperature, the next step is to remove these variables 1 by 1 in order of 
+decreasing VIF
 ```{}
 
 
@@ -196,7 +204,11 @@ explanation
 ```
 
 ## INSERT ADULTBODYMASS
-# The set of predictors is declared for the VIF analysis, and a last check for collinearity using the visualized matrix is done. During the first round, AdultBodyMass was removed due to a high collinearity with other traits. However, because Adultbodymass is hypothesized to be a biologically relevant trait, it will be reinserted in this step.
+# The set of predictors is declared for the VIF analysis, and a last check for 
+#collinearity using the visualized matrix is done. During the first round, 
+#AdultBodyMass was removed due to a high collinearity with other traits. 
+#However, because Adultbodymass is hypothesized to be a biologically relevant 
+#trait, it will be reinserted in this step.
 vifPredictors <- cbind(dataset$X5.1_AdultBodyMass_g, startPredictors)
 colnames(vifPredictors)[1] <- "X5.1_AdultBodyMass_g"
 
