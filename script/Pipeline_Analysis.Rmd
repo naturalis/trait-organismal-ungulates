@@ -190,20 +190,14 @@ for (colname in names(dataset)) {
 
 ## Variable selection
 
-Inspired by: https://stats.stackexchange.com/questions/547024/what-are-pitfalls-of-clustering-variables-by-absolute-correlation-for-variable-s?newreg=23f15a0b98b34912a8ffd0d7450d937a
-
-Unless a statistician steps in (have you asked?) a reasonable procedure as far
-as I can see is the following:
-
-1. For each column individually, do the phyloglm (i.e. Domestication ~ column)
-   and record the AIC of the model.
-2. Calculate the correlation matrix (as below).
-3. Perform complete agglomerative clustering to identify the islands in the 
-   correlation matrix.
-4. For each cluster, iteratively remove variables in ascending order of AIC, 
-   i.e. poor fitting variables are thrown out first. Calculate the VIF after
-   each removal, and stop until VIF<10 for all remaining members of the cluster.
-5. Do this for all clusters, then move on to model selection.
+The variables we have combined in our data set show multicollinearity in a 
+number of clusters (Supplementary Figure 1). Among these clusters are those 
+where all variables are affected by temperate, such as bio1 through bio11 from 
+BIOCLIM {ref} as well as ENVIREM {ref} temperature-related variables, a similar 
+cluster of variables related to precipitation in both bioclimatic data sets, a 
+cluster of variables that all scale with body mass, and other smaller clusters. 
+We have to address this multicollinearity as it may make the model behave 
+erratically, affect the estimates of coefficients, and the significance. 
 
 ```{r corrplot, results='markup'}
 # take only the numeric predictors and remove the dependent variable
@@ -212,9 +206,64 @@ startPredictors <- select_if(dataset, is.numeric)
 # the first correlation matrix is a visualization of the dataset without the 
 # removal of any traits. There is a lot of collinearity present.
 matrix <- cor(startPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="full", order = "hclust", tl.pos = "lt", tl.col = "black", tl.cex = 0.4, diag=F)
+corrplot(matrix, type="full", order = "hclust", tl.pos = "lt", tl.col = "black", 
+         tl.cex = 0.4, diag=F, title="Supplementary Figure 1")
 
 ```
+
+Multicollinearity can be addressed among other ways by removing variables with 
+high pairwise correlation coefficients, or, more directed, whose Variable 
+Inflation Factor (VIF) is greater than 10 {ref}. However, if this is the 
+sole criterion for including or excluding variables at this stage, we might be
+removing strong predictors. Removing more, but weaker, predictors at this stage
+might result in a final model that performs better. Hence, we might include in
+our criteria for variable selection their individual fit in predicting the
+dependent variable (i.e. domesticability). We therefore performed a separate
+PhyloGLM {ref} for each numeric predictor and stored the AIC of each of these
+model fits as a criterion for ranking the predictors later.
+
+```{r indiv_fit}
+varnames <- names(startPredictors)
+scores <- list()
+for ( var in varnames ) {
+  
+  # this is how to create a formula object where a term is stored in a variable
+  formula <- paste0('Domestication', ' ~ ', var)
+  res <- phyloglm(formula, data = dataset, phy = tree, method = "logistic_MPLE")
+  
+  # populates a list of key/value pairs, each key is a predictor name
+  scores[[ var ]] <- list(aic=res$aic)
+}
+```
+
+We then used the inverse of the absolute pairwise correlation coefficients for
+all combinations of numeric predictors to obtain a distance matrix for 
+clustering of the variables into islands of multicollinearity. Based on the
+correlation matrix (Supplementary Figure 1) we created 5 centers by _k_-means
+clustering. To inspect the finer-grained patterns in dendrogram form, we 
+performed hierarchical clustering with complete linkage 
+(Supplementary Figure 2).
+
+```{r cluster_vars}
+# our distance matrix is the inverse of the absolute correlation coefficients
+distmat <- 1 - abs(matrix)
+
+# we use k-means clustering to get distinct 'islands'. based on the correlation
+# matrix plot, 5 distinct clusters seems reasonable.
+kmeans_res <- kmeans(as.dist(distmat), 5)
+
+# this is basically just to produce the plot below
+hclust_res <- hclust(as.dist(distmat), method = "complete")
+plot(hclust_res, main = "Supplementary Figure 2")
+```
+
+We then proceeded to reduce the variable set such that VIF<10 for all variables
+with the following algorithm:
+
+1. Compute the VIF. Stop if all VIF<10.
+2. Iterate over all 5 clusters.
+3. In each cluster, remove the variable with the lowest AIC if its VIF>10.
+4. Go to 1.
 
 ```{r VIF, results='markup'}
 ## CHECK CORRELATION MATRIX
