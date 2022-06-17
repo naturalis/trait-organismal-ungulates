@@ -25,6 +25,7 @@ library(gridExtra)
 library(tidyverse)
 library(naniar)
 library(picante)
+library(mice)
 ```
 
 # Introduction
@@ -323,21 +324,27 @@ rm(s, scores, vif_raw, cls, is_complete, var, weakest_link)
 
 ## Model Selection
 
-A Generalized Linear Model (GLM) must be made. The Domestication column is
-used as the dependent variable, and the other columns are the predictor
-variables. For the model selection the phylolm package and phyloglmstep function
-are required.
+We hypothesize that among the selected numeric variables and the factors is a 
+combination that predicts domesticability in a phylogenetic generalized linear
+model. To establish this combination we perform stepwise model selection.
 
-```{r model selection, results='hide'}
-# Add factor predictors to numeric predictors
-factors <- dplyr::select_if(dataset, is.factor)
-predictors <- cbind(vifPredictors, factors)
+```{r model_selection}
+# add factor predictors to numeric predictors
+factors <- select_if(dataset, is.factor)
+selected_dataset <- as.data.frame(cbind(factors, startPredictors))
+#rm(factors, startPredictors)
 
-# Do the model selection
-source("ModelSelection.R")
+# impute missing values
+# https://www.r-bloggers.com/2015/10/imputing-missing-data-with-r-mice-package/
+imputed_dataset <- complete(mice(selected_dataset, m = 1, meth = 'pmm'), 1 )
 
-# Remove unneeded variables
-rm(vifPredictors, factors)
+# compose formula string
+predictor_names <- names(selected_dataset[2:length(selected_dataset)])
+terms <- paste(predictor_names, collapse = ' + ')
+full_formula <- paste('Domestication', '~', terms)
+#rm(terms, predictor_names)
+
+res <- phyloglmstep(full_formula, data=imputed_dataset, phy=tree, method="logistic_IG10", direction="forward", btol=100, trace=2)
 ```
 
 
