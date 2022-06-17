@@ -160,6 +160,7 @@ dataset <- dataset[, which(colMeans(!is.na(dataset)) > 0.5)]
 # remove traits that are almost identical to other traits
 # XXX Why are we removing neonate body mass? I reverted that
 # XXX Why do we have both X15.1_LitterSize AND NumOffspring?
+# XXX What's the difference between LifeSpan and X17.1_MaxLongevity_m
 dataset <- subset(dataset, select = -c(AVGBodyMass, CarryWeight, PullStrength, NumOffspring))
 ```
 
@@ -186,6 +187,7 @@ for (colname in names(dataset)) {
     dataset[[colname]] <- as.numeric(dataset[[colname]])
   }
 }
+rm(colname, factors)
 ```
 
 ## Variable selection
@@ -232,17 +234,20 @@ for ( var in varnames ) {
   res <- phyloglm(formula, data = dataset, phy = tree, method = "logistic_MPLE")
   
   # populates a list of key/value pairs, each key is a predictor name
-  scores[[ var ]] <- list(aic=res$aic)
+  scores[[ var ]] <- list(aic=res$aic, keep=TRUE)
 }
+rm(res, formula, var, varnames)
 ```
 
 We then used the inverse of the absolute pairwise correlation coefficients for
 all combinations of numeric predictors to obtain a distance matrix for 
-clustering of the variables into islands of multicollinearity. Based on the
-correlation matrix (Supplementary Figure 1) we created 5 centers by _k_-means
-clustering. To inspect the finer-grained patterns in dendrogram form, we 
-performed hierarchical clustering with complete linkage 
-(Supplementary Figure 2).
+clustering of the variables into islands of multicollinearity. To inspect the 
+finer-grained patterns in dendrogram form, we performed hierarchical clustering 
+with complete linkage (Supplementary Figure 2).
+
+Because the dendrogram has 5 basal clades and because of the contours in the
+correlation plot (Supplementary Figure 1) we created 5 centers by _k_-means
+clustering. 
 
 ```{r cluster_vars}
 # our distance matrix is the inverse of the absolute correlation coefficients
@@ -251,10 +256,14 @@ distmat <- 1 - abs(matrix)
 # we use k-means clustering to get distinct 'islands'. based on the correlation
 # matrix plot, 5 distinct clusters seems reasonable.
 kmeans_res <- kmeans(as.dist(distmat), 5)
+for ( var in names(scores) ) {
+  scores[[var]]$cluster <- kmeans_res$cluster[[var]]
+}
 
 # this is basically just to produce the plot below
 hclust_res <- hclust(as.dist(distmat), method = "complete")
 plot(hclust_res, main = "Supplementary Figure 2")
+rm(distmat, hclust_res, matrix, var, kmeans_res)
 ```
 
 We then proceeded to reduce the variable set such that VIF<10 for all variables
@@ -265,130 +274,60 @@ with the following algorithm:
 3. In each cluster, remove the variable with the lowest AIC if its VIF>10.
 4. Go to 1.
 
-```{r VIF, results='markup'}
-## CHECK CORRELATION MATRIX
-# The corrplot package is used to visualize the collinearity between the traits,
-# using the correlation matrix. 
-# With the findCorrelation() function, 
-# the columns with the highest collinearity are found. 
-# By visualizing the matrix, the outcome of the findCorrelation function can be 
-# easily checked. The VIF function can be run to easily check if the results are
-# still infinite. A cutoff value of .83 is chosen, using trial and error.
-matrix <- cor(startPredictors, use = "pairwise.complete.obs")
-delColumn <- findCorrelation(matrix, cutoff = .83, verbose = FALSE, exact=FALSE)
-startPredictors <- startPredictors[,-c(delColumn)]
+This results in a remaining set of 17 variables.
 
-
-
-vif(startPredictors)
-
-
-```
-#Precipitation
-explanation
-```
-
-
-
-
-```
-
-#Temperature
-explanation
-```
-
-
-
-
-
-```
-#BodyMass
-explanation
-
-
-## INSERT ADULTBODYMASS
-# The set of predictors is declared for the VIF analysis, and a last check for collinearity using the visualized matrix is done. During the first round, AdultBodyMass was removed due to a high collinearity with other traits. However, because Adultbodymass is hypothesized to be a biologically relevant trait, it will be reinserted in this step.
-vifPredictors <- cbind(dataset$X5.1_AdultBodyMass_g, startPredictors)
-colnames(vifPredictors)[1] <- "X5.1_AdultBodyMass_g"
-
-# Check VIF -> Adultbodymass is highly correlated with the other traits.
-vif(vifPredictors)
-
-# CarryWeight has a high collinearity with AdultBodyMass (both inf). Since AdultBodyMass
-#  is hypothesized to be biologically relevant, CarryWeight will be removed.
-vifPredictors$CarryWeight <- NULL
-vif(vifPredictors)
-
-# Check correlation matrix
-# A visualization of the dataset after the cutoff value is implemented and 
-# AdultBodyMass is added.
-matrix <- cor(vifPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
-
-
-## VIF ANALYSIS
-# Check VIF -> PETWarmestQuarter has highest VIF value above 10
-# Remove PETWarmestQuarter
-vif(vifPredictors)
-vifPredictors$PETWarmestQuarter <- NULL
-
-# Check VIF -> bio3 has highest VIF value above 10
-# Remove bio3
-vif(vifPredictors)
-vifPredictors$bio3 <- NULL
-
-# Check VIF -> bio2 has highest VIF value above 10
-# Remove bio2
-vif(vifPredictors)
-vifPredictors$bio2 <- NULL
-
-# Check VIF -> bio14 has highest VIF value above 10
-# Remove bio14
-vif(vifPredictors)
-vifPredictors$bio14 <- NULL
-
-# Check VIF -> PETDriestQuarter has highest VIF value above 10
-vif(vifPredictors)
-vifPredictors$PETDriestQuarter <- NULL
-
-# Check VIF -> AVGFoodConsumption has highest VIF value above 10
-vif(vifPredictors)
-vifPredictors$AVGFoodConsumption <- NULL
-
-# Check VIF -> X13.1_AdultHeadBodyLen_mm has highest VIF value above 10
-vif(vifPredictors)
-vifPredictors$X13.1_AdultHeadBodyLen_mm <- NULL
-
-# Check VIF -> All VIF values under 10 (except AdultBodyMass, which is 11)
-vif(vifPredictors)
-
-
-## FINAL PREDICTOR SET
-# Final set of numeric predictors, containing:  X5.1_AdultBodyMass_g, X9.1_GestationLen_d,
-# X15.1_LitterSize, X17.1_MaxLongevity_m, X21.1_PopulationDensity_n_km2, 
-# X23.1_SexualMaturityAge_d, X10.2_SocialGrpSize, X25.1_WeaningAge_d, Lifespan,
-# AVGMovingSpeed, AVGTravelDistance, Aspect, BulkDensity, ClayPercentage, minTempWarmest,
-# PETseasonality, PETWettestQuarter, OrganicCarbon, PhCaCL, Slope, bio15, bio18, bio19
-vifPredictors
-
-## FINAL VALUES
-# The final correlation matrix is the final product after removing all highly correlated
-# traits. 
-matrix <- cor(vifPredictors, use = "pairwise.complete.obs")
-corrplot(matrix, type="lower", order = "hclust", tl.pos = "l", tl.col = "black", tl.cex = 0.7)
-
-## REMOVE VARIABLES
-rm(startPredictors, matrix, delColumn)
-
-# Final VIF values
-vif(vifPredictors)
+```{r vifalgo}
+while(TRUE) {
+  is_complete <- TRUE # are-we-done-yet switch
+  
+  # compute the VIFs for all (current) variables and apply row names
+  vif_raw <- vif(startPredictors)
+  row.names(vif_raw) <- vif_raw$Variables
+  
+  # add/update VIFs in scores structure
+  for ( var in names(scores) ) {
+    scores[[var]]$VIF <- vif_raw[var,]$VIF
+    if ( scores[[var]]$keep && scores[[var]]$VIF > 10 ) {
+      is_complete <- FALSE # at least one var has VIF>10, not done yet
+    }
+  }
+  
+  # the switch wasn't flipped, we're done, exit the infinite loop
+  if (is_complete ) {
+    break
+  }
+  
+  # iterate over clusters
+  for ( cls in 1:5 ) {
+    weakest_link <- NULL # lowest AIC variable in focal cluster
+    for ( var in names(startPredictors) ) {
+      s <- scores[[var]]
+      
+      # var is in cluster, is collinear, but not yet pruned
+      if ( s$cluster == cls && s$VIF > 10 && s$keep ) {
+        
+        # we have no var yet, or focal one is worse than seen so far
+        if ( is.null(weakest_link) || s$aic < scores[[weakest_link]]$aic ) {
+          weakest_link <- var
+        }
+      }
+    }
+    if ( ! is.null(weakest_link) ) {
+      scores[[weakest_link]]$keep <- FALSE
+      startPredictors[[weakest_link]] <- NULL
+    }
+  }
+}
+rm(s, scores, vif_raw, cls, is_complete, var, weakest_link)
 ```
 
-# 4 Model Selection
+## Model Selection
+
 A Generalized Linear Model (GLM) must be made. The Domestication column is
 used as the dependent variable, and the other columns are the predictor
 variables. For the model selection the phylolm package and phyloglmstep function
 are required.
+
 ```{r model selection, results='hide'}
 # Add factor predictors to numeric predictors
 factors <- dplyr::select_if(dataset, is.factor)
