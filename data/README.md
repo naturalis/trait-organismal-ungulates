@@ -9,3 +9,4 @@ data file and the phylogeny containing the ungulates tree.
 - [Phylogeny](phylogeny)
 - [PanTHERIA data file](PanTHERIA.tsv)
 - [Mammal Species of the World data file](msw3-all.csv)
+- See also: https://docs.google.com/spreadsheets/d/1MBotPf5va7-SCoKSc6e4VhpTXH4kfNkTyMAWke2pSpQ/edit#gid=1034704472
