@@ -571,11 +571,3 @@ fitDiscrete(tmptree, Dietbreadth, model = "meristic", transform = "lambda")
 
 
 
-fitDiscrete(tree, dataset,
-            model = c("ER","SYM","ARD","meristic"),
-            transform = c("none", "EB", "lambda", "kappa", "delta", "white"),
-            bounds = list(), control = list(method = c("subplex", "L-BFGS-B"),
-                                            niter = 100, FAIL = 1e+200, hessian = FALSE, CI = 0.95), ncores=NULL, model = all-rates-different)
-
-
-
