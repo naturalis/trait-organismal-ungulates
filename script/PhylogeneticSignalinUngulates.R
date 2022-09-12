@@ -1,8 +1,6 @@
 #Phylogenetic Signaling in Ungulates
 
-install.packages("geiger")
-install.packages("picante")
-install.packages("ape")
+
 library(geiger)
 library(picante)
 library(ape)
@@ -87,6 +85,24 @@ Ageatfirstbirth <- Ageatfirstbirth[!is.na(Ageatfirstbirth)]
 tmptree <- keep.tip(tree, names(Ageatfirstbirth))
 fitContinuous(tmptree, Ageatfirstbirth, model = "lambda")
 
+Ageateyeopening <- as.integer(dataset$X2.1_AgeatEyeOpening_d)
+names(Ageateyeopening) <- row.names(dataset)
+Ageateyeopening <- Ageateyeopening[!is.na(Ageateyeopening)]
+tmptree <- keep.tip(tree, names(Ageateyeopening))
+fitContinuous(tmptree, Ageateyeopening, model = "lambda")
+
+Basalmetrateml02 <- as.integer(dataset$X18.1_BasalMetRate_mLO2hr)
+names(Basalmetrateml02) <- row.names(dataset)
+Basalmetrateml02 <- Basalmetrateml02[!is.na(Basalmetrateml02)]
+tmptree <- keep.tip(tree, names(Basalmetrateml02))
+fitContinuous(tmptree, Basalmetrateml02, model = "lambda")
+
+Basalmetratemass <- as.integer(dataset$X5.2_BasalMetRateMass_g)
+names(Basalmetratemass) <- row.names(dataset)
+Basalmetratemass <- Basalmetratemass[!is.na(Basalmetratemass)]
+tmptree <- keep.tip(tree, names(Basalmetratemass))
+fitContinuous(tmptree, Basalmetratemass, model = "lambda")
+
 
 Dispersalage <- as.integer(dataset$X7.1_DispersalAge_d)
 names(Dispersalage) <- row.names(dataset)
@@ -99,6 +115,13 @@ names(Gestationlength) <- row.names(dataset)
 Gestationlength <- Gestationlength[!is.na(Gestationlength)]
 tmptree <- keep.tip(tree, names(Gestationlength))
 fitContinuous(tmptree, Gestationlength, model = "lambda")
+
+Numoffspring <- as.integer(dataset$NumOffspring)
+names(Numoffspring) <- row.names(dataset)
+Numoffspring <- Numoffspring[!is.na(Numoffspring)]
+tmptree <- keep.tip(tree, names(Numoffspring))
+fitContinuous(tmptree, Numoffspring, model = "lambda")
+
 
 Homerange <- as.integer(dataset$X22.1_HomeRange_km2)
 names(Homerange) <- row.names(dataset)
@@ -184,6 +207,11 @@ Weaningbodymass <- Weaningbodymass[!is.na(Weaningbodymass)]
 tmptree <- keep.tip(tree, names(Weaningbodymass))
 fitContinuous(tmptree, Weaningbodymass, model = "lambda")
 
+Weaningheadbodylength <- as.integer(dataset$X13.3_WeaningHeadBodyLen_mm)
+names(Weaningheadbodylength) <- row.names(dataset)
+Weaningheadbodylength <- Weaningheadbodylength[!is.na(Weaningheadbodylength)]
+tmptree <- keep.tip(tree, names(Weaningheadbodylength))
+fitContinuous(tmptree, Weaningheadbodylength, model = "lambda")
 
 AVGfoodconsumption <- as.integer(dataset$AVGFoodConsumption)
 names(AVGfoodconsumption) <- row.names(dataset)
@@ -568,6 +596,23 @@ Dietbreadth <- Dietbreadth[!is.na(Dietbreadth)]
 tmptree <- keep.tip(tree, names(Dietbreadth))
 fitDiscrete(tmptree, Dietbreadth, model = "meristic", transform = "lambda")
 
+Terrestriality <- as.integer(dataset$X12.2_Terrestriality)
+names(Terrestriality) <- row.names(dataset)
+Terrestriality <- Terrestriality[!is.na(Terrestriality)]
+tmptree <- keep.tip(tree, names(Terrestriality))
+fitDiscrete(tmptree, Terrestriality, model = "ARD", transform = "lambda")
+
+ParentalCare <- as.integer(dataset$ParentalCare)
+names(ParentalCare) <- row.names(dataset)
+ParentalCare <- ParentalCare[!is.na(ParentalCare)]
+tmptree <- keep.tip(tree, names(ParentalCare))
+fitDiscrete(tmptree, ParentalCare, model = "meristic", transform = "lambda")
+
+Motility <- as.integer(dataset$Motility)
+names(Motility) <- row.names(dataset)
+Motility <- Motility[!is.na(Motility)]
+tmptree <- keep.tip(tree, names(Motility))
+fitDiscrete(tmptree, Motility, model = "meristic", transform = "lambda")
 
 
 
