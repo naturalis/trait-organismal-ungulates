@@ -718,5 +718,7 @@ fitDiscrete(tmptree, Motility, model = "ARD", transform = "lambda")
 #14) AVG Body mass (same as adult body mass)
 #15) Domestication removed (irrelevant variable for this project)
 
+1
+
 
 
