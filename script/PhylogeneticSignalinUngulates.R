@@ -5,7 +5,7 @@ library(geiger)
 library(picante)
 library(ape)
 
-ungulatesData <- read.csv("https://raw.githubusercontent.com/naturalis/trait-organismal-ungulates/master/data/CSV/ungulatesTraits(updated)%20-%20ungulatesTraits(updated).csv")
+ungulatesData <- read.csv("https://raw.githubusercontent.com/naturalis/trait-organismal-ungulates/master/data/CSV/ungulatesTraits.csv")
 
 omi <- read.csv("https://raw.githubusercontent.com/naturalis/trait-geo-diverse-ungulates/master/results/OMI/niche_traits.csv")
 
@@ -702,9 +702,11 @@ fitDiscrete(tmptree, Motility, model = "ARD", transform = "lambda")
 #Columns 1-8 are irrelevant, The following traits were removed from the final
 #figure:
 #Traits removed from analysis, table, and figure:
-#1) Carry Weight (proxy for body mass, calculated as 20% of adultbody mass, same calculation used for pullweight)
+#1) Carry Weight (proxy for body mass, calculated as 20% of adultbody mass, 
+# same calculation used for pullweight)
 #2) Pullweight (proxy for body mass)
-#3) Adultforearmlength (only 3 entries; all traits with less than 10 entries will be removed)
+#3) Adultforearmlength (only 3 entries; all traits with less than 10 entries 
+# will be removed)
 #4) ageateyeopening (only 2 entries)
 #5) weaningheadbodylength (only 2 entries)
 #6) maturity reach male (same as sexual maturity age)
