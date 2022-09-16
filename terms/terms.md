@@ -1,5 +1,5 @@
 # Terms
-Description of the terms used in the dataset. The terms contain the name, definition and units in which the value is measured. When the values are categorical, the different categories are listed. When the trait is binary (presence/absence), the character states are defined. 
+Description of the non-PanTHERIA terms used in the dataset. The terms contain the name, definition and units in which the value is measured. When the values are categorical, the different categories are listed. When the trait is binary (presence/absence), the character states are defined. 
 
 ## AVGBodyMass
 - The average amount of matter in the body of an adult animal of the species.
