@@ -1,9 +1,10 @@
 # CSV data files
 
-The CSV folder contains ungulate trait data and trait definitions, both in comma-separated file form.
+The CSV folder contains ungulate trait data, trait definitions, and trait sources, all in comma-separated file form.
 
 - [Trait data](ungulatesTraits.csv)
 - [Trait definitions](ungulatesTraitsDefinitions.csv)
+- [Trait_sources](ungulatesTraits_sources.csv)
 
 The relevant variables in the trait data were chosen with the help of literature study, and the PanTHERIA, EoL and
 ADW databases. There are a couple of trait categories in which the hypothesized predictor variables are found: diet, 
